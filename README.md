@@ -2,11 +2,12 @@
 
 ## Setting Up Backend
 
-### Setup MySql
+### Setup PostgreSQL
 
-- [Please follow this tutorial and the linked articles to configure MySql Database](https://www.digitalocean.com/community/tutorials/how-to-create-a-django-app-and-connect-it-to-a-database)
-  - Database Name : 'SMS19'
-  - Use 'root' user
+- [Please follow this tutorial and the linked articles to configure PostgreSQL Database](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-14-04)
+  - Database Name : 'sms19'
+  - User: 'sms19admin'
+  - Password: 'password'
 
 ### Create a python3 virtual environment
 
@@ -65,7 +66,6 @@ python manage.py runserver 0.0.0.0:8000
 
 ### Note
 
-- Use the root user in mysql
 - Migrate after every pull from the repository
 - To maintain the tree structure:
 
