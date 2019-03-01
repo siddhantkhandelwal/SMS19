@@ -1,3 +1,7 @@
 from django.contrib import admin
+from main.models import Stock, StockPurchased, UserProfile
 
-# Register your models here.
+
+admin.site.register(UserProfile)
+admin.site.register(Stock)
+admin.site.register(StockPurchased)

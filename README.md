@@ -2,10 +2,8 @@
 
 ## ToDo
 
-- Write Templates for User Accounts
-  - Register
-  - Login
-  - Forgot Password
+- EMAIL Backend Error
+  - Django send_mail throwing error, something to do with 'STARTTLS'
 
 - Decide the model parameters for Stock
 

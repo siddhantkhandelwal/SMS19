@@ -19,3 +19,15 @@ class Stock(models.Model):
 
     def __str__(self):
         return f'{self.stock_name} - {self.market_type}'
+
+
+class StockPurchased(models.Model):
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    number_purchased = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.stock.stock_name} - {self.owner.name} - {self.number_purchased}"
+
+    class Meta:
+        verbose_name_plural = 'Stocks Purchased'

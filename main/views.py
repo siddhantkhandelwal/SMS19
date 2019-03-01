@@ -1,13 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.core.mail import send_mail
 from main.models import UserProfile
-from string import punctuation
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 import json
+import re
+
+special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
 
 
 def register(request):
@@ -20,19 +22,27 @@ def register(request):
         email = request.POST.get('email')
         name = request.POST.get('name')
 
-        if any(special_character in name for special_character in list(punctuation)):
+        if None in [username, password, email, name]:
             reponse_data = {'status': 'error',
-                            'message': 'Name cannot contain any special character'}
+                            'message': 'One/more of fields missing'}
             return HttpResponse(json.dumps(reponse_data), content_type="application/json")
 
-        user = User.objects.create()
-        user.username = username
+        if special_character_regex.search(name) or special_character_regex.search(username):
+            reponse_data = {'status': 'error',
+                            'message': 'Special characters not allowed'}
+            return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+
+        if username in [user.username for user in User.objects.all()]:
+            reponse_data = {'status': 'error',
+                            'message': 'User with the same username already exists'}
+            return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+
+        user = User.objects.create(username=username)
         user.set_password(password)
         user.email = email
         user.save()
 
-        user_profile = UserProfile.objects.create()
-        user_profile.user = user
+        user_profile = UserProfile.objects.create(user=user)
         user_profile.name = name
         user_profile.save()
         login(request, user)
@@ -49,9 +59,15 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
+        if None in [username, password]:
+            reponse_data = {'status': 'error',
+                            'message': 'One/more of fields missing'}
+            return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+
         user = authenticate(username=username, password=password)
 
         if user:
+            login(request, user)
             return redirect('game')
         else:
             response_data = {'status': 'error',
@@ -64,7 +80,7 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return redirect('login')
+    return HttpResponseRedirect(reverse('game'))
 
 
 def user_forgot_password(request):
