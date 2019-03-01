@@ -1,0 +1,226 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+.container
+{
+    height: 100vh;
+}
+
+#makeSign
+{
+    background: #fff;
+    width: 35vw;
+    height: 60vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 2px 2px 20px grey;
+}
+
+#makeSign > .signup
+{
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 10vh;
+    background: #fff;
+    text-align: center;
+    font-size: 30px;
+}
+
+#makeSign > .signup > span
+{
+    position: relative;
+    top: 10px;
+    font-size: 40px;
+    font-family: 'Varela Round', sans-serif;
+}
+
+.input-group-addon
+{
+    position: relative;
+    top: 5vh;
+    left: 1.5vw;
+    background: #f7f7f7;
+    font-family: 'Varela Round', sans-serif;
+    z-index: 2;
+    border: 1px solid #eee;
+    border-radius: 0;
+    font-size: 20px;
+}
+
+#nameInput
+{
+    position: relative;
+    top: 5vh;
+    left: 1.5vw;
+    width: 90%;
+    font-size: 20px;
+    padding: 10px;
+    height: 50px;
+    background: #f7f7f7;
+    border: none;
+    border-left: 1px solid #eee;
+    border-radius: 0;
+}
+
+#mailIcon
+{
+    position: relative;
+    top: 8vh;
+}
+
+#email
+{
+    position: relative;
+    top: 8vh;
+    left: 1.5vw;
+    width: 90%;
+    font-size: 20px;
+    padding: 10px;
+    height: 50px;
+    background: #f7f7f7;
+    border: none;
+    border-left: 1px solid #eee;
+    border-radius: 0;
+}
+
+#passIcon
+{
+    position: relative;
+    top: 11vh;
+}
+
+#password
+{
+    position: relative;
+    top: 11vh;
+    left: 1.5vw;
+    width: 90%;
+    font-size: 20px;
+    padding: 10px;
+    height: 50px;
+    background: #f7f7f7;
+    border: none;
+    border-left: 1px solid #eee;
+    border-radius: 0;
+}
+
+.btn
+{
+    position: relative;
+    top: 15vh;
+    left: 0vw;
+    width: 90%;
+    font-size: 20px;
+    border-radius: 0;
+}
+
+hr
+{
+    position: relative;
+    top: 17vh;
+    background: black;
+}
+
+h4
+{
+    position: relative;
+    top: 15vh;
+    font-family: 'Varela Round', sans-serif;
+}
+
+#customBtn
+{
+    display: inline-block;
+    background: white;
+    color: #444;
+    width: 190px;
+    border-radius: 5px;
+    border: thin solid #888;
+    box-shadow: 1px 1px 1px grey;
+    white-space: nowrap;
+    position: relative;
+    top: 15vh;
+}
+
+#customBtn:hover
+{
+    cursor: pointer;
+}
+
+span.label
+{
+    font-family: serif;
+    font-weight: normal;
+}
+
+span.icon
+{
+    display: inline-block;
+    vertical-align: middle;
+    width: 42px;
+    height: 42px;
+}
+
+span.icon > img
+{
+    width: 35px;
+    transform: translateY(-4px);
+}
+
+span.buttonText
+{
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 42px;
+    padding-right: 42px;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+}
+
+@media screen and (max-width: 1050px) {
+    #makeSign
+    {
+        width: 65vw;
+        height: 37vh;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #makeSign
+    {
+        width: 65vw;
+        height: 43vh;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    #makeSign
+    {
+        width: 80vw;
+        height: 52vh;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #makeSign
+    {
+        width: 85vw;
+        height: 57vh;
+    }
+}
+
+@media screen and (max-width: 325px) {
+    #makeSign
+    {
+        width: 85vw;
+        height: 65vh;
+    }
+}
