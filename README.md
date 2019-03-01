@@ -1,5 +1,18 @@
 # SMS19
 
+## ToDo
+
+- Write Templates for User Accounts
+  - Register
+  - Login
+  - Forgot Password
+
+- Decide the model parameters for Stock
+
+- Write
+  - Buy
+  - Sell
+
 ## Setting Up Backend
 
 ### Setup PostgreSQL
@@ -44,35 +57,9 @@ python manage.py runserver 0.0.0.0:8000
 >>> connection.vendor
 ```
 
-### Tree Structure
-
-.
-├── manage.py
-├── README.md
-├── requirements.txt
-├── SMS19
-│   ├── __init__.py
-│   ├── __pycache__
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-└── sms19-env
-    ├── bin
-    ├── include
-    ├── lib
-    ├── lib64 -> lib
-    ├── pip-selfcheck.json
-    └── pyvenv.cfg
-
 ### Note
 
 - Migrate after every pull from the repository
-- To maintain the tree structure:
-
-  ```bash
-  sudo apt-get install tree
-  tree -L 2
-  ```
 
 ## Contribution
 
