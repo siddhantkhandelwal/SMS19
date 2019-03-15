@@ -86,23 +86,28 @@ def user_logout(request):
 def user_forgot_password(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        users = User.objects.filter(email=email)
-        if users is None:
+        try:
+            user = User.objects.get(email=email)
+        except:
             response_data = {'status': 'error',
                              'message': 'Email Address not Registered'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
-        for user in users:
-            new_password = User.objects.make_random_password()
-            email_subject = 'Forgot Password | Stock Market Simulation, APOGEE 2019'
-            email_message = f'Your new password for username {user.username} is {new_password}'
-            email_from = settings.EMAIL_HOST_USER
-            recipient_list = [user.email, ]
-            send_mail(email_subject, email_message, email_from, recipient_list)
+            return render(request, 'main/user_forgot_password.html', response_data)
+        new_password = User.objects.make_random_password()
+        email_subject = 'Forgot Password | Stock Market Simulation, APOGEE 2019'
+        email_message = f'Your new password for username {user.username} is {new_password}'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [user.email, ]
+        try:
+            send_mail(email_subject, email_message,
+                      email_from, recipient_list)
             user.set_password(new_password)
             user.save()
             response_data = {'status': 'success',
-                             'message': 'Please check your email for new password'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
+                             'message': 'Email Sent! Please check your email for new password'}
+        except:
+            response_data = {'status': 'error',
+                             'message': 'Email could not be sent. Please Contact Us for furthur help'}
+        return render(request, 'main/user_forgot_password.html', response_data)
     else:
         return render(request, 'main/user_forgot_password.html', {})
 
