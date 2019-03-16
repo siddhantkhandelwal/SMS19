@@ -11,6 +11,13 @@ import re
 
 special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
 
+# This function creates a UserProfile for a Social Account login
+def create_UserProfile(request, user):
+    if UserProfile.objects.filter(user=user).exists():
+        pass
+    else :
+        new_user = UserProfile(user=user, name = user.get_full_name())
+        new_user.save()
 
 def register(request):
     if request.user.is_authenticated:
@@ -114,4 +121,5 @@ def user_forgot_password(request):
 
 @login_required
 def game(request):
+    create_UserProfile(request, request.user)
     return HttpResponse("Giddy Up!")
