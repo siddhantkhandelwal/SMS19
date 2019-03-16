@@ -1,5 +1,7 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
+{% load socialaccount %}
+
 {% block title %}
 Login
 {% endblock %}
@@ -42,6 +44,7 @@ Login
   <a href={% url 'user_forgot_password' %}>
     <p align="center">Forgot Password?
   </a></p>
+  <p align="center"><a href="{% provider_login_url 'google' %}">Log In with Google</a></p>
   <br>
   <a href={% url 'register' %}>
     <p align="center">Haven't registered? <button class="btn-floating teal lighten-2">

@@ -45,7 +45,7 @@ def register(request):
         user_profile = UserProfile.objects.create(user=user)
         user_profile.name = name
         user_profile.save()
-        login(request, user)
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('game')
     else:
         return render(request, 'main/register.html', {})
@@ -67,7 +67,7 @@ def user_login(request):
         user = authenticate(username=username, password=password)
 
         if user:
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             return redirect('game')
         else:
             response_data = {'status': 'error',

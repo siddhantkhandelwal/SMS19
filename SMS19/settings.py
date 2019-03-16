@@ -38,7 +38,47 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+#    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
 ]
+
+# <-----------------------------Django allauth configurations start------------------------------------>
+SOCIALACCOUNT_PROVIDERS = {
+#    'facebook': {}, 
+    'google': {} }
+SITE_ID= 1
+
+# Add the 'allauth' backend to AUTHENTICATION_BACKEND and keep default ModeBackend
+AUTHENTICATION_BACKENDS= ['django.contrib.auth.backends.ModelBackend',
+'allauth.account.auth_backends.AuthenticationBackend']
+# EMAIL_BACKEND so allauth can proceed to send confirmation emails
+# ONLY for development/testing use console
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_ADAPTER = "allauth.account.adapter.DefaultAccountAdapter"
+# Use email as the primary identifier
+# Specifies the login method to use – whether the user logs in by entering their username, e-mail
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+
+# Custom allauth settings
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+# Make email verification mandatory to avoid junk email accounts
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+# Eliminate need to provide username, as it's a very old practice
+ACCOUNT_USERNAME_REQUIRED = True
+
+# Custom User model for allauth
+# AUTH_USER_MODEL = 'main.UserProfile'  
+LOGIN_REDIRECT_URL = '/'
+
+# <--------------------------Django allauth configurations end------------------------------------------->
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
