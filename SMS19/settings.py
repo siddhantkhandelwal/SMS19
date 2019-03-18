@@ -59,6 +59,8 @@ AUTHENTICATION_BACKENDS= ['django.contrib.auth.backends.ModelBackend',
 # ONLY for development/testing use console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 ACCOUNT_ADAPTER = "allauth.account.adapter.DefaultAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "main.adapters.SocialAccountAdapter"
+
 # Use email as the primary identifier
 # Specifies the login method to use – whether the user logs in by entering their username, e-mail
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
