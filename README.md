@@ -2,14 +2,14 @@
 
 ## ToDo
 
-- EMAIL Backend Error
-  - Django send_mail throwing error, something to do with 'STARTTLS'
-
-- Decide the model parameters for Stock
-
-- Write
-  - Buy
-  - Sell
+- Templates Integration
+  - Buy/Sell Testing
+- Markets
+- Leaderboard
+- User Portfolio Page
+- Stock History Page
+- News Section
+- Algorithm for Price Fluctuation
 
 ## Setting Up Backend
 
