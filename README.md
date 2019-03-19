@@ -91,3 +91,4 @@ python manage.py createsuperuser
 
 - Settings : <https://django-allauth.readthedocs.io/en/latest/configuration.html>
 - adapters.py <https://stackoverflow.com/questions/27759407/django-allauth-redirect-after-social-signup>
+- migration changes <https://stackoverflow.com/questions/29902366/django-migration-is-not-applying-the-migration-changes>
