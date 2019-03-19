@@ -32,7 +32,9 @@ pip install -r requirements.txt
 
 ```bash
 python manage.py makemigrations
+python manage.py makemigrations main
 python manage.py migrate
+python manage.py migrate main
 ```
 
 ### Create a superuser for Django
