@@ -7,7 +7,7 @@ Login
 {% endblock %}
 
 {% block body %}
-<form method="POST" action="{% url 'user_login' %}">
+<form method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
   <div class="row">
     <div class="col s12 l4 offset-l4">
@@ -21,15 +21,21 @@ Login
           <div class="input-field">
             <i class="material-icons prefix">account_circle</i>
             <label for="username">Username</label>
-            <input type="text" name="username" id="username" required />
+            <input type="text" name="login" placeholder="Username" autofocus="autofocus" maxlength="150" required id="id_login">
           </div>
 
           <div class="input-field">
             <i class="material-icons prefix">lock</i>
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" required />
+            <input type="password" name="password" placeholder="Password" required id="id_password">
           </div>
+<!-- The remember me checkbox needs to be fixed -->
+          <label for="id_remember">Remember Me:</label> <input type="checkbox" name="remember" id="id_remember">
 
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+          <br><br>
           <div class="form-field center-align">
             <button class="btn-large waves-effect waves-light teal lighten-2" style="width: 70%; font-size: larger"
               onclick="getInfo()">LOGIN</button>
@@ -41,12 +47,12 @@ Login
 </form>
 <div class="row">
   <br>
-  <a href={% url 'user_forgot_password' %}>
+  <a href="{% url 'account_reset_password' %}">
     <p align="center">Forgot Password?
   </a></p>
   <p align="center"><a href="{% provider_login_url 'google' %}">Log In with Google</a></p>
   <br>
-  <a href={% url 'register' %}>
+  <a href="{{ signup_url }}"">
     <p align="center">Haven't registered? <button class="btn-floating teal lighten-2">
         <i class="material-icons">add</i>
       </button>

@@ -58,13 +58,14 @@ AUTHENTICATION_BACKENDS= ['django.contrib.auth.backends.ModelBackend',
 # EMAIL_BACKEND so allauth can proceed to send confirmation emails
 # ONLY for development/testing use console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-ACCOUNT_ADAPTER = "allauth.account.adapter.DefaultAccountAdapter"
+ACCOUNT_ADAPTER = "main.adapters.AccountAdapter"
 SOCIALACCOUNT_ADAPTER = "main.adapters.SocialAccountAdapter"
 
 # Use email as the primary identifier
 # Specifies the login method to use – whether the user logs in by entering their username, e-mail
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 # Custom allauth settings
 
 ACCOUNT_EMAIL_REQUIRED = True
@@ -79,6 +80,7 @@ ACCOUNT_USERNAME_REQUIRED = True
 # AUTH_USER_MODEL = 'main.UserProfile'  
 LOGIN_REDIRECT_URL = '/'
 
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 # <--------------------------Django allauth configurations end------------------------------------------->
 
 
@@ -97,7 +99,7 @@ ROOT_URLCONF = 'SMS19.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'main','templates', 'allauth')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -165,7 +167,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGIN_URL = 'user_login'
+LOGIN_URL = 'account_login'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
