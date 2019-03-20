@@ -20,7 +20,6 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
         else:
             new_user = UserProfile(user=user, name=user.get_full_name())
             new_user.save()
-        # print("Inside the adapter")
         return redirect('/')
         
 class AccountAdapter(DefaultAccountAdapter):
@@ -28,10 +27,9 @@ class AccountAdapter(DefaultAccountAdapter):
     def save_user(self, request, user, form, commit=True):
         data = form.cleaned_data
         username = data.get('username')
-        password = data.get('password')
+        password = data.get('password1')
         email = data.get('email')
-        name = data.get('name')
-
+        name = data.get('first_name')
         if None in [username, password, email, name]:
             reponse_data = {'status': 'error',
                             'message': 'One/more of fields missing'}
@@ -46,13 +44,13 @@ class AccountAdapter(DefaultAccountAdapter):
             reponse_data = {'status': 'error',
                             'message': 'User with the same username already exists'}
             return HttpResponse(json.dumps(reponse_data), content_type="application/json")
-
         user = User.objects.create(username=username)
         user.set_password(password)
         user.email = email
-        user.is_active = False
+        user_name = name.split()
+        user.first_name = user_name[0]
+        user.last_name = user_name[-1]
         user.save()
-
         user_profile = UserProfile.objects.create(user=user)
         user_profile.name = name
         user_profile.save()

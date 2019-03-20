@@ -1,5 +1,6 @@
 {% extends 'main/base.html' %}
 {% load staticfiles %}
+{% load i18n %}
 {% block title %}
 Registration
 {% endblock %}
@@ -25,7 +26,7 @@ Registration
           <div class="input-field">
             <i class="material-icons prefix">person</i>
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" required />
+            <input type="text" id="first_name" name="first_name" placeholder="Name" required id="id_first_name"/>
           </div>
 
           <div class="input-field">
@@ -40,10 +41,12 @@ Registration
             <label for="password">Password</label>
             <input type="password" name="password1" placeholder="Password" required id="id_password1">
           </div>
-
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
           <div class="form-field center-align">
             <button class="btn-large waves-effect waves-light teal lighten-2"
-              style="width: 70%; font-size: large">Register</button>
+              style="width: 70%; font-size: large">{% trans "Register" %} &raquo;</button>
           </div>
 
         </div>

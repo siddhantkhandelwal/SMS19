@@ -81,6 +81,10 @@ ACCOUNT_USERNAME_REQUIRED = True
 LOGIN_REDIRECT_URL = '/'
 
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+
+ACCOUNT_FORMS = {
+    'signup': 'main.forms.CustomSignupForm',
+}
 # <--------------------------Django allauth configurations end------------------------------------------->
 
 
