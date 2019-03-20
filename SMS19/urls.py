@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from main import views
+from django.conf.urls import url
 
 
 urlpatterns = [
@@ -23,6 +24,7 @@ urlpatterns = [
     path('accounts/logout/', views.user_logout, name='user_logout'),
     path('accounts/forgot_password/', views.user_forgot_password,
          name='user_forgot_password'),
+    path('accounts/activate/<slug:uidb64>/<slug:token>', views.activate, name='activate'),
     path('admin/', admin.site.urls),
     path('', views.game, name='game'),    
 
