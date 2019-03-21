@@ -150,7 +150,15 @@ def buy_stock(request, pk):
             stock_to_buy.refresh_from_db()
             transaction = Transaction.objects.create(
                 stock=stock_to_buy, owner=user_profile, units=units, cost=cost, type='B')
-            transaction.refresh_from_db()
+            try:
+                stock_purchased = StockPurchased.objects.get(
+                    owner=user_profile, stock=stock_to_buy)
+                stock_purchased.units = F('units') + units
+                stock_purchased.save()
+                stock_purchased.refresh_from_db()
+            except:
+                stock_purchased = StockPurchased.objects.create(
+                    owner=user_profile, stock=stock_to_buy, units=units)
             response_data = {'status': 'success',
                              'message': f'{user_profile.user.username} has successfully purchased {units} units of  {stock_to_buy.stock_name} on {transaction.date_time}'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
@@ -195,7 +203,6 @@ def sell_stock(request, pk):
             stock.refresh_from_db()
             transaction = Transaction.objects.create(
                 stock=stock, owner=user_profile, units=units, cost=cost, type='S')
-            transaction.refresh_from_db()
             response_data = {'status': 'success',
                              'message': f'{user_profile.user.username} has successfully sold {units} units of  {stock.stock_name} on {transaction.date_time}'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")

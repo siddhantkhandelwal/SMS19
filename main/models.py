@@ -40,3 +40,8 @@ class StockPurchased(models.Model):
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     units = models.PositiveIntegerField(default=0)
+
+
+class NewsPost(models.Model):
+    post_text = models.CharField(null=False, max_length=5000)
+    date_time = models.DateTimeField(auto_now=True)
