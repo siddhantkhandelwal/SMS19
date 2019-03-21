@@ -24,7 +24,8 @@ urlpatterns = [
     path('accounts/forgot_password/', views.user_forgot_password,
          name='user_forgot_password'),
     path('admin/', admin.site.urls),
-    path('', views.game, name='game'),    
+    path('', views.game, name='game'),
+    path('profile/', views.profile, name='profile'),    
 
     path('accounts/register/', views.register, name='register'),
     path('accounts/login/', views.user_login, name='user_login'),

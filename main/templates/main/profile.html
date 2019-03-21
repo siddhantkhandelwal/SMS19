@@ -1,0 +1,58 @@
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Profile
+{% endblock %}
+
+
+{% block body %}
+<body>
+
+	<div class="container-fluid">
+    	<!-- <div class="header header1 lighten-2"> -->
+        <div class="card-panel teal lighten-2">
+    		<span class="flow-text center-align heading" style="font-size: 3vw;z-index:99;">STOCK MARKET SIMULATION</span><br>
+            <span style="font-size:2vw;cursor:pointer;z-index:100" onclick="openNav()">&#9776;</span>
+            <div class="row">
+                <div class="col s4 center-align bottom flow-text">{{username}}</div>
+                <div class="col s4 center-align bottom flow-text">user balance: {{Balance}}</div>
+                <div class="col s4 center-align bottom flow-text">1 dollar = rupees <span id="conversionRate"></span><span id="conversionRate"></span></div>
+            </div>
+        </div>
+				<!-- <div class="profile profile1"> -->
+					<!-- <div class="user user1" id="userName"></div> -->
+					<!-- <div class="user user2">Balance: &#8377
+						<span id="userBalance"></span>
+						<span class="conversionRate"> (&#36 1 = &#8377 <span id="conversionRate"></span>)</span>
+						<span class="hamburgerIcon"onclick="openNav()">&#9776;</span></div>
+                    </div> -->
+				<!-- </div> -->
+		<!-- <div class="main main">
+            <div class="stock">
+            	<div class="profile-details"><b>NAME</b></div>
+            	<div class="profile-details"><b>UNITS</b></div>
+            	<div class="profile-details"><span><b>PRICE</b></span></div>
+            	<div class="profile-details"><b>TOTAL</b></div>
+            </div>
+        </div> -->
+        <div class="row thicken z-depth-3">
+            <div class="col s3 center-align #bdbdbd grey lighten-1" style="padding:5px;font-size:2vw;">NAME</div>
+            <div class="col s3 center-align #bdbdbd grey lighten-1" style="padding:5px;font-size:2vw;">UNITS</div>
+            <div class="col s3 center-align #bdbdbd grey lighten-1" style="padding:5px;font-size:2vw;">PRICE</div>
+            <div class="col s3 center-align #bdbdbd grey lighten-1" style="padding:5px;font-size:2vw;">TOTAL</div>
+        </div>
+
+		<div id="mySidenav" class="sidenavbar">
+			<a class="links" href="#" style="font-size: 40px;">SMS</a>
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			<a class="links" href='/profile/'>Portfolio</a><hr>
+			<a class="links" href='/'>Market</a><hr>
+			<a class="links" href=''>Leaderboard</a><hr>
+			<a class="links" href=''>News </a><hr>
+			<a class="links" href='/accounts/logout/'>Logout</a><hr>
+		</div>
+	</div>
+
+</body>
+{% endblock %}

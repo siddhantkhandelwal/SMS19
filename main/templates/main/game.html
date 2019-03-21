@@ -1,0 +1,44 @@
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Game
+{% endblock %}
+
+
+{% block body %}
+<body>
+
+    <div class="container-fluid">
+        <div class="row teal" style="padding: 20px">
+            <div class="col s4" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
+            <div class="col s4 center-align" id="heading" style="color: white;font-family: 'Muli', sans-serif;font-size:2.2vw">STOCK MARKET SIMULATION</div>
+            <div class="col s4 center-align" id="balance" style="color: white;">user balance: {{Balance}}</div><br><br>
+            <a href="" id="indian" class="col s4 offset-s1 hoverable center-align #004d40 teal darken-4" style="padding: 5px;border-radius:10px;">
+                <div style="color: white;font-family: 'Muli', sans-serif;">Indian</div>
+            </a>
+            <a href="" id="international" class="col s4 offset-s2 hoverable center-align #004d40 teal darken-4" style="color: white;padding: 5px;border-radius:10px;">
+                <div style="color: white;font-family: 'Muli', sans-serif;">International</div>
+            </a>
+        </div>
+
+        <div class="container">
+            <div class="row #cfd8dc blue-grey lighten-4 hoverable z-depth-2">
+                <div class="col s4 center-align offset-s2 flow-text">Stock Name</div>
+                <div class="col s4 center-align flow-text">Stock Price</div>
+            </div>
+        </div>
+
+        <div id="mySidenav" class="sidenavbar">
+            <a class="links" href="#" style="font-size: 40px;">SMS</a>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a class="links" href='/profile/'>Portfolio</a><hr>
+            <a class="links" href='/'>Market</a><hr>
+            <a class="links" href=''>Leaderboard</a><hr>
+            <a class="links" href=''>News </a><hr>
+            <a class="links" href='/accounts/logout/'>Logout</a><hr>
+        </div>
+    </div>
+
+</body>
+{% endblock %}
