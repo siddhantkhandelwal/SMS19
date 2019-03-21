@@ -21,12 +21,14 @@ Registration
             <i class="material-icons prefix">email</i>
             <label for="email">E-mail</label>
             <input type="email" name="email" placeholder="E-mail address" required id="id_email">
+            {{form.email.errors}}
           </div>
 
           <div class="input-field">
             <i class="material-icons prefix">person</i>
             <label for="name">Name</label>
             <input type="text" id="first_name" name="first_name" placeholder="Name" required id="id_first_name"/>
+            {{form.name.errors}}
           </div>
 
           <div class="input-field">
@@ -34,12 +36,14 @@ Registration
             <label for="username">Username</label>
             <input type="text" name="username" placeholder="Username" autofocus="autofocus" minlength="1" maxlength="150" required
               id="id_username">
+            {{form.username.errors}}
           </div>
 
           <div class="input-field">
             <i class="material-icons prefix">lock</i>
             <label for="password">Password</label>
             <input type="password" name="password1" placeholder="Password" required id="id_password1">
+            {{form.password1.errors}}
           </div>
           {% if redirect_field_value %}
           <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
