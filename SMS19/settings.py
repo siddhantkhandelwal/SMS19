@@ -58,6 +58,7 @@ AUTHENTICATION_BACKENDS= ['django.contrib.auth.backends.ModelBackend',
 # EMAIL_BACKEND so allauth can proceed to send confirmation emails
 # ONLY for development/testing use console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'   This is used in production
 ACCOUNT_ADAPTER = "main.adapters.AccountAdapter"
 SOCIALACCOUNT_ADAPTER = "main.adapters.SocialAccountAdapter"
 

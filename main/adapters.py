@@ -24,20 +24,29 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
 class AccountAdapter(DefaultAccountAdapter):
 
     def save_user(self, request, user, form, commit=True):
-        data = form.cleaned_data
-        username = data.get('username')
-        password = data.get('password1')
-        email = data.get('email')
-        name = data.get('first_name')
-# The check for presence of all the fields is not needed  & hence removed as these are marked as required in frontend
 
-        user = User.objects.create(username=username)
-        user.set_password(password)
-        user.email = email
-        user_name = name.split()
-        user.first_name = user_name[0]
-        user.last_name = user_name[-1]
-        user.save()
+        from allauth.account.utils import user_username, user_email, user_field
+
+        data = form.cleaned_data
+        name = data.get('first_name')
+        email = data.get('email')
+        username = data.get('username')
+        user_email(user, email)
+        user_username(user, username)
+        name_split = name.split()
+        if len(name):
+            user_field(user, 'first_name', name_split[0])
+        if len(name)>1:
+            user_field(user, 'last_name', name_split[-1])
+        if 'password1' in data:
+            user.set_password(data["password1"])
+        else:
+            user.set_unusable_password()
+        self.populate_username(request, user)
+        if commit:
+            # Ability not to commit makes it easier to derive from
+            # this adapter by adding
+            user.save()
 
         user_profile = UserProfile.objects.create(user=user)
         user_profile.name = name
