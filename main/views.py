@@ -115,7 +115,12 @@ def user_forgot_password(request):
 
 @login_required
 def game(request):
-    return HttpResponse("Giddy Up!")
+    return render(request, 'main/game.html')
+
+
+@login_required
+def profile(request):
+    return render(request, 'main/profile.html')
 
 
 @login_required
