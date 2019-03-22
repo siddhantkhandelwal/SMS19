@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.core.mail import send_mail
 from main.models import UserProfile, Stock, Transaction, NewsPost, StockPurchased
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -13,9 +13,35 @@ from django.db.models import F
 
 special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
 
+@csrf_exempt
+def get_stock_purchased(request):
+    current_member = UserProfile.objects.get(user = request.user)
+    stocks_purchased = StockPurchased.objects.filter(owner = current_member)
+    stock_purchased = []
+    for stock_pur in stocks_purchased:
+        units = stock_pur.units
+        price = stock_pur.stock.stock_price
+        total = int(units) * int(price)
+        s_list = [stock_pur.stock.stock_name, units, price , total]
+        stock_purchased.append(s_list)
+    data = {'stock_purchased':stock_purchased}
+    return JsonResponse(data)
+
+@csrf_exempt
+def get_news_post(request):
+    news_list = []
+    for news in NewsPost.objects.all():
+        n_list = [news.headline, news.body, news.date_added]
+        news_list.append(n_list)
+    data={'news_list':news_list}
+    return JsonResponse(data)
+
 
 def test(request):
     return render(request, 'main/useless.html')
+
+def news(request):
+    return render(request, 'main/news.html')
 
 
 def register(request):
@@ -119,8 +145,23 @@ def user_forgot_password(request):
 
 
 @login_required
+@csrf_exempt
 def game(request):
-    return render(request, 'main/game.html')
+    if request.method == 'POST':
+        code = 'BSE'
+        try:
+            code = request.POST.get('code')
+        except:
+            pass
+        stocks = Stock.objects.filter(market_type = code)
+        stock_list = []
+        for stock in stocks:
+            s_list = [stock.pk, stock.stock_name, stock.stock_price, stock.initial_price, stock.available_no_units, ]
+            stock_list.append(s_list)
+        data = {'stock_list':stock_list}
+        return JsonResponse(data)
+    else:
+        return render(request, 'main/game.html')
 
 
 @login_required
@@ -137,7 +178,7 @@ def buy_stock(request, pk):
         except:
             response_data = {'status': 'error',
                              'message': 'User Does not Exist'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
+            return JsonResponse(response_data)
         try:
             stock_to_buy = Stock.objects.get(pk=pk)
         except:
@@ -313,3 +354,4 @@ def delete_newspost(request, pk):
         response_data = {'status': 'error',
                          'message': 'Error in Deleting NewsPost'}
         return HttpResponse(json.dumps(response_data), content_type="application/json")
+

@@ -28,3 +28,32 @@ function openSellDiv() {
 function closeSellDiv() {
     document.getElementById("sellDiv").style.display = "none";
 }
+
+function get_stock_list(code) {
+  var data = $.ajax({
+      type: 'POST',
+      url: '/',
+      data: {
+          "code": code
+      },
+      success: function (data) {
+          console.log(data);
+          
+      }
+  });
+}
+
+
+document.getElementById("indian1").addEventListener("click", function(){get_stock_list("BSE");});
+document.getElementById("international1").addEventListener("click", function(){get_stock_list("NYM");});
+
+
+
+
+
+
+
+
+
+
+
