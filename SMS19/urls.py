@@ -30,7 +30,10 @@ urlpatterns = [
     path('delete_stock/<pk>/', views.delete_stock, name='delete_stock'),
     path('add_newspost/', views.add_newspost, name='add_newspost'),
     path('delete_newspost/<pk>/', views.delete_newspost, name='delete_newspost'),
+    path('buy_stock/<pk>/', views.buy_stock, name='buy_stock'),
+    path('sell_stock/<pk>/', views.sell_stock, name='sell_stock'),
     path('accounts/register/', views.register, name='register'),
     path('accounts/login/', views.user_login, name='user_login'),
     path('accounts/', include('allauth.urls')),
-    ]
+    path('test/', views.test, name="test")
+]
