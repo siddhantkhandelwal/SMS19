@@ -12,12 +12,13 @@ class UserProfile(models.Model):
 
 
 class Stock(models.Model):
-    stock_name = models.CharField(max_length=100)
+    stock_name = models.CharField(max_length=100, unique=True)
     stock_price = models.PositiveIntegerField(default=0)
     market_type = models.CharField(max_length=10, null=False, choices=(
         ('BSE', 'BSE'), ('NYM', 'NYM')), default='BSE')
     initial_price = models.IntegerField(default=0)
     available_no_units = models.PositiveIntegerField(default=0)
+    date_added = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'{self.stock_name} - {self.market_type}'
@@ -43,5 +44,9 @@ class StockPurchased(models.Model):
 
 
 class NewsPost(models.Model):
-    post_text = models.CharField(null=False, max_length=5000)
-    date_time = models.DateTimeField(auto_now=True)
+    headline = models.CharField(null=False, max_length=1000)
+    body = models.TextField(null=False)
+    date_added = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.headline}'

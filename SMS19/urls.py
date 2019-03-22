@@ -25,8 +25,11 @@ urlpatterns = [
          name='user_forgot_password'),
     path('admin/', admin.site.urls),
     path('', views.game, name='game'),
-    path('profile/', views.profile, name='profile'),    
-
+    path('profile/', views.profile, name='profile'),
+    path('add_stock/', views.add_stock, name='add_stock'),
+    path('delete_stock/<pk>/', views.delete_stock, name='delete_stock'),
+    path('add_newspost/', views.add_newspost, name='add_newspost'),
+    path('delete_newspost/<pk>/', views.delete_newspost, name='delete_newspost'),
     path('accounts/register/', views.register, name='register'),
     path('accounts/login/', views.user_login, name='user_login'),
     path('accounts/', include('allauth.urls')),
