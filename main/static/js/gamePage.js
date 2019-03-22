@@ -13,10 +13,18 @@ for (i = 0; i < acc.length; i++) {
   });
 }
 
-function openBuySellDiv() {
-    document.getElementById("buySellDiv").style.display = "block";
+function openBuyDiv() {
+    document.getElementById("buyDiv").style.display = "block";
 }
 
-function closeBuySellDiv() {
-    document.getElementById("buySellDiv").style.display = "none";
+function closeBuyDiv() {
+    document.getElementById("buyDiv").style.display = "none";
+}
+
+function openSellDiv() {
+    document.getElementById("sellDiv").style.display = "block";
+}
+
+function closeSellDiv() {
+    document.getElementById("sellDiv").style.display = "none";
 }

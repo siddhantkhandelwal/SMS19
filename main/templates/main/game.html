@@ -38,16 +38,23 @@ Game
                 <div class="col s4 center-align">10</div>
             </div>
             <div class="panel row #e1bee7 purple lighten-4">
-                <button class="buy col s2 offset-s3" onclick="openBuySellDiv()" style="padding: 7px">BUY</button>
-                <button class="sell col s2 offset-s2" onclick="openBuySellDiv()" style="padding: 7px">SELL</button>
+                <button class="buy col s2 offset-s3" onclick="openBuyDiv()" style="padding: 7px">BUY</button>
+                <button class="sell col s2 offset-s2" onclick="openSellDiv()" style="padding: 7px">SELL</button>
             </div>
         </div>
 
-        <div id="buySellDiv" class="#00000 black">
-            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeBuySellDiv()">&times;</a>
-            <p class="flow-text" style="color:white;transform: translateY(-5px)">Buy / Sell</p>
+        <div id="buyDiv" class="#00000 black">
+            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeBuyDiv()">&times;</a>
+            <p class="flow-text" style="color:white;transform: translateY(-5px)">Buy</p>
             <input type="number" name="number" placeholder="Enter the number of stocks to buy/sell" style="color: white">
-            <input type="submit" class="editable">
+            <input type="submit" class="editable" id="submit_buy">
+        </div>
+
+        <div id="sellDiv" class="#00000 black">
+            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeSellDiv()">&times;</a>
+            <p class="flow-text" style="color:white;transform: translateY(-5px)">Sell</p>
+            <input type="number" name="number" placeholder="Enter the number of stocks to buy/sell" style="color: white">
+            <input type="submit" class="editable" id="submit_sell">
         </div>
 
         <div id="mySidenav" class="sidenavbar">
