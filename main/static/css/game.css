@@ -46,7 +46,20 @@
     cursor: pointer;
 }
 
-#buySellDiv
+#buyDiv
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30vw;
+    height: auto;
+    padding: 10px;
+    border-radius: 10px;
+    display: none;
+}
+
+#sellDiv
 {
     position: absolute;
     top: 50%;
