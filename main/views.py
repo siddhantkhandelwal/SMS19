@@ -226,13 +226,13 @@ def add_stock(request):
         available_no_units = request.POST.get('available_no_units')
         try:
             stock = Stock.objects.create(stock_name=stock_name)
-            stock.inital_price = initial_price
+            stock.initial_price = initial_price
             stock.stock_price = initial_price
             stock.market_type = market_type
             stock.available_no_units = available_no_units
             stock.save()
             response_data = {'status': 'success',
-                             'message': f'Added {stock.stock_name}, {stock.inital_price}, {stock.available_no_units}'}
+                             'message': f'Added {stock.stock_name}, {stock.initial_price}, {stock.available_no_units}'}
         except:
             try:
                 stock.delete()
@@ -300,7 +300,8 @@ def delete_newspost(request, pk):
         response_data = {'status': 'success',
                          'message': 'Deleted'}
         try:
-            last_five_added = NewsPost.objects.all().order_by('-date_added')[:5]
+            last_five_added = NewsPost.objects.all().order_by(
+                '-date_added')[:5]
         except:
             last_five_added = ''
         return render(request, 'main/add_newspost.html', {'last_five_added': last_five_added})
