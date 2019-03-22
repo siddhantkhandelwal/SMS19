@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, reverse
-from main.models import UserProfile, Stock, Transaction, StockPurchased, NewsPost
+from django.core.mail import send_mail
+from main.models import UserProfile, Stock, Transaction, NewsPost, StockPurchased
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import json
 import re
@@ -18,7 +20,8 @@ def profile(request):
     return render(request, 'main/profile.html')
 
 
-@login_required
+# @login_required
+@csrf_exempt
 def buy_stock(request, pk):
     if request.method == 'POST':
         try:
@@ -34,9 +37,9 @@ def buy_stock(request, pk):
                              'message': 'Invalid Stock PK'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-        units = request.POST['units']
+        units = int(request.POST['units'])
         cost = stock_to_buy.stock_price * units
-        if (user_profile.balance < cost & units < stock_to_buy.available_no_units):
+        if (user_profile.balance < cost and units < stock_to_buy.available_no_units):
             response_data = {'status': 'error',
                              'message': 'Insufficient Balance for Transaction or Insufficient No. of Stocks to Buy'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
@@ -48,24 +51,22 @@ def buy_stock(request, pk):
             stock_to_buy.available_no_units = F('available_no_units') - units
             stock_to_buy.save()
             stock_to_buy.refresh_from_db()
-            transaction = Transaction.objects.create(
-                stock=stock_to_buy, owner=user_profile, units=units, cost=cost, type='B')
+            transaction = Transaction.objects.create(stock=stock_to_buy, owner=user_profile, units=units, cost=cost, type='B')
             try:
-                stock_purchased = StockPurchased.objects.get(
+                stock_purchased = StockPurchased.objects.create(
                     owner=user_profile, stock=stock_to_buy)
                 stock_purchased.units = F('units') + units
                 stock_purchased.save()
                 stock_purchased.refresh_from_db()
             except:
-                stock_purchased = StockPurchased.objects.create(
-                    owner=user_profile, stock=stock_to_buy, units=units)
-            response_data = {'status': 'success',
-                             'message': f'{user_profile.user.username} has successfully purchased {units} units of  {stock_to_buy.stock_name} on {transaction.date_time}'}
+                stock_purchased = StockPurchased.objects.create(owner=user_profile, stock=stock_to_buy, units=units)
+                response_data = {'status': 'success',
+                                 'message': f'{user_profile.user.username} has successfully purchased {units} units of  {stock_to_buy.stock_name} on {transaction.date_time}'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
         except:
             response_data = {'status': 'error',
                              'message': 'Error in Transaction'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 @login_required
