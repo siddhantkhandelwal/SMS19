@@ -1,22 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Profile</title>
-	<meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
-    <link rel="stylesheet" type="text/css" href='static/css/template.css'>
-	<link rel="stylesheet" type="text/css" href='static/css/game.css'>
-	<script type="text/javascript" src='static/js/userDetails.js'></script>
-	<script type="text/javascript" src='static/js/profile.js'></script>
-	<script type="text/javascript" src='static/js/conversionRate.js'></script>
-	<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Sniglet" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
-</head>
+{% extends 'main/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+Game
+{% endblock %}
+
+
+{% block body %}
 <body>
 
     <div class="container-fluid">
@@ -24,10 +14,10 @@
             <div class="col s4" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
             <div class="col s4 center-align" id="heading" style="color: white;font-family: 'Muli', sans-serif;font-size:2.2vw">STOCK MARKET SIMULATION</div>
             <div class="col s4 center-align" id="balance" style="color: white;">user balance: {{Balance}}</div><br><br>
-            <a href="/indian" id="indian" class="col s4 offset-s1 hoverable center-align #004d40 teal darken-4" style="padding: 5px;border-radius:10px;">
+            <a href="" id="indian" class="col s4 offset-s1 hoverable center-align #004d40 teal darken-4" style="padding: 5px;border-radius:10px;">
                 <div style="color: white;font-family: 'Muli', sans-serif;">Indian</div>
             </a>
-            <a href="/international" id="international" class="col s4 offset-s2 hoverable center-align #004d40 teal darken-4" style="color: white;padding: 5px;border-radius:10px;">
+            <a href="" id="international" class="col s4 offset-s2 hoverable center-align #004d40 teal darken-4" style="color: white;padding: 5px;border-radius:10px;">
                 <div style="color: white;font-family: 'Muli', sans-serif;">International</div>
             </a>
         </div>
@@ -42,13 +32,13 @@
         <div id="mySidenav" class="sidenavbar">
             <a class="links" href="#" style="font-size: 40px;">SMS</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a class="links" href='/profile'>Portfolio</a><hr>
-            <a class="links" href='/game'>Market</a><hr>
-            <a class="links" href='/leaderboard'>Leaderboard</a><hr>
-            <a class="links" href='/news'>News </a><hr>
-            <a class="links" href='/logout'>Logout</a><hr>
+            <a class="links" href='/profile/'>Portfolio</a><hr>
+            <a class="links" href='/'>Market</a><hr>
+            <a class="links" href=''>Leaderboard</a><hr>
+            <a class="links" href=''>News </a><hr>
+            <a class="links" href='/accounts/logout/'>Logout</a><hr>
         </div>
     </div>
 
 </body>
-</html>
+{% endblock %}

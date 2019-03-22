@@ -1,0 +1,31 @@
+<html>
+
+  <head>
+    <title>
+      Add Newspost
+    </title>
+  </head>
+
+  <body>
+    <form method="POST" action="{% url 'add_newspost'%}">
+      {% csrf_token %}
+      <div class="input-field">
+        <label for="headline">Headline</label>
+        <input type="text" id="headline" name="headline" required />
+      </div>
+      <div class="input-field">
+        <label for="body">News Body</label>
+        <input type="text" id="body" name="body" required />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <br>Last Five Added
+    {% for newspost in last_five_added %}
+    <br>
+    {{newspost.id}}.
+    {{newspost.headline}}
+    <a href="{% url 'delete_newspost' newspost.id %}">Delete</a>
+    {% endfor %}
+  </body>
+
+</html>
