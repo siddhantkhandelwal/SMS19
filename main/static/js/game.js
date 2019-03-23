@@ -39,6 +39,7 @@ function get_stock_list(code) {
             csrfmiddlewaretoken: x,
             "code": code
         },
+        dataType:'json',
         success: function (data) {
             console.log(data);
             stock_list = data.stock_list;
