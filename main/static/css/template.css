@@ -1,0 +1,76 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+body
+{
+    background: #eee;
+}
+
+.heading
+{
+    font-family: 'Baloo Chettan', cursive;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.bottom
+{
+    font-size: 4vw;
+    font-family: 'Exo', sans-serif;
+}
+
+.sidenavbar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  display: block;
+}
+
+.sidenavbar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.sidenavbar a:hover {
+  color: #ba68c8;
+}
+
+.sidenavbar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-width: 1040px) {
+    .heading
+    {
+        position: absolute;
+        top: 2%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .bottom
+    {
+        font-size: 5vw;
+    }
+}

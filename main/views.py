@@ -13,38 +13,33 @@ from django.db.models import F
 
 special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
 
-
 @csrf_exempt
 def get_stock_purchased(request):
-    user_profile = UserProfile.objects.get(user=request.user)
-    stocks_purchased = StockPurchased.objects.filter(owner=user_profile)
-    list_stock_purchased = []
+    current_member = UserProfile.objects.get(user = request.user)
+    stocks_purchased = StockPurchased.objects.filter(owner = current_member)
+    stock_purchased = []
     for stock_pur in stocks_purchased:
         units = stock_pur.units
         price = stock_pur.stock.stock_price
         total = int(units) * int(price)
-        list_stock = [stock_pur.stock.stock_name, units, price, total]
-        list_stock_purchased.append(list_stock)
-    response = {'stock_purchased': list_stock_purchased}
-    return JsonResponse(response)
-
+        s_list = [stock_pur.stock.stock_name, units, price , total]
+        stock_purchased.append(s_list)
+    data = {'stock_purchased':stock_purchased}
+    return JsonResponse(data)
 
 @csrf_exempt
 def get_news_post(request):
-    list_news = []
+    news_list = []
     for news in NewsPost.objects.all():
-        news = [news.headline, news.body, news.date_added]
-        list_news.append(news)
-    response = {'list_news': list_news}
-    return JsonResponse(response)
+        n_list = [news.headline, news.body, news.date_added]
+        news_list.append(n_list)
+    data={'news_list':news_list}
+    return JsonResponse(data)
 
 
-@login_required
 def test(request):
     return render(request, 'main/useless.html')
 
-
-@login_required
 def news(request):
     return render(request, 'main/news.html')
 
@@ -153,28 +148,26 @@ def user_forgot_password(request):
 def game(request):
     return render(request, 'main/game.html')
 
-
 @login_required
-def get_stocks(request, code):
+def get_game_data(request, code):
     try:
-        all_stocks = Stock.objects.filter(market_type=code)
-        list_stocks = []
-        for stock in all_stocks:
-            stock_list = [stock.pk, stock.stock_name, stock.stock_price,
-                      stock.initial_price, stock.available_no_units, ]
-            list_stocks.append(stock_list)
-        response = {'list_stocks': list_stocks}
-        return JsonResponse(response)
+        stocks = Stock.objects.filter(market_type = code)
+        stock_list = []
+        for stock in stocks:
+            s_list = [stock.pk, stock.stock_name, stock.stock_price, stock.initial_price, stock.available_no_units, ]
+            stock_list.append(s_list)
+        data = {'stock_list':stock_list}
+        return JsonResponse(data)
     except:
-        return JsonResponse({'message': 'Error in Get Stocks'})
-
+        return JsonResponse({'message':'dafuq are you trying to do'})
 
 @login_required
 def profile(request):
     return render(request, 'main/profile.html')
 
 
-@login_required
+# @login_required
+@csrf_exempt
 def buy_stock(request, pk):
     if request.method == 'POST':
         try:
@@ -204,8 +197,7 @@ def buy_stock(request, pk):
             stock_to_buy.available_no_units = F('available_no_units') - units
             stock_to_buy.save()
             stock_to_buy.refresh_from_db()
-            transaction = Transaction.objects.create(
-                stock=stock_to_buy, owner=user_profile, units=units, cost=cost, type='B')
+            transaction = Transaction.objects.create(stock=stock_to_buy, owner=user_profile, units=units, cost=cost, type='B')
             try:
                 stock_purchased = StockPurchased.objects.create(
                     owner=user_profile, stock=stock_to_buy)
@@ -213,8 +205,7 @@ def buy_stock(request, pk):
                 stock_purchased.save()
                 stock_purchased.refresh_from_db()
             except:
-                stock_purchased = StockPurchased.objects.create(
-                    owner=user_profile, stock=stock_to_buy, units=units)
+                stock_purchased = StockPurchased.objects.create(owner=user_profile, stock=stock_to_buy, units=units)
                 response_data = {'status': 'success',
                                  'message': f'{user_profile.user.username} has successfully purchased {units} units of  {stock_to_buy.stock_name} on {transaction.date_time}'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
@@ -242,19 +233,19 @@ def sell_stock(request, pk):
                              'message': 'Invalid Stock PK/User does not own any units of given Stock'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-        units = int(request.POST['units'])
+        units = request.POST['units']
         cost = stock_to_sell.stock_price * units
 
         if (units > stock_to_sell.units):
             response_data = {'status': 'error',
-                             'message': 'Insufficient No. of Units of Stocks Owned'}
+                             'message': 'Insufficient No. of Stocks to Sell'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
         try:
             user_profile.balance = F('balance') + cost
             user_profile.save()
             user_profile.refresh_from_db()
-            stock = F('available_no_stocks') + units
+            stock = F('available_no_stocks') - units
             stock.save()
             stock.refresh_from_db()
             transaction = Transaction.objects.create(
@@ -360,3 +351,4 @@ def delete_newspost(request, pk):
         response_data = {'status': 'error',
                          'message': 'Error in Deleting NewsPost'}
         return HttpResponse(json.dumps(response_data), content_type="application/json")
+
