@@ -5,49 +5,70 @@
 Game
 {% endblock %}
 
-
 {% block body %}
-
 <body>
 
     <div class="container-fluid">
-        <div class="row teal" style="padding: 20px">
+        <div class="#000000 black row" style="padding: 20px">
             <div class="col s4" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
-            <div class="col s4 center-align" id="heading"
-                style="color: white;font-family: 'Muli', sans-serif;font-size:2.2vw">STOCK MARKET SIMULATION</div>
-            <div class="col s4 center-align" id="balance" style="color: white;">user balance: {{Balance}}</div><br><br>
-            <a href="" id="indian" class="col s4 offset-s1 hoverable center-align #004d40 teal darken-4"
-                style="padding: 5px;border-radius:10px;">
-                <div style="color: white;font-family: 'Muli', sans-serif;">Indian</div>
+            <div class="col s4 center-align" id="heading" style="color: white;font-family: 'Roboto', sans-serif;font-size:2.2vw">STOCK MARKET SIMULATION</div>
+            <div class="col s4 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;">User Balance: {{Balance}}</div><br><br>
+            <a href="/" id="indian" class="col s4 offset-s1 center-align" style="padding: 5px;border-radius:10px;">
+                <div class="#8e24aa purple darken-1" style="color:white;font-family: 'Raleway', sans-serif;border-radius: 10px;">Indian</div>
             </a>
-            <a href="" id="international" class="col s4 offset-s2 hoverable center-align #004d40 teal darken-4"
-                style="color: white;padding: 5px;border-radius:10px;">
-                <div style="color: white;font-family: 'Muli', sans-serif;">International</div>
+            <a href="/" id="international" class="col s4 offset-s2 center-align" style="color: white;padding: 5px;border-radius:10px;">
+                <div class="#8e24aa purple darken-1" style="font-family: 'Raleway', sans-serif;border-radius: 10px;">International</div>
             </a>
         </div>
 
         <div class="container">
-            <div class="row #cfd8dc blue-grey lighten-4 hoverable z-depth-2">
-                <div class="col s4 center-align offset-s2 flow-text">Stock Name</div>
-                <div class="col s4 center-align flow-text">Stock Price</div>
+            <div class="row #ab47bc purple lighten-1 hoverable z-depth-2">
+                <div class="col s4 center-align offset-s2 flow-text white-text" style="font-family: 'Raleway', sans-serif;">STOCK NAME</div>
+                <div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">STOCK PRICE</div>
             </div>
+
+            <div class="accordion row #e1bee7 purple lighten-4">
+                <div class="col s4 center-align offset-s2">
+                    <span class="valign nameOfStock">Apple</span>
+                        <!-- <i class="small material-icons upColor" style="transform: scale(0.5) translateY(5px);"><b><b>arrow_upward</b></b>
+                        </i> -->
+                        <i class="small material-icons downColor" style="transform: scale(0.5) translateY(5px);"><b><b>arrow_downward</b></b>
+                        </i>
+                    </div>
+                <div class="col s4 center-align">10</div>
+            </div>
+            <div class="panel row #e1bee7 purple lighten-4">
+                <button class="buy col s2 offset-s3" onclick="openBuyDiv()" style="padding: 7px">BUY</button>
+                <button class="sell col s2 offset-s2" onclick="openSellDiv()" style="padding: 7px">SELL</button>
+            </div>
+        </div>
+
+        <div id="buyDiv" class="#00000 black">
+            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeBuyDiv()">&times;</a>
+            <p class="flow-text" style="color:white;transform: translateY(-5px)">Buy</p>
+            <input type="number" name="number" placeholder="Enter the number of stocks to buy/sell" style="color: white">
+            <input type="submit" class="editable" id="submit_buy">
+        </div>
+
+        <div id="sellDiv" class="#00000 black">
+            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeSellDiv()">&times;</a>
+            <p class="flow-text" style="color:white;transform: translateY(-5px)">Sell</p>
+            <input type="number" name="number" placeholder="Enter the number of stocks to buy/sell" style="color: white">
+            <input type="submit" class="editable" id="submit_sell">
         </div>
 
         <div id="mySidenav" class="sidenavbar">
             <a class="links" href="#" style="font-size: 40px;">SMS</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a class="links" href='/profile/'>Portfolio</a>
-            <hr>
-            <a class="links" href='/'>Market</a>
-            <hr>
-            <a class="links" href=''>Leaderboard</a>
-            <hr>
-            <a class="links" href=''>News </a>
-            <hr>
-            <a class="links" href='/accounts/logout/'>Logout</a>
-            <hr>
+            <a class="links" href='/profile/'>Portfolio</a><hr>
+            <a class="links" href='/'>Market</a><hr>
+            <a class="links" href=''>Leaderboard</a><hr>
+            <a class="links" href=''>News </a><hr>
+            <a class="links" href='/accounts/logout/'>Logout</a><hr>
         </div>
     </div>
+    <script type="text/javascript" src="{% static 'js/gamePage.js' %}"></script>
+
 
 </body>
 {% endblock %}

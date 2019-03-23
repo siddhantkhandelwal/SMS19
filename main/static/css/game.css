@@ -1,3 +1,10 @@
+*
+{
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+
 .heading
 {
     font-family: 'Raleway', sans-serif;
@@ -5,7 +12,149 @@
 
 #indian:hover
 {
-    background-color: blue;
+    background-color: #8e24aa;
+}
+
+#international:hover
+{
+    background-color: #8e24aa;
+}
+
+.accordion
+{
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+    border-radius: 20px;
+}
+
+.panel
+{
+    position: relative;
+    top: -3.1vh;
+    background: grey;
+    border-radius: 10px;
+    background: purple;
+}
+
+.buy, .sell
+{
+    margin-bottom: 5px;
+    background: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#buyDiv
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30vw;
+    height: auto;
+    padding: 10px;
+    border-radius: 10px;
+    display: none;
+}
+
+#sellDiv
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30vw;
+    height: auto;
+    padding: 10px;
+    border-radius: 10px;
+    display: none;
+}
+
+#rightNav
+{
+    width: 10vw;
+    height: 100vh;
+    background: #ccc;
+    position: absolute;
+    top: 0;
+    left: 100vw;
+    animation: openOnClick 0.5s ease-out;
+    animation-fill-mode: forwards;
+}
+
+.editable
+{
+    width: 100%;
+    padding: 5px;
+    background: green;
+    color: white;
+}
+
+.closeBuySellDiv
+{
+    color: white;
+    position: relative;
+    left: 27vw;
+    font-size: 20px;
+}
+
+i.icon-blue {
+    color: green;
+}
+
+.nameOfStock, .material-icons
+{
+    display: inline-block;
+}
+
+.upColor {
+    color: rgb(0,180,0);
+}
+
+.downColor {
+    color: rgb(180, 0, 0);
+}
+
+@keyframes openOnClick {
+    0% {
+        left: 100vw;
+        width: 0;
+    }
+    100% {
+        left: 80vw;
+        width: 20vw;
+    }
+}
+
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+.active, .accordion:hover {
+    background-color: #ccc;
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+#mySidenav:hover {
+    color: #9c27b0;
 }
 
 @media screen and (max-width: 400px) {
