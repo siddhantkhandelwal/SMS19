@@ -2,8 +2,8 @@ from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from main.models import UserProfile
 from django.shortcuts import redirect
 
-class SocialAccountAdapter(DefaultSocialAccountAdapter):
 
+class SocialAccountAdapter(DefaultSocialAccountAdapter):
 
     def save_user(self, request, sociallogin, form=None):
         user = DefaultSocialAccountAdapter.save_user(
@@ -15,4 +15,3 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
             new_user.save()
         # print("Inside the adapter")
         return redirect('/')
-        
