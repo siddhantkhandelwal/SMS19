@@ -40,3 +40,17 @@ function openNav() {
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
+
+
+function get_stock_purchased() {
+    var data = $.ajax({
+        type: 'GET',
+        url: '/get_stock_purchased',
+        data: {},
+        success: function (data) {
+			console.log(data);
+        }
+    });
+}
+
+get_stock_purchased();
