@@ -33,12 +33,9 @@ console.log(x);
 
 function get_stock_list(code) {
     var data = $.ajax({
-        type: 'POST',
-        url: '/',
-        data: {
-            csrfmiddlewaretoken: x,
-            "code": code
-        },
+        type: 'GET',
+        url: `/get_game_data/${code}`, //Do not edit these special commas. Everything will go to shit.
+        data: {},
         success: function (data) {
             console.log(data);
             stock_list = data.stock_list;
