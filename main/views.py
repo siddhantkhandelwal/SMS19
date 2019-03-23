@@ -236,19 +236,19 @@ def sell_stock(request, pk):
                              'message': 'Invalid Stock PK/User does not own any units of given Stock'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-        units = request.POST['units']
+        units = int(request.POST['units'])
         cost = stock_to_sell.stock_price * units
 
         if (units > stock_to_sell.units):
             response_data = {'status': 'error',
-                             'message': 'Insufficient No. of Stocks to Sell'}
+                             'message': 'Insufficient No. of Units of Stocks Owned'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
         try:
             user_profile.balance = F('balance') + cost
             user_profile.save()
             user_profile.refresh_from_db()
-            stock = F('available_no_stocks') - units
+            stock = F('available_no_stocks') + units
             stock.save()
             stock.refresh_from_db()
             transaction = Transaction.objects.create(
@@ -354,4 +354,3 @@ def delete_newspost(request, pk):
         response_data = {'status': 'error',
                          'message': 'Error in Deleting NewsPost'}
         return HttpResponse(json.dumps(response_data), content_type="application/json")
-
