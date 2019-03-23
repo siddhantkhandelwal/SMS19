@@ -145,14 +145,12 @@ def user_forgot_password(request):
 
 
 @login_required
-@csrf_exempt
 def game(request):
-    if request.method == 'POST':
-        code = 'BSE'
-        try:
-            code = request.POST.get('code')
-        except:
-            pass
+    return render(request, 'main/game.html')
+
+@login_required
+def get_game_data(request, code):
+    try:
         stocks = Stock.objects.filter(market_type = code)
         stock_list = []
         for stock in stocks:
@@ -160,9 +158,8 @@ def game(request):
             stock_list.append(s_list)
         data = {'stock_list':stock_list}
         return JsonResponse(data)
-    else:
-        return render(request, 'main/game.html')
-
+    except:
+        return JsonResponse({'message':'dafuq are you trying to do'})
 
 @login_required
 def profile(request):
