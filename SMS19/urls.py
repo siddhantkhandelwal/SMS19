@@ -31,5 +31,8 @@ urlpatterns = [
     path('buy_stock/<pk>/', views.buy_stock, name='buy_stock'),
     path('sell_stock/<pk>/', views.sell_stock, name='sell_stock'),
     path('accounts/', include('allauth.urls')),
-    path('test/', views.test, name="test")
+    path('test/', views.test, name="test"),
+    path('get_stock_purchased', views.get_stock_purchased, name="get_stock_purchased"),
+    path('get_news_post', views.get_news_post, name="get_news_post"),
+    path('news', views.news, name="news")
 ]
