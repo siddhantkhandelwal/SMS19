@@ -37,23 +37,9 @@ function get_stock_list(code) {
           "code": code
       },
       success: function (data) {
-          console.log(data);
-          
+          console.log(data); 
       }
   });
 }
-
-
 document.getElementById("indian1").addEventListener("click", function(){get_stock_list("BSE");});
 document.getElementById("international1").addEventListener("click", function(){get_stock_list("NYM");});
-
-
-
-
-
-
-
-
-
-
-
