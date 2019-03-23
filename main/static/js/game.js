@@ -28,12 +28,15 @@ function openSellDiv() {
 function closeSellDiv() {
     document.getElementById("sellDiv").style.display = "none";
 }
+var x = document.getElementById("csrf").getAttribute("value");
+console.log(x);
 
 function get_stock_list(code) {
     var data = $.ajax({
         type: 'POST',
         url: '/',
         data: {
+            csrfmiddlewaretoken: x,
             "code": code
         },
         success: function (data) {

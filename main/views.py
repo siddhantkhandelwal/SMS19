@@ -145,7 +145,6 @@ def user_forgot_password(request):
 
 
 @login_required
-@csrf_exempt
 def game(request):
     if request.method == 'POST':
         code = 'BSE'
