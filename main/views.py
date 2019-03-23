@@ -176,12 +176,13 @@ def buy_stock(request, pk):
             response_data = {'status': 'error',
                              'message': 'User Does not Exist'}
             return JsonResponse(response_data)
-        try:
-            stock_to_buy = Stock.objects.get(pk=pk)
-        except:
-            response_data = {'status': 'error',
-                             'message': 'Invalid Stock PK'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
+        # try:
+        pk = int(pk)
+        stock_to_buy = Stock.objects.get(pk=pk)
+        # except:
+        #     response_data = {'status': 'error',
+        #                      'message': 'Invalid Stock PK'}
+        #     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
         units = int(request.POST['units'])
         cost = stock_to_buy.stock_price * units
@@ -197,7 +198,11 @@ def buy_stock(request, pk):
             stock_to_buy.available_no_units = F('available_no_units') - units
             stock_to_buy.save()
             stock_to_buy.refresh_from_db()
-            transaction = Transaction.objects.create(stock=stock_to_buy, owner=user_profile, units=units, cost=cost, type='B')
+            # transaction = Transaction.objects.create(units=units, cost=cost, type='B')
+            # transaction.refresh_from_db()
+            # transaction.owner = user_profile
+            # transaction.stock = stock_to_buy
+            # transaction.save()
             try:
                 stock_purchased = StockPurchased.objects.create(
                     owner=user_profile, stock=stock_to_buy)
@@ -208,13 +213,13 @@ def buy_stock(request, pk):
                 stock_purchased = StockPurchased.objects.create(owner=user_profile, stock=stock_to_buy, units=units)
                 response_data = {'status': 'success',
                                  'message': f'{user_profile.user.username} has successfully purchased {units} units of  {stock_to_buy.stock_name} on {transaction.date_time}'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
         except:
             response_data = {'status': 'error',
                              'message': 'Error in Transaction'}
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@csrf_exempt
 @login_required
 def sell_stock(request, pk):
     if request.method == 'POST':
