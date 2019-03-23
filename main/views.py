@@ -10,6 +10,7 @@ from django.conf import settings
 import json
 import re
 from django.db.models import F
+import random
 
 special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
 
@@ -203,8 +204,10 @@ def buy_stock(request, pk):
             stock_to_buy.available_no_units = F('available_no_units') - units
             stock_to_buy.save()
             stock_to_buy.refresh_from_db()
-            transaction = Transaction.objects.create(
-                stock=stock_to_buy, owner=user_profile, units=units, cost=cost, type='B')
+            transaction_uid = random.randint(1, 10000)
+            transaction = Transaction.objects.create(uid=transaction_uid,
+                                                     stock=stock_to_buy, owner=user_profile, units=units, cost=cost, type='B')
+            transaction.refresh_from_db()
             try:
                 stock_purchased = StockPurchased.objects.create(
                     owner=user_profile, stock=stock_to_buy)
@@ -214,8 +217,9 @@ def buy_stock(request, pk):
             except:
                 stock_purchased = StockPurchased.objects.create(
                     owner=user_profile, stock=stock_to_buy, units=units)
+                stock_purchased.refresh_from_db()
                 response_data = {'status': 'success',
-                                 'message': f'{user_profile.user.username} has successfully purchased {units} units of  {stock_to_buy.stock_name} on {transaction.date_time}'}
+                                 'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name} on {transaction.date_time}'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
         except:
             response_data = {'status': 'error',

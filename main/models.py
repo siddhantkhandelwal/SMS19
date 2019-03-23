@@ -25,8 +25,9 @@ class Stock(models.Model):
 
 
 class Transaction(models.Model):
-    stock = models.ManyToManyField(Stock)
-    owner = models.ManyToManyField(UserProfile)
+    uid = models.IntegerField(default=0, unique=True)
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     units = models.IntegerField(default=0)
     cost = models.PositiveIntegerField(default=0)
     type = models.CharField(
