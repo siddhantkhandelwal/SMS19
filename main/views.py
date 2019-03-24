@@ -201,7 +201,8 @@ def buy_stock(request, pk):
 
         units = int(request.POST['units'])
         cost = stock_to_buy.stock_price * units
-        if (user_profile.balance < cost or units < stock_to_buy.available_no_units):
+        print(cost)
+        if (user_profile.balance < cost or units > stock_to_buy.available_no_units):
             response_data = {'status': 'error',
                              'message': 'Insufficient Balance for Transaction or Insufficient No. of Stocks to Buy'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
