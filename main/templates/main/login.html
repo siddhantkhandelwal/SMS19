@@ -1,6 +1,6 @@
 <html>
-{% load staticfiles %}
-{% load socialaccount %}
+  {% load staticfiles %}
+  {% load socialaccount %}
 
   <head>
     <meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
@@ -30,51 +30,51 @@
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 
   </head>
+<body>
+  <form method="POST" action="{% url 'user_login' %}">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col s12 l4 offset-l4">
+        <div class="card">
 
-{% block body %}
-<form method="POST" action="{% url 'user_login' %}">
-  {% csrf_token %}
-  <div class="row">
-    <div class="col s12 l4 offset-l4">
-      <div class="card">
-
-        <div class="card-action teal lighten-2 white-text">
-          <h3>Login</h3>
-        </div>
-
-        <div class="card-content">
-          <div class="input-field">
-            <i class="material-icons prefix">account_circle</i>
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" required />
+          <div class="card-action teal lighten-2 white-text">
+            <h3>Login</h3>
           </div>
 
-          <div class="input-field">
-            <i class="material-icons prefix">lock</i>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required />
-          </div>
+          <div class="card-content">
+            <div class="input-field">
+              <i class="material-icons prefix">account_circle</i>
+              <label for="username">Username</label>
+              <input type="text" name="username" id="username" required />
+            </div>
 
-          <div class="form-field center-align">
-            <button class="btn-large waves-effect waves-light teal lighten-2" style="width: 70%; font-size: larger"
-              onclick="getInfo()">LOGIN</button>
+            <div class="input-field">
+              <i class="material-icons prefix">lock</i>
+              <label for="password">Password</label>
+              <input type="password" name="password" id="password" required />
+            </div>
+
+            <div class="form-field center-align">
+              <button class="btn-large waves-effect waves-light teal lighten-2" style="width: 70%; font-size: larger"
+                onclick="getInfo()">LOGIN</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </form>
+  <div class="row">
+    <br>
+    <a href={% url 'user_forgot_password' %}>
+      <p align="center">Forgot Password?
+    </a></p>
+    <p align="center"><a href="{% provider_login_url 'google' %}">Log In with Google</a></p>
+    <br>
+    <a href={% url 'register' %}>
+      <p align="center">Haven't registered? <button class="btn-floating teal lighten-2">
+          <i class="material-icons">add</i>
+        </button>
+    </a></p>
   </div>
-</form>
-<div class="row">
-  <br>
-  <a href={% url 'user_forgot_password' %}>
-    <p align="center">Forgot Password?
-  </a></p>
-  <p align="center"><a href="{% provider_login_url 'google' %}">Log In with Google</a></p>
-  <br>
-  <a href={% url 'register' %}>
-    <p align="center">Haven't registered? <button class="btn-floating teal lighten-2">
-        <i class="material-icons">add</i>
-      </button>
-  </a></p>
-</div>
+</body>
 </html>
