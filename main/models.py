@@ -34,9 +34,6 @@ class Transaction(models.Model):
         max_length=4, choices=(('B', 'Buy'), ('S', 'Sell')), default='B')
     date_time = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return f"{self.stock.stock_name} - {self.owner.name} - {self.units}"
-
 
 class StockPurchased(models.Model):
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
