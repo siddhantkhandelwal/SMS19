@@ -412,9 +412,10 @@ def leaderboard_data(request):
         lb_data[user_profile.user.username] = user_profile.net_worth
         sorted_lb_data = sorted(
             lb_data.items(), key=operator.itemgetter(1), reverse=True)
-    list_user_name = [x[0] for x in sorted_lb_data]
-    list_net_worth = [x[1] for x in sorted_lb_data]
-    list_rank = [i for i in range(1, 11)]
+    list_user_name = [x[0] for x in sorted_lb_data][:10]
+    list_net_worth = [x[1] for x in sorted_lb_data][:10]
+    count = len(list_net_worth)
+    list_rank = [i for i in range(1,count+1)]
     response_data = {'list_rank': list_rank,
                      'list_user_name': list_user_name,
                      'list_net_worth': list_net_worth,
