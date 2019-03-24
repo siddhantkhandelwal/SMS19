@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('', views.game, name='game'),
-    path('profile/', views.profile, name='profile'),
+    path('portfolio/', views.portfolio, name='portfolio'),
     path('add_stock/', views.add_stock, name='add_stock'),
     path('delete_stock/<pk>/', views.delete_stock, name='delete_stock'),
     path('add_newspost/', views.add_newspost, name='add_newspost'),
@@ -32,10 +32,13 @@ urlpatterns = [
     path('sell_stock/<pk>/', views.sell_stock, name='sell_stock'),
     path('accounts/', include('allauth.urls')),
     path('test/', views.test, name="test"),
-    path('get_stock_purchased', views.get_stock_purchased,
+    path('get_stock_purchased/<str:code>', views.get_stock_purchased,
          name="get_stock_purchased"),
     path('get_news_post', views.get_news_post, name="get_news_post"),
     path('news', views.news, name="news"),
+    path('leaderboard', views.leaderboard_data, name="leaderboard"),
+    path('display_leaderboard', views.display_leaderboard, name='display_leaderboard'),
     path('get_stocks_data/<str:code>',
-         views.get_stocks_data, name="get_stocks_data")
+         views.get_stocks_data, name="get_stocks_data"),
+    path('get_balance', views.get_balance, name="get_balance")
 ]
