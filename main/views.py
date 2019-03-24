@@ -201,13 +201,28 @@ def buy_stock(request, pk):
                              'message': 'Invalid Stock PK'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-        units = int(request.POST['units'])
+        try:
+            units = int(request.POST['units'])
+            assert(units > 0)
+        except:
+            response_data = {'status': 'error',
+                             'message': 'Invalid Units'}
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+
         cost = stock_to_buy.stock_price * units * stock_to_buy.conversion_rate
-        print(cost)
-        if (user_profile.balance < cost or units > stock_to_buy.available_no_units):
+
+        try:
+            assert(user_profile.balance >= cost and units <=
+                   stock_to_buy.available_no_units)
+        except:
             response_data = {'status': 'error',
                              'message': 'Insufficient Balance for Transaction or Insufficient No. of Stocks to Buy'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+        # if (user_profile.balance < cost or units > stock_to_buy.available_no_units):
+        #     response_data = {'status': 'error',
+        #                      'message': 'Insufficient Balance for Transaction or Insufficient No. of Stocks to Buy'}
+        #     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
         try:
             user_profile.balance = F('balance') - cost
@@ -268,11 +283,18 @@ def sell_stock(request, pk):
             response_data = {'status': 'error',
                              'message': 'Invalid Stock PK/User does not own any units of given Stock'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
-
-        units = int(request.POST['units'])
+        try:
+            units = int(request.POST['units'])
+            assert(units > 0)
+        except:
+            response_data = {'status': 'error',
+                             'message': 'Invalid Units'}
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
         cost = stock.stock_price * units * stock.conversion_rate
 
-        if (units > stock_to_sell.units):
+        try:
+            assert(units <= stock_to_sell.units)
+        except:
             response_data = {'status': 'error',
                              'message': 'Insufficient No. of Stocks to Sell'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
