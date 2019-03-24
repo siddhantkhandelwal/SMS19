@@ -148,12 +148,12 @@ def user_forgot_password(request):
     else:
         return render(request, 'main/user_forgot_password.html', {})
 
-
+@csrf_exempt
 @login_required
 def game(request):
     return render(request, 'main/game.html')
 
-
+@csrf_exempt
 @login_required
 def get_stocks_data(request, code):
     try:
@@ -163,12 +163,17 @@ def get_stocks_data(request, code):
             stock_data = [stock.pk, stock.stock_name, stock.stock_price,
                           stock.initial_price, stock.available_no_units, ]
             stocks_list.append(stock_data)
-        data = {'stocks_list': stocks_list}
+        current_userprofile = UserProfile.objects.get(user = request.user)
+        balance = current_userprofile.balance
+        data = {
+        'stocks_list': stocks_list,
+        'balance':balance
+        }
         return JsonResponse(data)
     except:
         return JsonResponse({'message': 'Error in Retrieving Stocks'})
 
-
+@csrf_exempt
 @login_required
 def profile(request):
     return render(request, 'main/profile.html')

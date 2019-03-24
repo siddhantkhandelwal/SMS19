@@ -6,7 +6,7 @@
         <meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>{% block title %}{% endblock %}- SMS 2019</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" type="text/css" href="{% static 'css/template.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/game.css' %}">
@@ -33,11 +33,9 @@
 
         <div class="container-fluid">
             <div class="#000000 black row" style="padding: 20px">
-                <div class="col s4" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
-                <div class="col s4 center-align" id="heading"
-                    style="color: white;font-family: 'Roboto', sans-serif;font-size:2.2vw">STOCK MARKET SIMULATION</div>
-                <div class="col s4 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;">User
-                    Balance: {{Balance}}</div><br><br>
+                <div class="col s3" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
+                <div class="col s6 center-align" id="heading">STOCK MARKET SIMULATION</div>
+                <div class="col s3 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;">User Balance: {{Balance}}</div><br><br>
                 <a href="#" id="indian" class="col s4 offset-s1 center-align" style="padding: 5px;border-radius:10px;">
                     <div class="#8e24aa purple darken-1" id="indian1"
                         style="color:white;font-family: 'Raleway', sans-serif;border-radius: 10px;">Indian</div>
@@ -83,16 +81,14 @@
         <div id="buyDiv" class="#00000 black">
             <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeBuyDiv()">&times;</a>
             <p class="flow-text" style="color:white;transform: translateY(-5px)">Buy</p>
-            <input type="number" id="number" name="number" placeholder="Units to Buy"
-                style="color: white">
+            <input type="number" id="number" name="number" placeholder="Units to Buy" style="color: white">
             <input type="submit" class="editable" id="submit_buy">
         </div>
 
         <div id="sellDiv" class="#00000 black">
             <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeSellDiv()">&times;</a>
             <p class="flow-text" style="color:white;transform: translateY(-5px)">Sell</p>
-            <input type="number" ID="number1" name="number" placeholder="Units to Sell"
-                style="color: white">
+            <input type="number" ID="number1" name="number" placeholder="Units to Sell" style="color: white">
             <input type="submit" class="editable" id="submit_sell">
         </div>
 
