@@ -80,6 +80,7 @@ def register(request):
 
         user_profile = UserProfile.objects.create(user=user)
         user_profile.name = name
+        user_profile.balance = 5000
         user_profile.save()
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('game')
@@ -214,7 +215,7 @@ def buy_stock(request, pk):
             transaction.save()
             transaction.refresh_from_db()
             try:
-                stock_purchased = StockPurchased.objects.create(
+                stock_purchased = StockPurchased.objects.get(
                     owner=user_profile, stock=stock_to_buy)
                 stock_purchased.units = F('units') + units
                 stock_purchased.save()
@@ -266,10 +267,10 @@ def sell_stock(request, pk):
             stock.available_no_stocks = F('available_no_stocks') + units
             stock.save()
             stock.refresh_from_db()
-            if(stock_to_sell.units == 1):
+            if(stock_to_sell.units == units):
                 stock_to_sell.delete()
             else:
-                stock_to_sell.units = F('units') - 1
+                stock_to_sell.units = F('units') - units
                 stock_to_sell.save()
                 stock_to_sell.refresh_from_db()
             transaction_uid = random.randint(1, 10000)
