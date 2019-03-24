@@ -21,7 +21,7 @@ function get_stock_list(code) {
             console.log(data);
             stock_list = data.stocks_list;
             balance = data.balance;
-            
+
             document.getElementsByClassName("stock_list")[0].innerHTML = "";
             for (var i = 0; i < stock_list.length; i++) {
                 s_list = stock_list[i];
@@ -42,7 +42,7 @@ function get_stock_list(code) {
 
                 var units = document.createElement("div");
                 units.setAttribute("class", "col s4 center-align ");
-                
+
                 var span2 = document.createElement("span");
                 span2.setAttribute("class", "valign");
                 span2.innerHTML = s_list[4];
@@ -64,7 +64,7 @@ function get_stock_list(code) {
                 sellButton.innerHTML = "SELL";
                 // buyButton.style.display = "none";
                 // buyButton.innerHTML = s_list;
-                
+
                 var userBalance = document.getElementById("balance");
                 userBalance.innerHTML = `User Balance: ${balance}`;
                 panel.appendChild(buyButton);
