@@ -5,6 +5,44 @@
     overflow-x: hidden;
 }
 
+#popup
+{
+    width: 70vw;
+    background: black;
+    color: white;
+    position: absolute;
+    top: 80vh;
+    left: 15vw;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: block;
+    border-radius: 5px;
+    background: purple;
+}
+
+.addAnimation
+{
+    animation: comeToPost 2.5s linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes comeToPost
+{
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 #heading
 {
     color: white;
@@ -18,6 +56,7 @@
 }
 
 #international:hover
+
 {
     background-color: #8e24aa;
 }
@@ -166,6 +205,16 @@ i.icon-blue {
 
 #mySidenav:hover {
     color: #9c27b0;
+}
+
+.popup
+{
+    width: 70vw;
+    height: 10vh;
+    background: #eee;
+    position: absolute;
+    top: 80vh;
+    left: 15vw
 }
 
 @media screen and (max-width: 500px) {

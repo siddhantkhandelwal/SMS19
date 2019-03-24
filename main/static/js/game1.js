@@ -134,7 +134,13 @@ function buyStock(pk, units) {
         },
         success: function (data) {
             console.log(data);
+            document.getElementById("popup").style.display = "block";
+            document.getElementById("popup").innerHTML = data.message;
+            setTimeout(function () {
+                document.getElementById("popup").style.display = "none";
 
+            }, 2500);
+            getBalance();
         }
     });
 }
@@ -167,6 +173,9 @@ function getBalance() {
 }
 
 getBalance();
+function hideBuyDiv() {
+    document.getElementById("buyDiv").style.display = "none";
+}
    // buyButton.addEventListener('click', function() {
                 //     document.getElementById("buyDiv").style.display = "block";
                 //     document.getElementById("submit_buy").setAttribute("data-button-type", s_list[0]);

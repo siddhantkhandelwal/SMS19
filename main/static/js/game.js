@@ -132,6 +132,7 @@ function get_stock_list(code) {
                 console.log("sell");
                 sellStock(parseInt(alpha), parseInt(inputNumber));
                 getBalance();
+                hideSellDiv();
             });
 
             //FOR SUBMITTING BUY REQUEST
@@ -142,6 +143,7 @@ function get_stock_list(code) {
                 console.log("buy");
                 buyStock(parseInt(alpha), parseInt(inputNumber));
                 getBalance();
+                hideBuyDiv();
             });
         }
     });
@@ -160,7 +162,12 @@ function buyStock(pk, units) {
         },
         success: function (data) {
             console.log(data);
-
+            document.getElementById("popup").style.display = "block";
+            document.getElementById("popup").innerHTML = data.message;
+            setTimeout(function () {
+                document.getElementById("popup").style.display = "none";
+            }, 2500);
+            getBalance();
         }
     });
 }
@@ -174,7 +181,12 @@ function sellStock(pk, units) {
         },
         success: function (data) {
             console.log(data);
-
+            document.getElementById("popup").style.display = "block";
+            document.getElementById("popup").innerHTML = data.message;
+            setTimeout(function () {
+                document.getElementById("popup").style.display = "none";
+            }, 2500);
+            getBalance();
         }
     });
 }
@@ -193,6 +205,15 @@ function getBalance() {
 }
 
 getBalance();
+function hideBuyDiv() {
+    document.getElementById("buyDiv").style.display = "none";
+
+}
+
+function hideSellDiv() {
+    document.getElementById("sellDiv").style.display = "none";
+
+}
 
    // buyButton.addEventListener('click', function() {
                 //     document.getElementById("buyDiv").style.display = "block";

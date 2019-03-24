@@ -35,7 +35,8 @@
 			<div class="#000000 black row" style="padding: 20px">
 				<div class="col s3" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
 				<div class="col s6 center-align" id="heading">MARKET</div>
-				<div class="col s3 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;"></div><br><br>
+				<div class="col s3 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;">
+				</div><br><br>
 				<a href="#" id="indian" class="col s4 offset-s1 center-align" style="padding: 5px;border-radius:10px;">
 					<div class="#8e24aa purple darken-1" id="indian1"
 						style="color:white;font-family: 'Raleway', sans-serif;border-radius: 10px;">Indian</div>
@@ -100,6 +101,9 @@
 		</div>
 		</div>
 		<div class="csrf_token" id="csrf" name={%csrf_token%}></div>
+		<div id="popup">
+			this is the popup div
+		</div>
 		<script src="https://code.jquery.com/jquery-3.3.1.js"
 			integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="{% static 'js/game1.js' %}"></script>
