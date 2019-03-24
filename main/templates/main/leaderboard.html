@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html>
+    {% load static %}
+
     <head>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -8,6 +10,7 @@
         <link rel="stylesheet" href="static/css/leaderboard.css">
 
     </head>
+
     <body>
 
         <div class="container">
@@ -46,15 +49,21 @@
         <div id="mySidenav" class="sidenavbar">
             <a class="links" href="#" style="font-size: 40px;">SMS</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a class="links" href='/profile/'>Portfolio</a><hr>
-            <a class="links" href='/'>Market</a><hr>
-            <a class="links" href=''>Leaderboard</a><hr>
-            <a class="links" href=''>News </a><hr>
-            <a class="links" href='/accounts/logout/'>Logout</a><hr>
+            <a class="links" href='/profile/'>Portfolio</a>
+            <hr>
+            <a class="links" href='/'>Market</a>
+            <hr>
+            <a class="links" href=''>Leaderboard</a>
+            <hr>
+            <a class="links" href=''>News </a>
+            <hr>
+            <a class="links" href='/accounts/logout/'>Logout</a>
+            <hr>
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.js"
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
         <script src="{% static 'js/leaderboard.js' %}"></script>
 
     </body>
+
 </html>

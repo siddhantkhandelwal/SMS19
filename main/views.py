@@ -17,10 +17,6 @@ special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
 CONST_RATE_INCREASE = 0.01
 
 
-@login_required
-def display_leaderboard(request):
-    return render(request, 'main/leaderboard.html')
-
 @csrf_exempt
 def get_stock_purchased(request):
     user_profile = UserProfile.objects.get(user=request.user)
@@ -154,12 +150,10 @@ def user_forgot_password(request):
         return render(request, 'main/user_forgot_password.html', {})
 
 
-
 @csrf_exempt
 @login_required
 def game(request):
     return render(request, 'main/game.html')
-
 
 
 @csrf_exempt
@@ -416,5 +410,18 @@ def leaderboard_data(request):
                              'message': 'Error in Calculating Net Worth'}
             return JsonResponse(response_data)
         lb_data[user_profile.user.username] = user_profile.net_worth
-        sorted_lb_data = sorted(lb_data.items(), key=operator.itemgetter(1))
-    return JsonResponse(sorted_lb_data)
+        sorted_lb_data = sorted(
+            lb_data.items(), key=operator.itemgetter(1), reverse=True)
+    list_user_name = [x[0] for x in sorted_lb_data]
+    list_net_worth = [x[1] for x in sorted_lb_data]
+    list_rank = [i for i in range(1, 11)]
+    response_data = {'list_rank': list_rank,
+                     'list_user_name': list_user_name,
+                     'list_net_worth': list_net_worth,
+                     }
+    return JsonResponse(response_data)
+
+
+@login_required
+def display_leaderboard(request):
+    return render(request, 'main/leaderboard.html')
