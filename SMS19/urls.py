@@ -40,6 +40,7 @@ urlpatterns = [
          name="get_stock_purchased"),
     path('get_news_post', views.get_news_post, name="get_news_post"),
     path('news', views.news, name="news"),
+    path('leaderboard', views.leaderboard_data, name="leaderboard"),
     path('get_stocks_data/<str:code>',
          views.get_stocks_data, name="get_stocks_data")
 ]

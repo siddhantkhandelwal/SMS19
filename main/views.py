@@ -11,8 +11,10 @@ import json
 import re
 from django.db.models import F
 import random
+import operator
 
 special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
+CONST_RATE_INCREASE = 0.1
 
 
 @csrf_exempt
@@ -80,7 +82,6 @@ def register(request):
 
         user_profile = UserProfile.objects.create(user=user)
         user_profile.name = name
-        user_profile.balance = 5000
         user_profile.save()
         login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('game')
@@ -194,7 +195,7 @@ def buy_stock(request, pk):
 
         units = int(request.POST['units'])
         cost = stock_to_buy.stock_price * units
-        if (user_profile.balance < cost and units < stock_to_buy.available_no_units):
+        if (user_profile.balance < cost or units < stock_to_buy.available_no_units):
             response_data = {'status': 'error',
                              'message': 'Insufficient Balance for Transaction or Insufficient No. of Stocks to Buy'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
@@ -224,6 +225,7 @@ def buy_stock(request, pk):
                 stock_purchased = StockPurchased.objects.create(
                     owner=user_profile, stock=stock_to_buy, units=units)
                 stock_purchased.refresh_from_db()
+                return HttpResponse(json.dumps(response_data), content_type="application/json")
             response_data = {'status': 'success',
                              'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name} on {transaction.date_time}'}
         except:
@@ -381,3 +383,24 @@ def delete_newspost(request, pk):
         response_data = {'status': 'error',
                          'message': 'Error in Deleting NewsPost'}
         return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+@login_required
+def leaderboard_data(request):
+    lb_data = {}
+    for user_profile in UserProfile.objects.all():
+        try:
+            net_worth = 0
+            user_stocks_purchased = StockPurchased.objects.filter(
+                owner=user_profile)
+            for stock_purchased in user_stocks_purchased:
+                net_worth += stock_purchased.stock.stock_price
+            net_worth += user_profile.balance
+            user_profile.net_worth = net_worth
+        except:
+            response_data = {'status': 'error',
+                             'message': 'Error in Calculating Net Worth'}
+            return JsonResponse(response_data)
+        lb_data[user_profile.user.username] = user_profile.net_worth
+        sorted_lb_data = sorted(lb_data.items(), key=operator.itemgetter(1))
+    return JsonResponse(sorted_lb_data)
