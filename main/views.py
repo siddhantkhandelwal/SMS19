@@ -148,12 +148,12 @@ def user_forgot_password(request):
     else:
         return render(request, 'main/user_forgot_password.html', {})
 
-
+@csrf_exempt
 @login_required
 def game(request):
     return render(request, 'main/game.html')
 
-
+@csrf_exempt
 @login_required
 def get_stocks_data(request, code):
     try:
@@ -168,7 +168,7 @@ def get_stocks_data(request, code):
     except:
         return JsonResponse({'message': 'Error in Retrieving Stocks'})
 
-
+@csrf_exempt
 @login_required
 def profile(request):
     return render(request, 'main/profile.html')
