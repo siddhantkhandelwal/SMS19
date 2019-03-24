@@ -35,7 +35,7 @@
             <div class="#000000 black row" style="padding: 20px">
                 <div class="col s3" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
                 <div class="col s6 center-align" id="heading">STOCK MARKET SIMULATION</div>
-                <div class="col s3 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;">User Balance: {{Balance}}</div><br><br>
+                <div class="col s3 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;">User Balance: {{balance}}</div><br><br>
                 <a href="#" id="indian" class="col s4 offset-s1 center-align" style="padding: 5px;border-radius:10px;">
                     <div class="#8e24aa purple darken-1" id="indian1"
                         style="color:white;font-family: 'Raleway', sans-serif;border-radius: 10px;">Indian</div>
@@ -49,12 +49,14 @@
 
             <div class="container">
                 <div class="row #ab47bc purple lighten-1 hoverable z-depth-2">
-                    <div class="col s4 center-align offset-s2 flow-text white-text"
+                    <div class="col s4 center-align flow-text white-text"
                         style="font-family: 'Raleway', sans-serif;">STOCK NAME</div>
                     <div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">
                         STOCK PRICE</div>
+                    <div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">UNITS</div>
                 </div>
 
+                
                 <div class="stock_list">
                     <div class="accordion row #e1bee7 purple lighten-4">
                         <div class="col s4 center-align offset-s2">
@@ -71,8 +73,6 @@
                         <button class="buy col s2 offset-s3" onclick="openBuyDiv()" style="padding: 7px">BUY</button>
                         <button class="sell col s2 offset-s2" onclick="openSellDiv()" style="padding: 7px">SELL</button>
                     </div>
-
-
                 </div>
             </div>
 
