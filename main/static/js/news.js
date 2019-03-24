@@ -4,7 +4,7 @@ function get_news() {
         url: '/get_news_post',
         data: {},
         success: function (data) {
-			console.log(data);
+            console.log(data);
         }
     });
 }

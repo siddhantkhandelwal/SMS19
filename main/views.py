@@ -173,7 +173,7 @@ def profile(request):
     return render(request, 'main/profile.html')
 
 
-# @login_required
+@login_required
 @csrf_exempt
 def buy_stock(request, pk):
     if request.method == 'POST':
@@ -184,6 +184,7 @@ def buy_stock(request, pk):
                              'message': 'User Does not Exist'}
             return JsonResponse(response_data)
         try:
+            pk = int(pk)
             stock_to_buy = Stock.objects.get(pk=pk)
         except:
             response_data = {'status': 'error',
@@ -205,8 +206,12 @@ def buy_stock(request, pk):
             stock_to_buy.save()
             stock_to_buy.refresh_from_db()
             transaction_uid = random.randint(1, 10000)
-            transaction = Transaction.objects.create(uid=transaction_uid,
-                                                     stock=stock_to_buy, owner=user_profile, units=units, cost=cost, type='B')
+            transaction = Transaction.objects.create(
+                uid=transaction_uid, owner=user_profile, stock=stock_to_buy)
+            transaction.units = units
+            transaction.cost = cost
+            transaction.type = 'B'
+            transaction.save()
             transaction.refresh_from_db()
             try:
                 stock_purchased = StockPurchased.objects.create(
@@ -218,15 +223,15 @@ def buy_stock(request, pk):
                 stock_purchased = StockPurchased.objects.create(
                     owner=user_profile, stock=stock_to_buy, units=units)
                 stock_purchased.refresh_from_db()
-                response_data = {'status': 'success',
-                                 'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name} on {transaction.date_time}'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
+            response_data = {'status': 'success',
+                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name} on {transaction.date_time}'}
         except:
             response_data = {'status': 'error',
                              'message': 'Error in Transaction'}
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
+@csrf_exempt
 @login_required
 def sell_stock(request, pk):
     if request.method == 'POST':
@@ -237,6 +242,7 @@ def sell_stock(request, pk):
                              'message': 'User Does not Exist'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
         try:
+            pk = int(pk)
             stock = Stock.objects.get(pk=pk)
             stock_to_sell = StockPurchased.objects.get(
                 stock=stock, owner=user_profile)
@@ -245,8 +251,8 @@ def sell_stock(request, pk):
                              'message': 'Invalid Stock PK/User does not own any units of given Stock'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-        units = request.POST['units']
-        cost = stock_to_sell.stock_price * units
+        units = int(request.POST['units'])
+        cost = stock.stock_price * units
 
         if (units > stock_to_sell.units):
             response_data = {'status': 'error',
@@ -257,18 +263,29 @@ def sell_stock(request, pk):
             user_profile.balance = F('balance') + cost
             user_profile.save()
             user_profile.refresh_from_db()
-            stock = F('available_no_stocks') - units
+            stock.available_no_stocks = F('available_no_stocks') + units
             stock.save()
             stock.refresh_from_db()
+            if(stock_to_sell.units == 1):
+                stock_to_sell.delete()
+            else:
+                stock_to_sell.units = F('units') - 1
+                stock_to_sell.save()
+                stock_to_sell.refresh_from_db()
+            transaction_uid = random.randint(1, 10000)
             transaction = Transaction.objects.create(
-                stock=stock, owner=user_profile, units=units, cost=cost, type='S')
+                uid=transaction_uid, owner=user_profile, stock=stock)
+            transaction.units = units
+            transaction.cost = cost
+            transaction.type = 'S'
+            transaction.save()
+            transaction.refresh_from_db()
             response_data = {'status': 'success',
-                             'message': f'{user_profile.user.username} has successfully sold {units} units of  {stock.stock_name} on {transaction.date_time}'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
+                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully sold {units} units of {stock.stock_name} on {transaction.date_time}'}
         except:
             response_data = {'status': 'error',
                              'message': 'Error in Transaction'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 @login_required
