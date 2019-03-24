@@ -17,6 +17,10 @@ special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
 CONST_RATE_INCREASE = 0.01
 
 
+@login_required
+def display_leaderboard(request):
+    return render(request, 'main/leaderboard.html')
+
 @csrf_exempt
 def get_stock_purchased(request):
     user_profile = UserProfile.objects.get(user=request.user)
@@ -150,10 +154,12 @@ def user_forgot_password(request):
         return render(request, 'main/user_forgot_password.html', {})
 
 
+
 @csrf_exempt
 @login_required
 def game(request):
     return render(request, 'main/game.html')
+
 
 
 @csrf_exempt
@@ -166,18 +172,12 @@ def get_stocks_data(request, code):
             stock_data = [stock.pk, stock.stock_name, stock.stock_price,
                           stock.initial_price, stock.available_no_units, ]
             stocks_list.append(stock_data)
-        current_userprofile = UserProfile.objects.get(user=request.user)
-        balance = current_userprofile.balance
-        data = {
-            'stocks_list': stocks_list,
-            'balance': balance
-        }
+        data = {'stocks_list': stocks_list}
         return JsonResponse(data)
     except:
         return JsonResponse({'message': 'Error in Retrieving Stocks'})
 
 
-@csrf_exempt
 @login_required
 def profile(request):
     return render(request, 'main/profile.html')
