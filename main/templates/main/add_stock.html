@@ -1,0 +1,44 @@
+<html>
+
+  <head>
+    <title>
+      Add Stock
+    </title>
+  </head>
+
+  <body>
+    <form method="POST" action="{% url 'add_stock'%}">
+      {% csrf_token %}
+      <div class="input-field">
+        <label for="stock_name">Stock Name</label>
+        <input type="text" id="stock_name" name="stock_name" required />
+      </div>
+      <div class="input-field">
+        <label for="initial_price">Initial Price</label>
+        <input type="number" id="initial_price" name="initial_price" required />
+      </div>
+      <div class="input-field">
+        <label for="available_no_units">Available No. Units</label>
+        <input type="number" id="available_no_units" name="available_no_units" required />
+      </div>
+      <div class="input-field">
+        <label for="market_type">Market Type</label>
+        <select name="market_type" required>
+          <option value="BSE">BSE</option>
+          <option value="NYM">NYM</option>
+        </select>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <br>Last Five Added
+    {% for stock in last_five_added %}
+    <br>
+    {{stock.id}}.
+    {{stock.stock_name}}
+    {{stock.initial_price}}
+    {{stock.maket_type}}
+    <a href="{% url 'delete_stock' stock.id %}">Delete</a>
+    {% endfor %}
+  </body>
+
+</html>

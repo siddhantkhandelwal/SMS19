@@ -14,16 +14,32 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from main import views
 
 
 urlpatterns = [
-    path('accounts/register/', views.register, name='register'),
-    path('accounts/login/', views.user_login, name='user_login'),
+
     path('accounts/logout/', views.user_logout, name='user_logout'),
     path('accounts/forgot_password/', views.user_forgot_password,
          name='user_forgot_password'),
     path('admin/', admin.site.urls),
     path('', views.game, name='game'),
+    path('profile/', views.profile, name='profile'),
+    path('add_stock/', views.add_stock, name='add_stock'),
+    path('delete_stock/<pk>/', views.delete_stock, name='delete_stock'),
+    path('add_newspost/', views.add_newspost, name='add_newspost'),
+    path('delete_newspost/<pk>/', views.delete_newspost, name='delete_newspost'),
+    path('buy_stock/<pk>/', views.buy_stock, name='buy_stock'),
+    path('sell_stock/<pk>/', views.sell_stock, name='sell_stock'),
+    path('accounts/register/', views.register, name='register'),
+    path('accounts/login/', views.user_login, name='user_login'),
+    path('accounts/', include('allauth.urls')),
+    path('test/', views.test, name="test"),
+    path('get_stock_purchased', views.get_stock_purchased,
+         name="get_stock_purchased"),
+    path('get_news_post', views.get_news_post, name="get_news_post"),
+    path('news', views.news, name="news"),
+    path('get_stocks_data/<str:code>',
+         views.get_stocks_data, name="get_stocks_data")
 ]
