@@ -131,6 +131,7 @@ function get_stock_list(code) {
                 console.log(inputNumber);
                 console.log("sell");
                 sellStock(parseInt(alpha), parseInt(inputNumber));
+                getBalance();
             });
 
             //FOR SUBMITTING BUY REQUEST
@@ -140,6 +141,7 @@ function get_stock_list(code) {
                 console.log(inputNumber);
                 console.log("buy");
                 buyStock(parseInt(alpha), parseInt(inputNumber));
+                getBalance();
             });
         }
     });
@@ -177,6 +179,20 @@ function sellStock(pk, units) {
     });
 }
 
+function getBalance() {
+    var data = $.ajax({
+        type: 'GET',
+        url: `/get_balance`,
+        data: {},
+        success: function (data) {
+            console.log(data);
+            balance = data.balance;
+            document.getElementById("balance").innerHTML = "Balance: " + balance.toString();
+        }
+    });
+}
+
+getBalance();
 
    // buyButton.addEventListener('click', function() {
                 //     document.getElementById("buyDiv").style.display = "block";
