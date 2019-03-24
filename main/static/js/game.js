@@ -20,6 +20,8 @@ function get_stock_list(code) {
         success: function (data) {
             console.log(data);
             stock_list = data.stocks_list;
+            balance = data.balance;
+            
             document.getElementsByClassName("stock_list")[0].innerHTML = "";
             for (var i = 0; i < stock_list.length; i++) {
                 s_list = stock_list[i];
@@ -28,15 +30,22 @@ function get_stock_list(code) {
                 accordion.setAttribute("data-pk", s_list[0]);
 
                 var innerDiv = document.createElement("div");
-                innerDiv.setAttribute("class", "col s4 center-align offset-s2");
+                innerDiv.setAttribute("class", "col s4 center-align ");
 
                 var span = document.createElement("span");
                 span.setAttribute("class", "valign nameOfStock");
-                span.innerHTML = s_list[1]
+                span.innerHTML = s_list[1];
 
                 var price = document.createElement("div");
-                price.setAttribute("class", "col s4 center-align");
+                price.setAttribute("class", "col s4 center-align ");
                 price.innerHTML = s_list[2];
+
+                var units = document.createElement("div");
+                units.setAttribute("class", "col s4 center-align ");
+                
+                var span2 = document.createElement("span");
+                span2.setAttribute("class", "valign");
+                span2.innerHTML = s_list[4];
 
                 var panel = document.createElement("div");
                 panel.setAttribute("class", "panel row #e1bee7 purple lighten-4");
@@ -55,10 +64,15 @@ function get_stock_list(code) {
                 sellButton.innerHTML = "SELL";
                 // buyButton.style.display = "none";
                 // buyButton.innerHTML = s_list;
+                
+                var userBalance = document.getElementById("balance");
+                userBalance.innerHTML = `User Balance: ${balance}`;
                 panel.appendChild(buyButton);
                 innerDiv.appendChild(span);
                 accordion.appendChild(innerDiv);
-                accordion.appendChild(price)
+                accordion.appendChild(price);
+                accordion.appendChild(units);
+                units.appendChild(span2);
                 panel.appendChild(buyButton); panel.appendChild(sellButton);
                 document.getElementsByClassName("stock_list")[0].appendChild(accordion.cloneNode(true));
                 document.getElementsByClassName("stock_list")[0].appendChild(panel);
@@ -67,7 +81,7 @@ function get_stock_list(code) {
             var i = 0;
 
             while (i < acc.length) {
-                console.log("acd");
+                // console.log("acd");
                 acc[i].addEventListener("click", function () {
                     this.classList.toggle("active");
                     var panel = this.nextElementSibling;
@@ -88,12 +102,13 @@ function get_stock_list(code) {
             var x = 0;
 
             var alpha; //pk for buy
-            var beta; //pk for cell  ---- I don't know why I'm using different variables for buy and sell.
+            //pk for cell  ---- I don't know why I'm using different variables for buy and sell.
 
             //FOR BUY BUTTONS
             while (j < buy.length) {
-                console.log("abcd");
                 buy[j].addEventListener("click", function () {
+                    // console.log("abcd");
+                    console.log(j);
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("buyDiv").style.display = "block";
                 });
@@ -101,7 +116,7 @@ function get_stock_list(code) {
             }
             //FOR SELL BUTTONS
             while (x < sell.length) {
-                console.log("abcd");
+                // console.log("abcd");
                 sell[x].addEventListener("click", function () {
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("sellDiv").style.display = "block";
