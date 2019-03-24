@@ -14,7 +14,7 @@ import random
 import operator
 
 special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
-CONST_RATE_INCREASE = 0.1
+CONST_RATE_INCREASE = 0.01
 
 
 @csrf_exempt
@@ -149,10 +149,12 @@ def user_forgot_password(request):
     else:
         return render(request, 'main/user_forgot_password.html', {})
 
+
 @csrf_exempt
 @login_required
 def game(request):
     return render(request, 'main/game.html')
+
 
 @csrf_exempt
 @login_required
@@ -164,15 +166,16 @@ def get_stocks_data(request, code):
             stock_data = [stock.pk, stock.stock_name, stock.stock_price,
                           stock.initial_price, stock.available_no_units, ]
             stocks_list.append(stock_data)
-        current_userprofile = UserProfile.objects.get(user = request.user)
+        current_userprofile = UserProfile.objects.get(user=request.user)
         balance = current_userprofile.balance
         data = {
-        'stocks_list': stocks_list,
-        'balance':balance
+            'stocks_list': stocks_list,
+            'balance': balance
         }
         return JsonResponse(data)
     except:
         return JsonResponse({'message': 'Error in Retrieving Stocks'})
+
 
 @csrf_exempt
 @login_required
@@ -230,9 +233,13 @@ def buy_stock(request, pk):
                 stock_purchased = StockPurchased.objects.create(
                     owner=user_profile, stock=stock_to_buy, units=units)
                 stock_purchased.refresh_from_db()
-                return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+            stock_to_buy.stock_price += CONST_RATE_INCREASE * \
+                F('stock_price')*units
+
             response_data = {'status': 'success',
                              'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name} on {transaction.date_time}'}
+
         except:
             response_data = {'status': 'error',
                              'message': 'Error in Transaction'}
@@ -288,6 +295,8 @@ def sell_stock(request, pk):
             transaction.type = 'S'
             transaction.save()
             transaction.refresh_from_db()
+            stock_to_buy.stock_price -= CONST_RATE_INCREASE * \
+                F('stock_price')*units
             response_data = {'status': 'success',
                              'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully sold {units} units of {stock.stock_name} on {transaction.date_time}'}
         except:
