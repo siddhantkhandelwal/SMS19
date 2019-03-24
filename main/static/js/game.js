@@ -15,11 +15,11 @@ console.log(x);
 function get_stock_list(code) {
     var data = $.ajax({
         type: 'GET',
-        url: `/get_stocks_data/${code}`, //Do not edit these special commas. Everything will go to shit.
+        url: `/get_stock_purchased/${code}`, //Do not edit these special commas. Everything will go to shit.
         data: {},
         success: function (data) {
             console.log(data);
-            stock_list = data.stocks_list;
+            stock_list = data.stocks_purchased;
             balance = data.balance;
 
             document.getElementsByClassName("stock_list")[0].innerHTML = "";

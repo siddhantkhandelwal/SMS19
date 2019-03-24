@@ -36,7 +36,7 @@ urlpatterns = [
     path('accounts/login/', views.user_login, name='user_login'),
     path('accounts/', include('allauth.urls')),
     path('test/', views.test, name="test"),
-    path('get_stock_purchased', views.get_stock_purchased,
+    path('get_stock_purchased/<str:code>', views.get_stock_purchased,
          name="get_stock_purchased"),
     path('get_news_post', views.get_news_post, name="get_news_post"),
     path('news', views.news, name="news"),
