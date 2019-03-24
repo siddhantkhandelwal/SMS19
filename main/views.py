@@ -31,6 +31,10 @@ def get_stock_purchased(request):
     response = {'stocks_purchased': list_stocks_purchased}
     return JsonResponse(response)
 
+def get_balance(request):
+    userprofile = UserProfile.objects.get(user=request.user)
+    balance = userprofile.balance
+    return JsonResponse({'balance':balance})
 
 @csrf_exempt
 def get_news_post(request):
@@ -173,8 +177,8 @@ def get_stocks_data(request, code):
 
 
 @login_required
-def profile(request):
-    return render(request, 'main/profile.html')
+def portfolio(request):
+    return render(request, 'main/portfolio.html')
 
 
 @login_required
