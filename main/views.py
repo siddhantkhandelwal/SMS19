@@ -31,10 +31,12 @@ def get_stock_purchased(request):
     response = {'stocks_purchased': list_stocks_purchased}
     return JsonResponse(response)
 
+
 def get_balance(request):
     userprofile = UserProfile.objects.get(user=request.user)
     balance = userprofile.balance
-    return JsonResponse({'balance':balance})
+    return JsonResponse({'balance': balance})
+
 
 @csrf_exempt
 def get_news_post(request):
@@ -420,7 +422,7 @@ def leaderboard_data(request):
     list_user_name = [x[0] for x in sorted_lb_data][:10]
     list_net_worth = [x[1] for x in sorted_lb_data][:10]
     count = len(list_net_worth)
-    list_rank = [i for i in range(1,count+1)]
+    list_rank = [i for i in range(1, count+1)]
     response_data = {'list_rank': list_rank,
                      'list_user_name': list_user_name,
                      'list_net_worth': list_net_worth,

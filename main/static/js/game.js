@@ -45,7 +45,7 @@ function get_stock_list(code) {
 
                 var span2 = document.createElement("span");
                 span2.setAttribute("class", "valign");
-                span2.innerHTML = s_list[4];
+                span2.innerHTML = s_list[3];
 
                 var panel = document.createElement("div");
                 panel.setAttribute("class", "panel row #e1bee7 purple lighten-4");
