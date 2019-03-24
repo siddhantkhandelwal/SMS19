@@ -88,7 +88,7 @@ function get_stock_list(code) {
             var x = 0;
 
             var alpha; //pk for buy
-            var beta; //pk for cell  ---- I don't know why I'm using different variables for buy and sell.
+            //pk for cell  ---- I don't know why I'm using different variables for buy and sell.
 
             //FOR BUY BUTTONS
             while (j < buy.length) {
