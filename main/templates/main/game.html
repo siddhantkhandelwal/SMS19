@@ -41,21 +41,22 @@
 				<div class="col s3 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;">
 				</div><br><br>
 				<a href="#" id="indian" class="col s4 offset-s1 center-align" style="padding: 5px;border-radius:10px;">
-                    <div class="#8e24aa purple darken-1" id="indian1"
-                        style="color:white;font-family: 'Raleway', sans-serif;border-radius: 10px;">Indian</div>
-                </a>
-                <a href="#" id="international" class="col s4 offset-s2 center-align"
-                    style="color: white;padding: 5px;border-radius:10px;">
-                    <div class="#8e24aa purple darken-1" id="international1"
-                        style="font-family: 'Raleway', sans-serif;border-radius: 10px;">International</div>
-                </a>
+					<div class="#8e24aa purple darken-1" id="indian1"
+						style="color:white;font-family: 'Raleway', sans-serif;border-radius: 10px;">Indian</div>
+				</a>
+				<a href="#" id="international" class="col s4 offset-s2 center-align"
+					style="color: white;padding: 5px;border-radius:10px;">
+					<div class="#8e24aa purple darken-1" id="international1"
+						style="font-family: 'Raleway', sans-serif;border-radius: 10px;">International</div>
+				</a>
 			</div>
 
 			<div class="container">
 				<div class="row #ab47bc purple lighten-1 hoverable z-depth-2">
 					<div class="col s4 center-align offset-s2 flow-text white-text"
 						style="font-family: 'Raleway', sans-serif;">STOCK NAME</div>
-					<div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">STOCK PRICE
+					<div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">
+						STOCK PRICE
 					</div>
 				</div>
 
@@ -70,7 +71,8 @@
 			<a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeBuyDiv()">&times;</a>
 			<p class="flow-text" style="color:white;transform: translateY(-5px)">Buy</p>
 			<p id="buyInfo" class="white-text"></p>
-			<input type="number" min="0" step="1" id="number" name="number" placeholder="Units to Buy" style="color: white">
+			<input type="number" min="0" step="1" id="number" name="number" placeholder="Units to Buy"
+				style="color: white">
 			<input type="submit" class="editable" id="submit_buy">
 		</div>
 
@@ -81,7 +83,7 @@
 			<hr>
 			<a class="links" href='/'>Market</a>
 			<hr>
-			<a class="links" href='/display_leaderboard/'>Leaderboard</a>
+			<a class="links" href='/display_leaderboard'>Leaderboard</a>
 			<hr>
 			<a class="links" href=''>News </a>
 			<hr>
@@ -98,7 +100,7 @@
 		<script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
 
 		<script language="javascript" type="text/javascript">
-			$(window).load(function() {
+			$(window).load(function () {
 				$('.loader').hide();
 			});
 		</script>

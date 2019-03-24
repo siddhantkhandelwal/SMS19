@@ -1,27 +1,23 @@
-*
-{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
 }
 
-body
-{
-    background: #eee;
+body {
+  background: #eee;
 }
 
-.heading
-{
-    font-family: 'Baloo Chettan', cursive;
-    position: absolute;
-    top: 5%;
-    left: 50%;
-    transform: translateX(-50%);
+.heading {
+  font-family: 'Baloo Chettan', cursive;
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.bottom
-{
-    font-size: 4vw;
-    font-family: 'Exo', sans-serif;
+.bottom {
+  font-size: 4vw;
+  font-family: 'Exo', sans-serif;
 }
 
 .sidenavbar {
@@ -61,16 +57,14 @@ body
 }
 
 @media screen and (max-width: 1040px) {
-    .heading
-    {
-        position: absolute;
-        top: 2%;
-    }
+  .heading {
+    position: absolute;
+    top: 2%;
+  }
 }
 
 @media screen and (max-width: 450px) {
-    .bottom
-    {
-        font-size: 5vw;
-    }
+  .bottom {
+    font-size: 5vw;
+  }
 }

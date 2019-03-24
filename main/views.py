@@ -25,7 +25,8 @@ def get_stock_purchased(request, code):
     for stock_purchased in stocks_purchased:
         if stock_purchased.stock.market_type == code:
             units = stock_purchased.units
-            stock_data = [stock_purchased.stock.pk, stock_purchased.stock.stock_name, stock_purchased.stock.stock_price, units]
+            stock_data = [stock_purchased.stock.pk, stock_purchased.stock.stock_name,
+                          stock_purchased.stock.stock_price, units]
             list_stocks_purchased.append(stock_data)
     response = {'stocks_purchased': list_stocks_purchased}
     return JsonResponse(response)
@@ -175,7 +176,6 @@ def get_stocks_data(request, code):
         return JsonResponse(data)
     except:
         return JsonResponse({'message': 'Error in Retrieving Stocks'})
-
 
 
 @login_required

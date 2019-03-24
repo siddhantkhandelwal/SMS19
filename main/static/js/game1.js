@@ -128,7 +128,7 @@ document.getElementById("international1").addEventListener("click", function () 
 
 function buyStock(pk, units) {
 
-    if( units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
+    if (units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
         alert('Enter valid value');
         return;
     }
@@ -158,7 +158,7 @@ function sellStock(pk, units) {
 
     console.log(units);
 
-    if( units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
+    if (units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
         alert('Enter valid value');
         return;
     }

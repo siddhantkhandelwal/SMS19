@@ -1,25 +1,21 @@
-*
-{
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
+* {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
-body
-{
-    background: #eeeeee;
+body {
+  background: #eeeeee;
 }
 
-#heading
-{
+#heading {
   font-family: 'Roboto', sans-serif
 }
 
-#topHeader
-{
-    padding: 20px;
-    border-left: 2px solid black;
-    border-right: 2px solid black;
+#topHeader {
+  padding: 20px;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
 }
 
 .sidenavbar {
@@ -58,23 +54,21 @@ body
   margin-left: 50px;
 }
 
-.change
-{
-    padding: 15px;
+.change {
+  padding: 15px;
 }
 
-.change2
-{
-    position: relative;
-    padding: 10px;
-    line-height: 35px;
-    background: black;
+.change2 {
+  position: relative;
+  padding: 10px;
+  line-height: 35px;
+  background: black;
 }
 
-.row .col{
-    padding: 0 !important;
+.row .col {
+  padding: 0 !important;
 }
 
 .col {
-    overflow: hidden;
+  overflow: hidden;
 }
