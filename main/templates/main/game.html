@@ -1,74 +1,122 @@
-{% extends 'main/base.html' %}
-{% load staticfiles %}
+<html>
+    {% load static %}
 
-{% block title %}
-Game
-{% endblock %}
+    <head>
 
-{% block body %}
-<body>
+        <meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title %}{% endblock %}- SMS 2019</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <div class="container-fluid">
-        <div class="#000000 black row" style="padding: 20px">
-            <div class="col s4" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
-            <div class="col s4 center-align" id="heading" style="color: white;font-family: 'Roboto', sans-serif;font-size:2.2vw">STOCK MARKET SIMULATION</div>
-            <div class="col s4 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;">User Balance: {{Balance}}</div><br><br>
-            <a href="/" id="indian" class="col s4 offset-s1 center-align" style="padding: 5px;border-radius:10px;">
-                <div class="#8e24aa purple darken-1" style="color:white;font-family: 'Raleway', sans-serif;border-radius: 10px;">Indian</div>
-            </a>
-            <a href="/" id="international" class="col s4 offset-s2 center-align" style="color: white;padding: 5px;border-radius:10px;">
-                <div class="#8e24aa purple darken-1" style="font-family: 'Raleway', sans-serif;border-radius: 10px;">International</div>
-            </a>
-        </div>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/template.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/game.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-        <div class="container">
-            <div class="row #ab47bc purple lighten-1 hoverable z-depth-2">
-                <div class="col s4 center-align offset-s2 flow-text white-text" style="font-family: 'Raleway', sans-serif;">STOCK NAME</div>
-                <div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">STOCK PRICE</div>
+        <meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+        <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Sniglet" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:900" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    </head>
+
+    <body>
+
+        <div class="container-fluid">
+            <div class="#000000 black row" style="padding: 20px">
+                <div class="col s4" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
+                <div class="col s4 center-align" id="heading"
+                    style="color: white;font-family: 'Roboto', sans-serif;font-size:2.2vw">STOCK MARKET SIMULATION</div>
+                <div class="col s4 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;">User
+                    Balance: {{Balance}}</div><br><br>
+                <a href="#" id="indian" class="col s4 offset-s1 center-align" style="padding: 5px;border-radius:10px;">
+                    <div class="#8e24aa purple darken-1" id="indian1"
+                        style="color:white;font-family: 'Raleway', sans-serif;border-radius: 10px;">Indian</div>
+                </a>
+                <a href="#" id="international" class="col s4 offset-s2 center-align"
+                    style="color: white;padding: 5px;border-radius:10px;">
+                    <div class="#8e24aa purple darken-1" id="international1"
+                        style="font-family: 'Raleway', sans-serif;border-radius: 10px;">International</div>
+                </a>
             </div>
 
-            <div class="accordion row #e1bee7 purple lighten-4">
-                <div class="col s4 center-align offset-s2">
-                    <span class="valign nameOfStock">Apple</span>
-                        <!-- <i class="small material-icons upColor" style="transform: scale(0.5) translateY(5px);"><b><b>arrow_upward</b></b>
-                        </i> -->
-                        <i class="small material-icons downColor" style="transform: scale(0.5) translateY(5px);"><b><b>arrow_downward</b></b>
-                        </i>
+            <div class="container">
+                <div class="row #ab47bc purple lighten-1 hoverable z-depth-2">
+                    <div class="col s4 center-align offset-s2 flow-text white-text"
+                        style="font-family: 'Raleway', sans-serif;">STOCK NAME</div>
+                    <div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">
+                        STOCK PRICE</div>
+                </div>
+
+                <div class="stock_list">
+                    <div class="accordion row #e1bee7 purple lighten-4">
+                        <div class="col s4 center-align offset-s2">
+                            <span class="valign nameOfStock">Apple</span>
+                            <!-- <i class="small material-icons upColor" style="transform: scale(0.5) translateY(5px);"><b><b>arrow_upward</b></b>
+                            </i> -->
+                            <i class="small material-icons downColor"
+                                style="transform: scale(0.5) translateY(5px);"><b><b>arrow_downward</b></b>
+                            </i>
+                        </div>
+                        <div class="col s4 center-align">10</div>
                     </div>
-                <div class="col s4 center-align">10</div>
+                    <div class="panel row #e1bee7 purple lighten-4">
+                        <button class="buy col s2 offset-s3" onclick="openBuyDiv()" style="padding: 7px">BUY</button>
+                        <button class="sell col s2 offset-s2" onclick="openSellDiv()" style="padding: 7px">SELL</button>
+                    </div>
+
+
+                </div>
             </div>
-            <div class="panel row #e1bee7 purple lighten-4">
-                <button class="buy col s2 offset-s3" onclick="openBuyDiv()" style="padding: 7px">BUY</button>
-                <button class="sell col s2 offset-s2" onclick="openSellDiv()" style="padding: 7px">SELL</button>
-            </div>
+
         </div>
 
         <div id="buyDiv" class="#00000 black">
             <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeBuyDiv()">&times;</a>
             <p class="flow-text" style="color:white;transform: translateY(-5px)">Buy</p>
-            <input type="number" name="number" placeholder="Enter the number of stocks to buy/sell" style="color: white">
+            <input type="number" id="number" name="number" placeholder="Units to Buy"
+                style="color: white">
             <input type="submit" class="editable" id="submit_buy">
         </div>
 
         <div id="sellDiv" class="#00000 black">
             <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeSellDiv()">&times;</a>
             <p class="flow-text" style="color:white;transform: translateY(-5px)">Sell</p>
-            <input type="number" name="number" placeholder="Enter the number of stocks to buy/sell" style="color: white">
+            <input type="number" ID="number1" name="number" placeholder="Units to Sell"
+                style="color: white">
             <input type="submit" class="editable" id="submit_sell">
         </div>
 
         <div id="mySidenav" class="sidenavbar">
             <a class="links" href="#" style="font-size: 40px;">SMS</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a class="links" href='/profile/'>Portfolio</a><hr>
-            <a class="links" href='/'>Market</a><hr>
-            <a class="links" href=''>Leaderboard</a><hr>
-            <a class="links" href=''>News </a><hr>
-            <a class="links" href='/accounts/logout/'>Logout</a><hr>
+            <a class="links" href='/profile/'>Portfolio</a>
+            <hr>
+            <a class="links" href='/'>Market</a>
+            <hr>
+            <a class="links" href=''>Leaderboard</a>
+            <hr>
+            <a class="links" href=''>News </a>
+            <hr>
+            <a class="links" href='/accounts/logout/'>Logout</a>
+            <hr>
         </div>
-    </div>
-    <script type="text/javascript" src="{% static 'js/gamePage.js' %}"></script>
+        </div>
+        <div class="csrf_token" id="csrf" name={%csrf_token%}></div>
+        <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{% static 'js/game.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
 
+    </body>
 
-</body>
-{% endblock %}
+</html>

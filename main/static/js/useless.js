@@ -7,6 +7,7 @@ function sendAnswer_Review() {
         },
         success: function (data) {
             console.log(data);
+
         }
     });
 }
