@@ -40,6 +40,9 @@ class StockPurchased(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     units = models.PositiveIntegerField(default=0)
 
+    class Meta:
+        verbose_name_plural = 'Stocks Purchased'
+
 
 class NewsPost(models.Model):
     headline = models.CharField(null=False, max_length=1000)
