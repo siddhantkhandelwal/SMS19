@@ -34,7 +34,7 @@
         <div class="container-fluid">
             <div class="#000000 black row" style="padding: 20px">
                 <div class="col s3" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
-                <div class="col s6 center-align" id="heading">STOCK MARKET SIMULATION</div>
+                <div class="col s6 center-align" id="heading">MARKET</div>
                 <div class="col s3 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;">User Balance: {{Balance}}</div><br><br>
                 <a href="#" id="indian" class="col s4 offset-s1 center-align" style="padding: 5px;border-radius:10px;">
                     <div class="#8e24aa purple darken-1" id="indian1"
@@ -69,7 +69,6 @@
                     </div>
                     <div class="panel row #e1bee7 purple lighten-4">
                         <button class="buy col s2 offset-s3" onclick="openBuyDiv()" style="padding: 7px">BUY</button>
-                        <button class="sell col s2 offset-s2" onclick="openSellDiv()" style="padding: 7px">SELL</button>
                     </div>
 
 
@@ -83,13 +82,6 @@
             <p class="flow-text" style="color:white;transform: translateY(-5px)">Buy</p>
             <input type="number" id="number" name="number" placeholder="Units to Buy" style="color: white">
             <input type="submit" class="editable" id="submit_buy">
-        </div>
-
-        <div id="sellDiv" class="#00000 black">
-            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeSellDiv()">&times;</a>
-            <p class="flow-text" style="color:white;transform: translateY(-5px)">Sell</p>
-            <input type="number" ID="number1" name="number" placeholder="Units to Sell" style="color: white">
-            <input type="submit" class="editable" id="submit_sell">
         </div>
 
         <div id="mySidenav" class="sidenavbar">
@@ -110,7 +102,7 @@
         <div class="csrf_token" id="csrf" name={%csrf_token%}></div>
         <script src="https://code.jquery.com/jquery-3.3.1.js"
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="{% static 'js/game.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/game1.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
 
     </body>
