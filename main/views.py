@@ -202,7 +202,7 @@ def buy_stock(request, pk):
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
         units = int(request.POST['units'])
-        cost = stock_to_buy.stock_price * units
+        cost = stock_to_buy.stock_price * units * stock_to_buy.conversion_rate
         print(cost)
         if (user_profile.balance < cost or units > stock_to_buy.available_no_units):
             response_data = {'status': 'error',
@@ -237,6 +237,8 @@ def buy_stock(request, pk):
 
             stock_to_buy.stock_price += CONST_RATE_INCREASE * \
                 F('stock_price')*units
+            stock_to_buy.save()
+            stock_to_buy.refresh_from_db()
 
             response_data = {'status': 'success',
                              'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name} on {transaction.date_time}'}
@@ -268,7 +270,7 @@ def sell_stock(request, pk):
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
         units = int(request.POST['units'])
-        cost = stock.stock_price * units
+        cost = stock.stock_price * units * stock.conversion_rate
 
         if (units > stock_to_sell.units):
             response_data = {'status': 'error',
@@ -296,8 +298,10 @@ def sell_stock(request, pk):
             transaction.type = 'S'
             transaction.save()
             transaction.refresh_from_db()
-            stock_to_buy.stock_price -= CONST_RATE_INCREASE * \
+            stock.stock_price -= CONST_RATE_INCREASE * \
                 F('stock_price')*units
+            stock.save()
+            stock.refresh_from_db()
             response_data = {'status': 'success',
                              'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully sold {units} units of {stock.stock_name} on {transaction.date_time}'}
         except:
@@ -313,15 +317,20 @@ def add_stock(request):
         initial_price = request.POST.get('initial_price')
         market_type = request.POST.get('market_type')
         available_no_units = request.POST.get('available_no_units')
+        if market_type == 'NYM':
+            conversion_rate = 1
+        elif market_type == 'JPN':
+            conversion_rate = 1
+        else:
+            conversion_rate = 1
         try:
             stock = Stock.objects.create(stock_name=stock_name)
             stock.initial_price = initial_price
             stock.stock_price = initial_price
             stock.market_type = market_type
             stock.available_no_units = available_no_units
+            stock.conversion_rate = conversion_rate
             stock.save()
-            response_data = {'status': 'success',
-                             'message': f'Added {stock.stock_name}, {stock.initial_price}, {stock.available_no_units}'}
         except:
             try:
                 stock.delete()

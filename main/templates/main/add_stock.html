@@ -26,6 +26,7 @@
         <select name="market_type" required>
           <option value="BSE">BSE</option>
           <option value="NYM">NYM</option>
+          <option value="JPN">BSE</option>
         </select>
       </div>
       <button type="submit">Submit</button>
@@ -37,6 +38,8 @@
     {{stock.stock_name}}
     {{stock.initial_price}}
     {{stock.maket_type}}
+    {{stock.available_no_units}}
+    {{stock.conversion_rate}}
     <a href="{% url 'delete_stock' stock.id %}">Delete</a>
     {% endfor %}
   </body>
