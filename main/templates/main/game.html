@@ -10,6 +10,7 @@
 
 		<link rel="stylesheet" type="text/css" href="{% static 'css/template.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/game.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/loader.css' %}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -31,6 +32,8 @@
 
 	<body>
 
+		<div class="loader"></div>
+
 		<div class="container-fluid">
 			<div class="#000000 black row" style="padding: 20px">
 				<div class="col s3" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
@@ -38,38 +41,25 @@
 				<div class="col s3 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;">
 				</div><br><br>
 				<a href="#" id="indian" class="col s4 offset-s1 center-align" style="padding: 5px;border-radius:10px;">
-					<div class="#8e24aa purple darken-1" id="indian1"
-						style="color:white;font-family: 'Raleway', sans-serif;border-radius: 10px;">Indian</div>
-				</a>
-				<a href="#" id="international" class="col s4 offset-s2 center-align"
-					style="color: white;padding: 5px;border-radius:10px;">
-					<div class="#8e24aa purple darken-1" id="international1"
-						style="font-family: 'Raleway', sans-serif;border-radius: 10px;">International</div>
-				</a>
+                    <div class="#8e24aa purple darken-1" id="indian1"
+                        style="color:white;font-family: 'Raleway', sans-serif;border-radius: 10px;">Indian</div>
+                </a>
+                <a href="#" id="international" class="col s4 offset-s2 center-align"
+                    style="color: white;padding: 5px;border-radius:10px;">
+                    <div class="#8e24aa purple darken-1" id="international1"
+                        style="font-family: 'Raleway', sans-serif;border-radius: 10px;">International</div>
+                </a>
 			</div>
 
 			<div class="container">
 				<div class="row #ab47bc purple lighten-1 hoverable z-depth-2">
 					<div class="col s4 center-align offset-s2 flow-text white-text"
 						style="font-family: 'Raleway', sans-serif;">STOCK NAME</div>
-					<div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">
-						STOCK PRICE</div>
+					<div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">STOCK PRICE
+					</div>
 				</div>
 
 				<div class="stock_list">
-					<!-- <div class="accordion row #e1bee7 purple lighten-4">
-						<div class="col s4 center-align offset-s2">
-							<span class="valign nameOfStock">Apple</span>
-							<i class="small material-icons downColor"
-								style="transform: scale(0.5) translateY(5px);"><b><b>arrow_downward</b></b>
-							</i>
-						</div>
-						<div class="col s4 center-align">10</div>
-					</div>
-					<div class="panel row #e1bee7 purple lighten-4">
-						<button class="buy col s2 offset-s3" onclick="openBuyDiv()" style="padding: 7px">BUY</button>
-					</div> -->
-
 
 				</div>
 			</div>
@@ -79,6 +69,7 @@
 		<div id="buyDiv" class="#00000 black">
 			<a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeBuyDiv()">&times;</a>
 			<p class="flow-text" style="color:white;transform: translateY(-5px)">Buy</p>
+			<p id="buyInfo" class="white-text"></p>
 			<input type="number" min="0" step="1" id="number" name="number" placeholder="Units to Buy" style="color: white">
 			<input type="submit" class="editable" id="submit_buy">
 		</div>
@@ -90,7 +81,7 @@
 			<hr>
 			<a class="links" href='/'>Market</a>
 			<hr>
-			<a class="links" href=''>Leaderboard</a>
+			<a class="links" href='/display_leaderboard/'>Leaderboard</a>
 			<hr>
 			<a class="links" href=''>News </a>
 			<hr>
@@ -98,7 +89,6 @@
 			<hr>
 		</div>
 		</div>
-		<div class="csrf_token" id="csrf" name={%csrf_token%}></div>
 		<div id="popup">
 			this is the popup div
 		</div>
@@ -106,6 +96,12 @@
 			integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="{% static 'js/game1.js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
+
+		<script language="javascript" type="text/javascript">
+			$(window).load(function() {
+				$('.loader').hide();
+			});
+		</script>
 
 	</body>
 

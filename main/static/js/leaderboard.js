@@ -19,7 +19,7 @@ function get_leaderboard() {
             var list_user_name = data.list_user_name;
             
             for(var i =0; i < list_rank.length; i++){
-            document.getElementsByClassName("container")[0].innerHTML += '<div class="row #ffffff white change2"> <div class="col s4 center-align">' + list_rank[i].toString() + '</div> <div class="col s4 center-align">' + list_user_name[i] + '</div> <div class="col s4 center-align">' + list_net_worth[i].toString() + '</div> </div>';
+            document.getElementsByClassName("change2")[0].innerHTML += '<div class="col s4 center-align">' + list_rank[i].toString() + '</div> <div class="col s4 center-align">' + list_user_name[i] + '</div> <div class="col s4 center-align">' + list_net_worth[i].toString() + '</div>';
         	}
         }
     });

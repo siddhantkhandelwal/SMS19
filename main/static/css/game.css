@@ -16,7 +16,7 @@
     text-align: center;
     padding-top: 5px;
     padding-bottom: 5px;
-    display: block;
+    display: none;
     border-radius: 5px;
     background: purple;
 }
@@ -219,6 +219,11 @@ i.icon-blue {
 
 @media screen and (max-width: 500px) {
     #buyDiv
+    {
+        width: 60vw;
+    }
+
+    #sellDiv
     {
         width: 60vw;
     }

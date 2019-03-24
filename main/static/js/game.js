@@ -9,8 +9,6 @@ function openSellDiv() {
 function closeSellDiv() {
     document.getElementById("sellDiv").style.display = "none";
 }
-var x = document.getElementById("csrf").getAttribute("value");
-console.log(x);
 
 function get_stock_list(code) {
     var data = $.ajax({
@@ -18,7 +16,6 @@ function get_stock_list(code) {
         url: `/get_stock_purchased/${code}`, //Do not edit these special commas. Everything will go to shit.
         data: {},
         success: function (data) {
-            console.log(data);
             stock_list = data.stocks_purchased;
             getBalance();
 
@@ -81,11 +78,9 @@ function get_stock_list(code) {
             var i = 0;
 
             while (i < acc.length) {
-                // console.log("acd");
                 acc[i].addEventListener("click", function () {
                     this.classList.toggle("active");
                     var panel = this.nextElementSibling;
-                    console.log(panel);
                     // panel.style.maxHeight = panel.scrollHeight + "px";
                     if (panel.style.height) {
                         panel.style.height = null;
@@ -107,10 +102,9 @@ function get_stock_list(code) {
             //FOR BUY BUTTONS
             while (j < buy.length) {
                 buy[j].addEventListener("click", function () {
-                    // console.log("abcd");
-                    console.log(j);
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("buyDiv").style.display = "block";
+                    document.getElementById("buyInfo").innerHTML = "Stock: " + s_list[1] + " Price:     " + s_list[0];
                 });
                 j++;
             }
@@ -120,6 +114,7 @@ function get_stock_list(code) {
                 sell[x].addEventListener("click", function () {
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("sellDiv").style.display = "block";
+                    document.getElementById("buyInfo").innerHTML = "Stock: " + s_list[1] + " Price:     " + s_list[0];
                 });
                 x++;
             }
@@ -128,9 +123,6 @@ function get_stock_list(code) {
             $("#submit_sell").off();
             $("#submit_sell").on("click", function () {
                 var inputNumber = document.getElementById("number1").value;
-                console.log(alpha);
-                console.log(inputNumber);
-                console.log("sell");
                 sellStock(parseInt(alpha), parseFloat(inputNumber));
                 getBalance();
                 hideSellDiv();
@@ -140,9 +132,6 @@ function get_stock_list(code) {
             $("#submit_buy").off();
             $("#submit_buy").on("click", function () {
                 var inputNumber = document.getElementById("number").value;
-                console.log(alpha);
-                console.log(inputNumber);
-                console.log("buy");
                 buyStock(parseInt(alpha), parseFloat(inputNumber));
                 getBalance();
                 hideBuyDiv();
@@ -169,13 +158,14 @@ function buyStock(pk, units) {
             "units": units
         },
         success: function (data) {
-            console.log(data);
             document.getElementById("popup").style.display = "block";
             document.getElementById("popup").innerHTML = data.message;
             setTimeout(function () {
                 document.getElementById("popup").style.display = "none";
             }, 2500);
             getBalance();
+            document.getElementById("number").value = "";
+            $('.closeBuyDiv').trigger('click');
         }
     });
 }
@@ -194,13 +184,14 @@ function sellStock(pk, units) {
             "units": units
         },
         success: function (data) {
-            console.log(data);
             document.getElementById("popup").style.display = "block";
             document.getElementById("popup").innerHTML = data.message;
             setTimeout(function () {
                 document.getElementById("popup").style.display = "none";
             }, 2500);
             getBalance();
+            document.getElementById("number1").value = "";
+            $('.closeSellDiv').trigger('click');
         }
     });
 }
@@ -211,7 +202,6 @@ function getBalance() {
         url: `/get_balance`,
         data: {},
         success: function (data) {
-            console.log(data);
             balance = data.balance;
             document.getElementById("balance").innerHTML = "User Balance: " + balance.toString();
         }

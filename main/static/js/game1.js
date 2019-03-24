@@ -9,8 +9,6 @@ function openSellDiv() {
 function closeSellDiv() {
     document.getElementById("sellDiv").style.display = "none";
 }
-var x = document.getElementById("csrf").getAttribute("value");
-console.log(x);
 
 function get_stock_list(code) {
     var data = $.ajax({
@@ -97,6 +95,7 @@ function get_stock_list(code) {
                     console.log(j);
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("buyDiv").style.display = "block";
+                    document.getElementById("buyInfo").innerHTML = "Stock: " + s_list[1] + " Price:     " + s_list[0];
                 });
                 j++;
             }
@@ -149,6 +148,8 @@ function buyStock(pk, units) {
 
             }, 2500);
             getBalance();
+            document.getElementById("number").value = "";
+            $('.closeBuySellDiv').trigger('click');
         }
     });
 }
@@ -170,7 +171,6 @@ function sellStock(pk, units) {
         },
         success: function (data) {
             console.log(data);
-
         }
     });
 }

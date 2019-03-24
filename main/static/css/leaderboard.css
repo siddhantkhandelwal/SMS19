@@ -10,6 +10,11 @@ body
     background: #eeeeee;
 }
 
+#heading
+{
+  font-family: 'Roboto', sans-serif
+}
+
 #topHeader
 {
     padding: 20px;
@@ -38,7 +43,7 @@ body
   color: #818181;
   display: block;
   transition: 0.3s;
-  font-family: 'Sniglet', cursive;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .sidenavbar a:hover {
@@ -55,24 +60,15 @@ body
 
 .change
 {
-    padding: 10px;
-    transform: translateY(-3.1vh);
-    border-left: 2px solid black;
-    border-right: 2px solid black;
+    padding: 15px;
 }
 
 .change2
 {
     position: relative;
-    padding: 20px;
-    transform: translateY(-6.2vh);
-    border-left: 2px solid black;
-    border-right: 2px solid black;
-}
-
-.change2:last-child
-{
-    border-bottom: 2px solid black;
+    padding: 10px;
+    line-height: 35px;
+    background: black;
 }
 
 .row .col{

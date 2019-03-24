@@ -5,36 +5,45 @@
     <head>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/loader.css' %}">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:900" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
         <meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
-        <link rel="stylesheet" href="static/css/leaderboard.css">
+        <link rel="stylesheet" href="{% static 'css/leaderboard.css' %}">
 
     </head>
 
     <body>
 
-        <div class="container">
-            <div class="row valign-wrapper #03a9f4 light-blue" id="topHeader">
-                <div class="col s1" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
-                <div class="col s11 white-text flow-text">LEADERBOARD</div>
+        <div class="loader"></div>
+
+        <div class="container-fluid">
+            <div class="row valign-wrapper black" id="topHeader">
+                <div class="col s5" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
+                <div class="col s7 white-text flow-text" id="heading">LEADERBOARD</div>
             </div>
-            <div class="row #f5f5f5 grey lighten-4 change">
+        </div>
+        <div class="container">
+            <div class="row purple change white-text">
                 <div class="col s4 center-align">RANK</div>
                 <div class="col s4 center-align">NAME</div>
                 <div class="col s4 center-align">NET WORTH</div>
             </div>
-           
+        </div>
 
+        <div class="container">
+            <div class="row #000 white-text change2"></div>
         </div>
 
         <div id="mySidenav" class="sidenavbar">
             <a class="links" href="#" style="font-size: 40px;">SMS</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a class="links" href='/profile/'>Portfolio</a>
+            <a class="links" href='/portfolio/'>Portfolio</a>
             <hr>
             <a class="links" href='/'>Market</a>
             <hr>
-            <a class="links" href=''>Leaderboard</a>
+            <a class="links" href='display_leaderboard'>Leaderboard</a>
             <hr>
             <a class="links" href=''>News </a>
             <hr>
@@ -44,6 +53,12 @@
         <script src="https://code.jquery.com/jquery-3.3.1.js"
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
         <script src="{% static 'js/leaderboard.js' %}"></script>
+
+        <script language="javascript" type="text/javascript">
+            $(window).load(function() {
+                $('.loader').hide();
+            });
+        </script>
 
     </body>
 
