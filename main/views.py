@@ -12,6 +12,7 @@ import re
 from django.db.models import F
 import random
 import operator
+from datetime import datetime
 
 special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
 CONST_RATE_CHANGE = 0.01
@@ -20,7 +21,7 @@ CONST_RATE_CHANGE = 0.01
 @csrf_exempt
 def get_stock_purchased(request, code):
     user_profile = UserProfile.objects.get(user=request.user)
-    stocks_purchased = StockPurchased.objects.filter(owner=user_profile)
+    stocks_purchased = StockPurchased.objects.filter(owner=user_profile).order_by('-pk')
     list_stocks_purchased = []
     for stock_purchased in stocks_purchased:
         if stock_purchased.stock.market_type == code:
@@ -166,7 +167,7 @@ def game(request):
 @login_required
 def get_stocks_data(request, code):
     try:
-        stocks = Stock.objects.filter(market_type=code)
+        stocks = Stock.objects.filter(market_type=code).order_by('-pk')
         stocks_list = []
         for stock in stocks:
             stock_data = [stock.pk, stock.stock_name, stock.stock_price,
@@ -198,7 +199,7 @@ def buy_stock(request, pk):
             stock_to_buy = Stock.objects.get(pk=pk)
         except:
             response_data = {'status': 'error',
-                             'message': 'Invalid Stock PK'}
+                             'message': 'Error in Fetching Stock'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
         try:
             units = int(request.POST['units'])
@@ -255,7 +256,7 @@ def buy_stock(request, pk):
             stock_to_buy.refresh_from_db()
 
             response_data = {'status': 'success',
-                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name} on {transaction.date_time}'}
+                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name}'}
 
         except:
             response_data = {'status': 'error',
@@ -332,7 +333,7 @@ def sell_stock(request, pk):
             stock.save()
             stock.refresh_from_db()
             response_data = {'status': 'success',
-                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully sold {units} units of {stock.stock_name} on {transaction.date_time}'}
+                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully sold {units} units of {stock.stock_name}'}
         except:
             response_data = {'status': 'error',
                              'message': 'Error in Transaction'}
