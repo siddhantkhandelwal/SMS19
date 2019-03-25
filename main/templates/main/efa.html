@@ -26,13 +26,13 @@
         <select name="market_type" required>
           <option value="BSE">BSE</option>
           <option value="NYM">NYM</option>
-          <option value="JPN">BSE</option>
+          <option value="JPN">JPN</option>
         </select>
       </div>
       <button type="submit">Submit</button>
     </form>
     <br>Last Five Stocks Added
-    {% for stock in last_five_added %}
+    {% for stock in last_five_added_stocks %}
     <br>
     {{stock.id}}.
     {{stock.stock_name}}
@@ -56,7 +56,7 @@
       <button type="submit">Submit</button>
     </form>
     <br>Last Five NewsPosts Added
-    {% for newspost in last_five_added %}
+    {% for newspost in last_five_added_newsposts %}
     <br>
     {{newspost.id}}.
     {{newspost.headline}}
