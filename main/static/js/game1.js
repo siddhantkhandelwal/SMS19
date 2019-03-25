@@ -20,7 +20,8 @@ function get_stock_list(code) {
         success: function (data) {
             console.log(data);
             stock_list = data.stocks_list;
-            balance = data.balance;
+            // balance = data.balance;
+            getBalance();
 
             document.getElementsByClassName("stock_list")[0].innerHTML = "";
             for (var i = 0; i < stock_list.length; i++) {
@@ -182,7 +183,7 @@ function getBalance() {
         success: function (data) {
             console.log(data);
             balance = data.balance;
-            document.getElementById("balance").innerHTML = "Balance: " + balance.toString();
+            document.getElementById("balance").innerHTML = "User Balance: " + balance.toString();
         }
     });
 }
