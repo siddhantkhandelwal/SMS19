@@ -183,7 +183,7 @@ function getBalance() {
         success: function (data) {
             console.log(data);
             balance = data.balance;
-            document.getElementById("balance").innerHTML = "User Balance: " + balance.toString();
+            document.getElementById("balance").innerHTML = "Balance: " + balance.toString();
         }
     });
 }
@@ -192,6 +192,15 @@ getBalance();
 function hideBuyDiv() {
     document.getElementById("buyDiv").style.display = "none";
 }
+
+function addTabs() {
+    if (window.innerWidth > 500) {
+        console.log(document.getElementById("heading"));
+        document.getElementById("heading").innerHTML = "&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;MARKET";
+    }
+}
+
+addTabs();
    // buyButton.addEventListener('click', function() {
                 //     document.getElementById("buyDiv").style.display = "block";
                 //     document.getElementById("submit_buy").setAttribute("data-button-type", s_list[0]);

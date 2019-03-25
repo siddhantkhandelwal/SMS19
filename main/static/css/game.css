@@ -4,6 +4,11 @@
     overflow-x: hidden;
 }
 
+#balance {
+    color: white;
+    transform: scale(0.7);
+}
+
 #popup {
     width: 70vw;
     background: black;
@@ -198,6 +203,12 @@ i.icon-blue {
     left: 15vw
 }
 
+#transactions
+{
+    position: absolute;
+    bottom: 10vh;
+}
+
 @media screen and (max-width: 500px) {
     #buyDiv {
         width: 60vw;
@@ -215,12 +226,6 @@ i.icon-blue {
 }
 
 @media screen and (max-width: 400px) {
-    #heading {
-        font-size: 10px;
-    }
-    #balance {
-        font-size: 10px;
-    }
     #buyDiv {
         width: 60vw;
     }

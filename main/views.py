@@ -69,17 +69,17 @@ def register(request):
 		if None in [username, password, email, name]:
 			reponse_data = {'status': 'error',
 							'message': 'One/more of fields missing'}
-			return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+			return render(request, 'main/register.html', response_data)
 
 		if special_character_regex.search(name) or special_character_regex.search(username):
 			reponse_data = {'status': 'error',
 							'message': 'Special characters not allowed'}
-			return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+			return render(request, 'main/register.html', reponse_data)
 
 		if username in [user.username for user in User.objects.all()]:
 			reponse_data = {'status': 'error',
 							'message': 'User with the same username already exists'}
-			return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+			return render(request, 'main/register.html', reponse_data)
 
 		user = User.objects.create(username=username)
 		user.set_password(password)
@@ -106,7 +106,7 @@ def user_login(request):
 		if None in [username, password]:
 			reponse_data = {'status': 'error',
 							'message': 'One/more of fields missing'}
-			return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+			return render(request, 'main/login.html', response_data)
 
 		user = authenticate(username=username, password=password)
 
@@ -116,7 +116,7 @@ def user_login(request):
 		else:
 			response_data = {'status': 'error',
 							 'message': 'Invalid Username/Password'}
-			return HttpResponse(json.dumps(response_data), content_type="application/json")
+			return render(request, 'main/login.html', response_data)
 	else:
 		return render(request, 'main/login.html', {})
 

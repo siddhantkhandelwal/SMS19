@@ -2,7 +2,7 @@
 	{% load static %}
 
 	<head>
-
+		<title>SMS 2019</title>
 		<meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>{% block title %}{% endblock %}- SMS 2019</title>
@@ -15,12 +15,8 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 		<meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
-		<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
 		<link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Baloo+Chettan" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Sniglet" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Roboto:900" rel="stylesheet">
@@ -28,26 +24,36 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+		<script type="text/javascript">
+			function hideLoader() {
+				$('.loader').hide();
+			}
+		</script>
+
 	</head>
 
-	<body>
+	<body onload="hideLoader()">
 
 		<div class="loader"></div>
 
 		<div class="container-fluid">
 			<div class="#000000 black row" style="padding: 20px">
-				<div class="col s3" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
-				<div class="col s6 center-align" id="heading">MARKET</div>
-				<div class="col s3 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;">
-				</div><br><br>
-				<a href="#" id="indian" class="col s4 offset-s1 center-align" style="padding: 5px;border-radius:10px;">
-					<div class="#8e24aa purple darken-1" id="indian1"
-						style="color:white;font-family: 'Raleway', sans-serif;border-radius: 10px;">Indian</div>
+				<div class="col s1" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
+				<div class="col s3" style="color: white;cursor:pointer;">username</div>
+				<div class="col s5" id="heading">&ensp;&ensp;MARKET</div>
+				<div class="col s3 center-align flow-text white-text" id="balance"></div><br><br>
+				<a href="#" id="indian" class="col s4 center-align" style="padding: 5px;border-radius:10px;">
+					<div class="#8e24aa purple darken-1 white-text" id="indian1"
+						style="border-radius: 10px;">BSC</div>
 				</a>
-				<a href="#" id="international" class="col s4 offset-s2 center-align"
+				<a href="#" id="indian" class="col s4 center-align" style="padding: 5px;border-radius:10px;">
+					<div class="#8e24aa purple darken-1 white-text" id="indian2"
+						style="border-radius: 10px;">NYM</div>
+				</a>
+				<a href="#" id="international" class="col s4 center-align"
 					style="color: white;padding: 5px;border-radius:10px;">
-					<div class="#8e24aa purple darken-1" id="international1"
-						style="font-family: 'Raleway', sans-serif;border-radius: 10px;">International</div>
+					<div class="#8e24aa purple darken-1 white-text" id="international1"
+						style="border-radius: 10px;">JAP</div>
 				</a>
 			</div>
 
@@ -92,18 +98,11 @@
 		</div>
 		</div>
 		<div id="popup">
-			this is the popup div
 		</div>
 		<script src="https://code.jquery.com/jquery-3.3.1.js"
 			integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="{% static 'js/game1.js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
-
-		<script language="javascript" type="text/javascript">
-			$(window).load(function () {
-				$('.loader').hide();
-			});
-		</script>
 
 	</body>
 
