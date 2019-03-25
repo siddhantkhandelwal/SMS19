@@ -113,10 +113,10 @@ function get_stock_list(code) {
             $("#submit_buy").off();
             $("#submit_buy").on("click", function () {
                 var inputNumber = document.getElementById("number").value;
-                console.log(alpha);
-                console.log(inputNumber);
-                console.log("buy");
-                buyStock(parseInt(alpha), parseInt(inputNumber));
+                // console.log(alpha);
+                // console.log(inputNumber);
+                // console.log("buy");
+                buyStock(parseInt(alpha), parseFloat(inputNumber));
             });
         }
     });
@@ -127,6 +127,12 @@ document.getElementById("indian1").addEventListener("click", function () { get_s
 document.getElementById("international1").addEventListener("click", function () { get_stock_list("NYM"); });
 
 function buyStock(pk, units) {
+
+    if( units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
+        alert('Enter valid value');
+        return;
+    }
+
     var data = $.ajax({
         type: 'POST',
         url: `/buy_stock/${pk}/`,
@@ -147,6 +153,14 @@ function buyStock(pk, units) {
 }
 
 function sellStock(pk, units) {
+
+    console.log(units);
+
+    if( units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
+        alert('Enter valid value');
+        return;
+    }
+
     var data = $.ajax({
         type: 'POST',
         url: `/sell_stock/${pk}/`,

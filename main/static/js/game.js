@@ -125,23 +125,25 @@ function get_stock_list(code) {
             }
 
             //FOR SUBMITTING SELL REQUEST
-            document.getElementById("submit_sell").addEventListener("click", function () {
+            $("#submit_sell").off();
+            $("#submit_sell").on("click", function () {
                 var inputNumber = document.getElementById("number1").value;
                 console.log(alpha);
                 console.log(inputNumber);
                 console.log("sell");
-                sellStock(parseInt(alpha), parseInt(inputNumber));
+                sellStock(parseInt(alpha), parseFloat(inputNumber));
                 getBalance();
                 hideSellDiv();
             });
 
             //FOR SUBMITTING BUY REQUEST
-            document.getElementById("submit_buy").addEventListener("click", function () {
+            $("#submit_buy").off();
+            $("#submit_buy").on("click", function () {
                 var inputNumber = document.getElementById("number").value;
                 console.log(alpha);
                 console.log(inputNumber);
                 console.log("buy");
-                buyStock(parseInt(alpha), parseInt(inputNumber));
+                buyStock(parseInt(alpha), parseFloat(inputNumber));
                 getBalance();
                 hideBuyDiv();
             });
@@ -154,6 +156,12 @@ document.getElementById("indian1").addEventListener("click", function () { get_s
 document.getElementById("international1").addEventListener("click", function () { get_stock_list("NYM"); });
 
 function buyStock(pk, units) {
+
+    if( units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
+        alert('Enter valid value');
+        return;
+    }
+    
     var data = $.ajax({
         type: 'POST',
         url: `/buy_stock/${pk}/`,
@@ -173,6 +181,12 @@ function buyStock(pk, units) {
 }
 
 function sellStock(pk, units) {
+
+    if( units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
+        alert('Enter valid value');
+        return;
+    }
+
     var data = $.ajax({
         type: 'POST',
         url: `/sell_stock/${pk}/`,
