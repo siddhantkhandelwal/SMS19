@@ -12,6 +12,7 @@ import re
 from django.db.models import F
 import random
 import operator
+from datetime import datetime
 
 special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
 CONST_RATE_CHANGE = 0.01
@@ -198,7 +199,7 @@ def buy_stock(request, pk):
             stock_to_buy = Stock.objects.get(pk=pk)
         except:
             response_data = {'status': 'error',
-                             'message': 'Invalid Stock PK'}
+                             'message': 'Error in Fetching Stock'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
         try:
             units = int(request.POST['units'])
@@ -255,7 +256,7 @@ def buy_stock(request, pk):
             stock_to_buy.refresh_from_db()
 
             response_data = {'status': 'success',
-                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name} on {transaction.date_time}'}
+                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name}'}
 
         except:
             response_data = {'status': 'error',
@@ -332,7 +333,7 @@ def sell_stock(request, pk):
             stock.save()
             stock.refresh_from_db()
             response_data = {'status': 'success',
-                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully sold {units} units of {stock.stock_name} on {transaction.date_time}'}
+                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully sold {units} units of {stock.stock_name}'}
         except:
             response_data = {'status': 'error',
                              'message': 'Error in Transaction'}
