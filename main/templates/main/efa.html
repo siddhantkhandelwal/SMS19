@@ -2,12 +2,12 @@
 
   <head>
     <title>
-      Add Stock
+      EFA - SMS19
     </title>
   </head>
 
   <body>
-    <form method="POST" action="{% url 'add_stock'%}">
+    <form method="POST" action="{% url 'api_efa' 'AS'%}">
       {% csrf_token %}
       <div class="input-field">
         <label for="stock_name">Stock Name</label>
@@ -31,7 +31,7 @@
       </div>
       <button type="submit">Submit</button>
     </form>
-    <br>Last Five Added
+    <br>Last Five Stocks Added
     {% for stock in last_five_added %}
     <br>
     {{stock.id}}.
@@ -40,7 +40,27 @@
     {{stock.maket_type}}
     {{stock.available_no_units}}
     {{stock.conversion_rate}}
-    <a href="{% url 'delete_stock' stock.id %}">Delete</a>
+    <a href="{% url 'api_efa' 'DS' stock.id %}">Delete</a>
+    {% endfor %}
+    <br><br><br><br>
+    <form method="POST" action="{% url 'api_efa' 'AN'%}">
+      {% csrf_token %}
+      <div class="input-field">
+        <label for="headline">Headline</label>
+        <input type="text" id="headline" name="headline" required />
+      </div>
+      <div class="input-field">
+        <label for="body">News Body</label>
+        <input type="text" id="body" name="body" required />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+    <br>Last Five NewsPosts Added
+    {% for newspost in last_five_added %}
+    <br>
+    {{newspost.id}}.
+    {{newspost.headline}}
+    <a href="{% url 'api_efa' 'DN' newspost.id %}">Delete</a>
     {% endfor %}
   </body>
 
