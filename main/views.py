@@ -14,7 +14,7 @@ import random
 import operator
 
 special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
-CONST_RATE_INCREASE = 0.01
+CONST_RATE_CHANGE = 0.01
 
 
 @csrf_exempt
@@ -200,7 +200,6 @@ def buy_stock(request, pk):
             response_data = {'status': 'error',
                              'message': 'Invalid Stock PK'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
-
         try:
             units = int(request.POST['units'])
             assert(units > 0)
@@ -250,7 +249,7 @@ def buy_stock(request, pk):
                     owner=user_profile, stock=stock_to_buy, units=units)
                 stock_purchased.refresh_from_db()
 
-            stock_to_buy.stock_price += CONST_RATE_INCREASE * \
+            stock_to_buy.stock_price += CONST_RATE_CHANGE * \
                 F('stock_price')*units
             stock_to_buy.save()
             stock_to_buy.refresh_from_db()
@@ -274,15 +273,23 @@ def sell_stock(request, pk):
             response_data = {'status': 'error',
                              'message': 'User Does not Exist'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
-        try:
-            pk = int(pk)
+
+	try:
+	    pk = int(pk)
             stock = Stock.objects.get(pk=pk)
+        except:
+            response_data = {'status': 'error',
+                             'message': 'Invalid Stock PK'}
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+        try:
             stock_to_sell = StockPurchased.objects.get(
                 stock=stock, owner=user_profile)
         except:
             response_data = {'status': 'error',
-                             'message': 'Invalid Stock PK/User does not own any units of given Stock'}
+                             'message': 'Multiple Enteries for Same Stock/User does not own any units of given Stock'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
+
         try:
             units = int(request.POST['units'])
             assert(units > 0)
@@ -290,8 +297,8 @@ def sell_stock(request, pk):
             response_data = {'status': 'error',
                              'message': 'Invalid Units'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
-        cost = stock.stock_price * units * stock.conversion_rate
 
+        cost = stock.stock_price * units * stock.conversion_rate
         try:
             assert(units <= stock_to_sell.units)
         except:
@@ -303,7 +310,7 @@ def sell_stock(request, pk):
             user_profile.balance = F('balance') + cost
             user_profile.save()
             user_profile.refresh_from_db()
-            stock.available_no_stocks = F('available_no_stocks') + units
+            stock.available_no_units = F('available_no_units') + units
             stock.save()
             stock.refresh_from_db()
             if(stock_to_sell.units == units):
@@ -312,7 +319,7 @@ def sell_stock(request, pk):
                 stock_to_sell.units = F('units') - units
                 stock_to_sell.save()
                 stock_to_sell.refresh_from_db()
-            transaction_uid = random.randint(1, 10000)
+            transaction_uid = random.randint(1, 1000000000)
             transaction = Transaction.objects.create(
                 uid=transaction_uid, owner=user_profile, stock=stock)
             transaction.units = units
@@ -320,7 +327,7 @@ def sell_stock(request, pk):
             transaction.type = 'S'
             transaction.save()
             transaction.refresh_from_db()
-            stock.stock_price -= CONST_RATE_INCREASE * \
+            stock.stock_price -= CONST_RATE_CHANGE * \
                 F('stock_price')*units
             stock.save()
             stock.refresh_from_db()
