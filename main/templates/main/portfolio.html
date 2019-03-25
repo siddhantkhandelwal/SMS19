@@ -1,0 +1,132 @@
+<html>
+    {% load static %}
+
+    <head>
+        <title>SMS 2019</title>
+        <meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'css/template.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/game.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/loader.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+        <meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
+        <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:900" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <script language="javascript" type="text/javascript">
+            function hideLoader() {
+                $('.loader').hide();
+            }
+        </script>
+
+    </head>
+
+    <body onload="hideLoader()">
+
+        <div class="loader"></div>
+
+        <div class="container-fluid">
+            <div class="#000000 black row" style="padding: 20px">
+                <div class="col s1 white-text" onclick="openNav()" style="cursor:pointer;">&#9776;</div>
+                <div class="col s3 white-text" style="cursor:pointer;">{{request.user.username}}</div>
+                <div class="col s5 flow-text" id="heading">PORTFOLIO</div>
+                <div class="col s3 center-align flow-text" id="balance"></div><br><br>
+
+                <a href="#" id="indian" class="col s4 center-align" style="padding: 5px;border-radius:10px;">
+                    <div class="#8e24aa purple darken-1 white-text" id="indian1"
+                        style="border-radius: 10px;">BSE</div>
+                </a>
+                <a href="#" id="international" class="col s4 center-align" style="padding: 5px;border-radius:10px;">
+                    <div class="#8e24aa purple darken-1 white-text" id="international1"
+                        style="border-radius: 10px;">NYM</div>
+                </a>
+                <a href="#" id="japanese" class="col s4 center-align white-text"
+                    style="padding: 5px;border-radius:10px;">
+                    <div class="#8e24aa purple darken-1 white-text" id="international2"
+                        style="border-radius: 10px;">JPN</div>
+                </a>
+            </div>
+
+            <div class="container">
+                <div class="row #ab47bc purple lighten-1 hoverable z-depth-2">
+                    <div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">
+                        STOCK NAME</div>
+                    <div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">
+                        STOCK PRICE</div>
+                    <div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">
+                        UNITS OWNED</div>
+                </div>
+
+                <div class="stock_list"></div>
+            </div>
+        </div>
+
+        <!-- <footer class="page-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">Footer Content</h5>
+                        <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">Links</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer> -->
+
+        <div id="buyDiv" class="#00000 black">
+            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeBuyDiv()">&times;</a>
+            <p class="flow-text" style="color:white;transform: translateY(-5px)">Buy</p>
+            <p id="buyInfo" class="white-text"></p>
+            <input type="number" id="number" name="number" placeholder="Units to Buy" style="color: white">
+            <input type="submit" class="editable" id="submit_buy">
+        </div>
+
+        <div id="sellDiv" class="#00000 black">
+            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeSellDiv()">&times;</a>
+            <p class="flow-text" style="color:white;transform: translateY(-5px)">Sell</p>
+            <p id="sellInfo" class="white-text"></p>
+            <input type="number" id="number1" name="number" placeholder="Units to Sell" style="color: white">
+            <input type="submit" class="editable" id="submit_sell">
+        </div>
+
+        <div id="mySidenav" class="sidenavbar">
+            <a class="links" href="#" style="font-size: 40px;">SMS</a>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a class="links" href='/portfolio/'>Portfolio</a>
+            <hr>
+            <a class="links" href='/'>Market</a>
+            <hr>
+            <a class="links" href='/display_leaderboard'>Leaderboard</a>
+            <hr>
+            <a class="links" href=''>News </a>
+            <hr>
+            <a class="links" href='/accounts/logout/'>Logout</a>
+            <hr>
+        </div>
+        </div>
+        <div id="popup"></div>
+        <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{% static 'js/game.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
+
+    </body>
+
+</html>

@@ -16,10 +16,11 @@ class Stock(models.Model):
     stock_name = models.CharField(max_length=100, unique=True)
     stock_price = models.PositiveIntegerField(default=0)
     market_type = models.CharField(max_length=10, null=False, choices=(
-        ('BSE', 'BSE'), ('NYM', 'NYM')), default='BSE')
+        ('BSE', 'BSE'), ('NYM', 'NYM'), ('JPN', 'JPN')), default='BSE')
     initial_price = models.IntegerField(default=0)
     available_no_units = models.PositiveIntegerField(default=0)
     date_added = models.DateTimeField(auto_now=True)
+    conversion_rate = models.FloatField(default=1.0)
 
     def __str__(self):
         return f'{self.stock_name} - {self.market_type}'

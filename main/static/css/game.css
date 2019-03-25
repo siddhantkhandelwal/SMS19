@@ -1,29 +1,68 @@
-*
-{
+* {
     padding: 0;
     margin: 0;
     overflow-x: hidden;
 }
 
-#heading
-{
+#balance {
+    color: white;
+    transform: scale(0.7);
+}
+
+#popup {
+    width: 70vw;
+    background: black;
+    color: white;
+    position: absolute;
+    top: 80vh;
+    left: 15vw;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: none;
+    border-radius: 5px;
+    background: purple;
+}
+
+.addAnimation {
+    animation: comeToPost 2.5s linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes comeToPost {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+#heading {
     color: white;
     font-family: 'Roboto', sans-serif;
     font-size: 2.2vw;
 }
 
-#indian:hover
-{
+#indian:hover {
     background-color: #8e24aa;
 }
 
-#international:hover
-{
+#international:hover {
     background-color: #8e24aa;
 }
 
-.accordion
-{
+#japanese:hover {
+    background-color: #8e24aa;
+}
+
+.accordion {
     color: white;
     padding: 10px;
     font-size: 20px;
@@ -40,13 +79,11 @@
     transition: 0.4s;
 }
 
-.stock_list
-{
+.stock_list {
     z-index: 1;
 }
 
-.panel
-{
+.panel {
     position: relative;
     top: -3.1vh;
     height: 0px;
@@ -56,8 +93,7 @@
     transition: all 0.5s ease-in;
 }
 
-.buy, .sell
-{
+.buy, .sell {
     margin-bottom: 5px;
     background: black;
     color: white;
@@ -66,8 +102,7 @@
     transform: translateY(2vh);
 }
 
-#buyDiv
-{
+#buyDiv {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -79,8 +114,7 @@
     display: none;
 }
 
-#sellDiv
-{
+#sellDiv {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -92,8 +126,7 @@
     display: none;
 }
 
-#rightNav
-{
+#rightNav {
     width: 10vw;
     height: 100vh;
     background: #ccc;
@@ -104,16 +137,14 @@
     animation-fill-mode: forwards;
 }
 
-.editable
-{
+.editable {
     width: 100%;
     padding: 5px;
     background: green;
     color: white;
 }
 
-.closeBuySellDiv
-{
+.closeBuySellDiv {
     color: white;
     position: relative;
     left: 27vw;
@@ -124,13 +155,12 @@ i.icon-blue {
     color: green;
 }
 
-.nameOfStock, .material-icons
-{
+.nameOfStock, .material-icons {
     display: inline-block;
 }
 
 .upColor {
-    color: rgb(0,180,0);
+    color: rgb(0, 180, 0);
 }
 
 .downColor {
@@ -168,44 +198,45 @@ i.icon-blue {
     color: #9c27b0;
 }
 
+.popup {
+    width: 70vw;
+    height: 10vh;
+    background: #eee;
+    position: absolute;
+    top: 80vh;
+    left: 15vw
+}
+
+#transactions {
+    position: absolute;
+    bottom: 10vh;
+}
+
 @media screen and (max-width: 500px) {
-    #buyDiv
-    {
+    #buyDiv {
         width: 60vw;
     }
-
-    .closeBuySellDiv
-    {
+    #sellDiv {
+        width: 60vw;
+    }
+    .closeBuySellDiv {
         position: relative;
         left: 50vw;
     }
-
-    #heading
-    {
+    #heading {
         font-size: 4vw;
     }
 }
 
 @media screen and (max-width: 400px) {
-    #heading {
-        font-size: 10px;
-    }
-    #balance {
-        font-size: 10px;
-    }
-    #buyDiv
-    {
+    #buyDiv {
         width: 60vw;
     }
-
-    .closeBuySellDiv
-    {
+    .closeBuySellDiv {
         position: relative;
         left: 50vw;
     }
-
-    #heading
-    {
+    #heading {
         font-size: 4vw;
     }
 }

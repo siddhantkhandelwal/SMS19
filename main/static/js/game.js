@@ -9,19 +9,16 @@ function openSellDiv() {
 function closeSellDiv() {
     document.getElementById("sellDiv").style.display = "none";
 }
-var x = document.getElementById("csrf").getAttribute("value");
-console.log(x);
 
 function get_stock_list(code) {
     var data = $.ajax({
         type: 'GET',
-        url: `/get_stocks_data/${code}`, //Do not edit these special commas. Everything will go to shit.
+        url: `/get_stock_purchased/${code}`, //Do not edit these special commas. Everything will go to shit.
         data: {},
         success: function (data) {
-            console.log(data);
-            stock_list = data.stocks_list;
-            balance = data.balance;
-            
+            stock_list = data.stocks_purchased;
+            getBalance();
+
             document.getElementsByClassName("stock_list")[0].innerHTML = "";
             for (var i = 0; i < stock_list.length; i++) {
                 s_list = stock_list[i];
@@ -42,10 +39,10 @@ function get_stock_list(code) {
 
                 var units = document.createElement("div");
                 units.setAttribute("class", "col s4 center-align ");
-                
+
                 var span2 = document.createElement("span");
                 span2.setAttribute("class", "valign");
-                span2.innerHTML = s_list[4];
+                span2.innerHTML = s_list[3];
 
                 var panel = document.createElement("div");
                 panel.setAttribute("class", "panel row #e1bee7 purple lighten-4");
@@ -56,15 +53,17 @@ function get_stock_list(code) {
                 buyButton.setAttribute("data-pk", s_list[0]);
                 buyButton.setAttribute("class", "buy col s2 offset-s3");
                 buyButton.innerHTML = "BUY";
+                buyButton.style.padding = "5px";
 
                 var sellButton = document.createElement("button");
                 sellButton.setAttribute("id", "sell-btn" + s_list[0].toString());
                 sellButton.setAttribute("class", "sell col s2 offset-s2");
                 sellButton.setAttribute("data-pk", s_list[0]);
                 sellButton.innerHTML = "SELL";
+                sellButton.style.padding = "5px";
                 // buyButton.style.display = "none";
                 // buyButton.innerHTML = s_list;
-                
+
                 var userBalance = document.getElementById("balance");
                 userBalance.innerHTML = `User Balance: ${balance}`;
                 panel.appendChild(buyButton);
@@ -81,11 +80,9 @@ function get_stock_list(code) {
             var i = 0;
 
             while (i < acc.length) {
-                // console.log("acd");
                 acc[i].addEventListener("click", function () {
                     this.classList.toggle("active");
                     var panel = this.nextElementSibling;
-                    console.log(panel);
                     // panel.style.maxHeight = panel.scrollHeight + "px";
                     if (panel.style.height) {
                         panel.style.height = null;
@@ -107,10 +104,9 @@ function get_stock_list(code) {
             //FOR BUY BUTTONS
             while (j < buy.length) {
                 buy[j].addEventListener("click", function () {
-                    // console.log("abcd");
-                    console.log(j);
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("buyDiv").style.display = "block";
+                    document.getElementById("buyInfo").innerHTML = "Stock: " + s_list[1] + " Price:     " + s_list[0];
                 });
                 j++;
             }
@@ -120,26 +116,27 @@ function get_stock_list(code) {
                 sell[x].addEventListener("click", function () {
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("sellDiv").style.display = "block";
+                    document.getElementById("sellInfo").innerHTML = "Stock: " + s_list[1] + " Price:     " + s_list[0];
                 });
                 x++;
             }
 
             //FOR SUBMITTING SELL REQUEST
-            document.getElementById("submit_sell").addEventListener("click", function () {
+            $("#submit_sell").off();
+            $("#submit_sell").on("click", function () {
                 var inputNumber = document.getElementById("number1").value;
-                console.log(alpha);
-                console.log(inputNumber);
-                console.log("sell");
-                sellStock(parseInt(alpha), parseInt(inputNumber));
+                sellStock(parseInt(alpha), parseFloat(inputNumber));
+                getBalance();
+                hideSellDiv();
             });
 
             //FOR SUBMITTING BUY REQUEST
-            document.getElementById("submit_buy").addEventListener("click", function () {
+            $("#submit_buy").off();
+            $("#submit_buy").on("click", function () {
                 var inputNumber = document.getElementById("number").value;
-                console.log(alpha);
-                console.log(inputNumber);
-                console.log("buy");
-                buyStock(parseInt(alpha), parseInt(inputNumber));
+                buyStock(parseInt(alpha), parseFloat(inputNumber));
+                getBalance();
+                hideBuyDiv();
             });
         }
     });
@@ -148,8 +145,15 @@ function get_stock_list(code) {
 get_stock_list("BSE");
 document.getElementById("indian1").addEventListener("click", function () { get_stock_list("BSE"); });
 document.getElementById("international1").addEventListener("click", function () { get_stock_list("NYM"); });
+document.getElementById("international2").addEventListener("click", function () { get_stock_list("JPN"); });
 
 function buyStock(pk, units) {
+
+    if (units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
+        alert('Enter valid value');
+        return;
+    }
+
     var data = $.ajax({
         type: 'POST',
         url: `/buy_stock/${pk}/`,
@@ -157,13 +161,25 @@ function buyStock(pk, units) {
             "units": units
         },
         success: function (data) {
-            console.log(data);
-
+            document.getElementById("popup").style.display = "block";
+            document.getElementById("popup").innerHTML = data.message;
+            setTimeout(function () {
+                document.getElementById("popup").style.display = "none";
+            }, 2500);
+            getBalance();
+            document.getElementById("number").value = "";
+            $('.closeBuyDiv').trigger('click');
         }
     });
 }
 
 function sellStock(pk, units) {
+
+    if (units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
+        alert('Enter valid value');
+        return;
+    }
+
     var data = $.ajax({
         type: 'POST',
         url: `/sell_stock/${pk}/`,
@@ -171,12 +187,48 @@ function sellStock(pk, units) {
             "units": units
         },
         success: function (data) {
-            console.log(data);
-
+            document.getElementById("popup").style.display = "block";
+            document.getElementById("popup").innerHTML = data.message;
+            setTimeout(function () {
+                document.getElementById("popup").style.display = "none";
+            }, 2500);
+            getBalance();
+            document.getElementById("number1").value = "";
+            $('.closeSellDiv').trigger('click');
         }
     });
 }
 
+function getBalance() {
+    var data = $.ajax({
+        type: 'GET',
+        url: `/get_balance`,
+        data: {},
+        success: function (data) {
+            balance = data.balance;
+            document.getElementById("balance").innerHTML = "Balance: " + balance.toString();
+        }
+    });
+}
+
+getBalance();
+function hideBuyDiv() {
+    document.getElementById("buyDiv").style.display = "none";
+
+}
+
+function hideSellDiv() {
+    document.getElementById("sellDiv").style.display = "none";
+
+}
+
+function addTabs() {
+    if (window.innerWidth > 500) {
+        document.getElementById("heading").innerHTML = "&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;PORTFOLIO";
+    }
+}
+
+addTabs();
 
    // buyButton.addEventListener('click', function() {
                 //     document.getElementById("buyDiv").style.display = "block";
