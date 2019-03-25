@@ -4,13 +4,7 @@ from main.models import Stock, Transaction, UserProfile, NewsPost, StockPurchase
 
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ('uid', 'owner', 'stock', 'units',
-                    'price_at_transaction', 'cost', 'type', 'date_time',)
-
-    def price_at_transaction(self, obj):
-        if obj.units == 0:
-           return 0
-        else:
-            return obj.cost/obj.units
+                    'cost', 'type', 'date_time',)
 
 
 class StockPurchasedAdmin(admin.ModelAdmin):
