@@ -165,7 +165,7 @@ function buyStock(pk, units, code) {
             document.getElementById("popup").innerHTML = data.message;
             setTimeout(function () {
                 document.getElementById("popup").style.display = "none";
-            }, 2500);
+            }, 5000);
             getBalance();
             get_stock_list(code);
             document.getElementById("number").value = "";
@@ -192,7 +192,7 @@ function sellStock(pk, units, code) {
             document.getElementById("popup").innerHTML = data.message;
             setTimeout(function () {
                 document.getElementById("popup").style.display = "none";
-            }, 2500);
+            }, 5000);
             getBalance();
             get_stock_list(code);
             document.getElementById("number1").value = "";
