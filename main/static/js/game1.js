@@ -110,7 +110,8 @@ function get_stock_list(code) {
             }
 
             //FOR SUBMITTING BUY REQUEST
-            document.getElementById("submit_buy").addEventListener("click", function () {
+            $("#submit_buy").off();
+            $("#submit_buy").on("click", function () {
                 var inputNumber = document.getElementById("number").value;
                 console.log(alpha);
                 console.log(inputNumber);
