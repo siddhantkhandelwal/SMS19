@@ -7,7 +7,10 @@ class TransactionAdmin(admin.ModelAdmin):
                     'price_at_transaction', 'cost', 'type', 'date_time',)
 
     def price_at_transaction(self, obj):
-        return obj.cost/obj.units
+        if obj.units == 0:
+           return 0
+        else:
+            return obj.cost/obj.units
 
 
 class StockPurchasedAdmin(admin.ModelAdmin):
