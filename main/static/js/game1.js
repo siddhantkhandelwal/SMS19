@@ -29,7 +29,7 @@ function get_stock_list(code) {
                 accordion.setAttribute("data-pk", s_list[0]);
 
                 var innerDiv = document.createElement("div");
-                innerDiv.setAttribute("class", "col s4 offset-s2 center-align ");
+                innerDiv.setAttribute("class", "col s4 center-align ");
 
                 var span = document.createElement("span");
                 span.setAttribute("class", "valign nameOfStock");
@@ -38,6 +38,9 @@ function get_stock_list(code) {
                 var price = document.createElement("div");
                 price.setAttribute("class", "col s4 center-align ");
                 price.innerHTML = s_list[2];
+
+                var unitDiv = document.createElement("div");
+                unitDiv.setAttribute("class", "col s4 center-align");
 
                 var span2 = document.createElement("span");
                 span2.setAttribute("class", "valign");
@@ -54,9 +57,11 @@ function get_stock_list(code) {
                 buyButton.style.padding = "5px";
                 buyButton.innerHTML = "BUY";
 
+                unitDiv.appendChild(span2);               
                 innerDiv.appendChild(span);
                 accordion.appendChild(innerDiv);
                 accordion.appendChild(price);
+                accordion.appendChild(unitDiv);
                 panel.appendChild(buyButton);
                 document.getElementsByClassName("stock_list")[0].appendChild(accordion.cloneNode(true));
                 document.getElementsByClassName("stock_list")[0].appendChild(panel);
@@ -116,7 +121,7 @@ function get_stock_list(code) {
                 // console.log(alpha);
                 // console.log(inputNumber);
                 // console.log("buy");
-                buyStock(parseInt(alpha), parseFloat(inputNumber), code);
+                buyStock(parseInt(alpha), parseFloat(inputNumber),code);
             });
         }
     });
