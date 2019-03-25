@@ -20,11 +20,16 @@
         <div class="col s12 l4 offset-l4">
           <div class="card">
 
-            <div class="card-action teal lighten-2 white-text">
+            <div class="card-action purple white-text">
               <h3>Registration</h3>
             </div>
 
             <div class="card-content">
+              <div class="text">
+                <span>
+                  {{ message }}
+                </span>
+              </div>
               <div class="input-field">
                 <i class="material-icons prefix">email</i>
                 <label for="email">E-mail</label>
@@ -50,7 +55,7 @@
               </div>
 
               <div class="form-field center-align">
-                <button class="btn-large waves-effect waves-light teal lighten-2"
+                <button class="btn-large waves-effect waves-light purple"
                   style="width: 70%; font-size: large">Register</button>
               </div>
 
@@ -60,6 +65,12 @@
         </div>
       </div>
     </form>
+    <div class="row">
+      <br>
+      <a href={% url 'user_login' %}>
+        <p align="center">Head back to login
+      </a></p>
+    </div>
   </body>
 
 </html>

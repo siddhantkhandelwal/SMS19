@@ -8,6 +8,7 @@
     <title>SMS 2019</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -21,11 +22,16 @@
         <div class="col s12 l4 offset-l4">
           <div class="card">
 
-            <div class="card-action teal lighten-2 white-text">
+            <div class="card-action purple white-text">
               <h3>Login</h3>
             </div>
 
             <div class="card-content">
+              <div class="text">
+                <span>
+                  {{ message }}
+                </span>
+              </div>
               <div class="input-field">
                 <i class="material-icons prefix">account_circle</i>
                 <label for="username">Username</label>
@@ -39,8 +45,8 @@
               </div>
 
               <div class="form-field center-align">
-                <button class="btn-large waves-effect waves-light teal lighten-2" style="width: 70%; font-size: larger"
-                  onclick="getInfo()">LOGIN</button>
+                <button class="btn-large waves-effect waves-light purple" style="width: 70%; font-size: larger"
+                  onclick="displayPopup()">LOGIN</button>
               </div>
             </div>
           </div>
@@ -52,14 +58,16 @@
       <a href={% url 'user_forgot_password' %}>
         <p align="center">Forgot Password?
       </a></p>
-      <p align="center"><a href="{% provider_login_url 'google' %}">Log In with Google</a></p>
       <br>
       <a href={% url 'register' %}>
-        <p align="center">Haven't registered? <button class="btn-floating teal lighten-2">
+        <p align="center">Haven't registered? <button class="btn-floating purple">
             <i class="material-icons">add</i>
           </button>
       </a></p>
     </div>
+
+    <script type="text/javascript" src="{% static 'js/login.js' %}"></script>
+
   </body>
 
 </html>

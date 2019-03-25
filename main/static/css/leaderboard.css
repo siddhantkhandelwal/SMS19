@@ -18,6 +18,10 @@ body {
   border-right: 2px solid black;
 }
 
+#balance {
+  transform: scale(0.7);
+}
+
 .sidenavbar {
   height: 100%;
   width: 0;
@@ -43,7 +47,7 @@ body {
 }
 
 .sidenavbar a:hover {
-  color: #f1f1f1;
+  color: purple;
 }
 
 .sidenavbar .closebtn {
@@ -61,7 +65,7 @@ body {
 .change2 {
   position: relative;
   padding: 10px;
-  line-height: 35px;
+  line-height: 45px;
   background: black;
 }
 

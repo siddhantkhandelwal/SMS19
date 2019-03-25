@@ -57,42 +57,42 @@ def news(request):
 
 
 def register(request):
-    if request.user.is_authenticated:
-        return redirect('game')
+	if request.user.is_authenticated:
+		return redirect('game')
 
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        email = request.POST.get('email')
-        name = request.POST.get('name')
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		email = request.POST.get('email')
+		name = request.POST.get('name')
 
-        if None in [username, password, email, name]:
-            reponse_data = {'status': 'error',
-                            'message': 'One/more of fields missing'}
-            return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+		if None in [username, password, email, name]:
+			reponse_data = {'status': 'error',
+							'message': 'One/more of fields missing'}
+			return render(request, 'main/register.html', response_data)
 
-        if special_character_regex.search(name) or special_character_regex.search(username):
-            reponse_data = {'status': 'error',
-                            'message': 'Special characters not allowed'}
-            return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+		if special_character_regex.search(name) or special_character_regex.search(username):
+			reponse_data = {'status': 'error',
+							'message': 'Special characters not allowed'}
+			return render(request, 'main/register.html', reponse_data)
 
-        if username in [user.username for user in User.objects.all()]:
-            reponse_data = {'status': 'error',
-                            'message': 'User with the same username already exists'}
-            return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+		if username in [user.username for user in User.objects.all()]:
+			reponse_data = {'status': 'error',
+							'message': 'User with the same username already exists'}
+			return render(request, 'main/register.html', reponse_data)
 
-        user = User.objects.create(username=username)
-        user.set_password(password)
-        user.email = email
-        user.save()
+		user = User.objects.create(username=username)
+		user.set_password(password)
+		user.email = email
+		user.save()
 
-        user_profile = UserProfile.objects.create(user=user)
-        user_profile.name = name
-        user_profile.save()
-        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-        return redirect('game')
-    else:
-        return render(request, 'main/register.html', {})
+		user_profile = UserProfile.objects.create(user=user)
+		user_profile.name = name
+		user_profile.save()
+		login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+		return redirect('game')
+	else:
+		return render(request, 'main/register.html', {})
 
 
 def user_login(request):
@@ -103,22 +103,22 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
 
-        if None in [username, password]:
-            reponse_data = {'status': 'error',
-                            'message': 'One/more of fields missing'}
-            return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+		if None in [username, password]:
+			reponse_data = {'status': 'error',
+							'message': 'One/more of fields missing'}
+			return render(request, 'main/login.html', response_data)
 
         user = authenticate(username=username, password=password)
 
-        if user:
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            return redirect('game')
-        else:
-            response_data = {'status': 'error',
-                             'message': 'Invalid Username/Password'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
-    else:
-        return render(request, 'main/login.html', {})
+		if user:
+			login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+			return redirect('game')
+		else:
+			response_data = {'status': 'error',
+							 'message': 'Invalid Username/Password'}
+			return render(request, 'main/login.html', response_data)
+	else:
+		return render(request, 'main/login.html', {})
 
 
 @login_required

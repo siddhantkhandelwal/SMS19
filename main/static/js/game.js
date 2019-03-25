@@ -53,12 +53,14 @@ function get_stock_list(code) {
                 buyButton.setAttribute("data-pk", s_list[0]);
                 buyButton.setAttribute("class", "buy col s2 offset-s3");
                 buyButton.innerHTML = "BUY";
+                buyButton.style.padding = "5px";
 
                 var sellButton = document.createElement("button");
                 sellButton.setAttribute("id", "sell-btn" + s_list[0].toString());
                 sellButton.setAttribute("class", "sell col s2 offset-s2");
                 sellButton.setAttribute("data-pk", s_list[0]);
                 sellButton.innerHTML = "SELL";
+                sellButton.style.padding = "5px";
                 // buyButton.style.display = "none";
                 // buyButton.innerHTML = s_list;
 
@@ -114,7 +116,7 @@ function get_stock_list(code) {
                 sell[x].addEventListener("click", function () {
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("sellDiv").style.display = "block";
-                    document.getElementById("buyInfo").innerHTML = "Stock: " + s_list[1] + " Price:     " + s_list[0];
+                    document.getElementById("sellInfo").innerHTML = "Stock: " + s_list[1] + " Price:     " + s_list[0];
                 });
                 x++;
             }
@@ -203,7 +205,7 @@ function getBalance() {
         data: {},
         success: function (data) {
             balance = data.balance;
-            document.getElementById("balance").innerHTML = "User Balance: " + balance.toString();
+            document.getElementById("balance").innerHTML = "Balance: " + balance.toString();
         }
     });
 }
@@ -218,6 +220,14 @@ function hideSellDiv() {
     document.getElementById("sellDiv").style.display = "none";
 
 }
+
+function addTabs() {
+    if (window.innerWidth > 500) {
+        document.getElementById("heading").innerHTML = "&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;PORTFOLIO";
+    }
+}
+
+addTabs();
 
    // buyButton.addEventListener('click', function() {
                 //     document.getElementById("buyDiv").style.display = "block";
