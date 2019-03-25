@@ -125,7 +125,7 @@ function get_stock_list(code) {
             $("#submit_sell").off();
             $("#submit_sell").on("click", function () {
                 var inputNumber = document.getElementById("number1").value;
-                sellStock(parseInt(alpha), parseFloat(inputNumber));
+                sellStock(parseInt(alpha), parseFloat(inputNumber), code);
                 getBalance();
                 hideSellDiv();
             });
@@ -134,7 +134,7 @@ function get_stock_list(code) {
             $("#submit_buy").off();
             $("#submit_buy").on("click", function () {
                 var inputNumber = document.getElementById("number").value;
-                buyStock(parseInt(alpha), parseFloat(inputNumber));
+                buyStock(parseInt(alpha), parseFloat(inputNumber), code);
                 getBalance();
                 hideBuyDiv();
             });
@@ -147,7 +147,7 @@ document.getElementById("indian1").addEventListener("click", function () { get_s
 document.getElementById("international1").addEventListener("click", function () { get_stock_list("NYM"); });
 document.getElementById("international2").addEventListener("click", function () { get_stock_list("JPN"); });
 
-function buyStock(pk, units) {
+function buyStock(pk, units, code) {
 
     if (units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
         alert('Enter valid value');
@@ -167,13 +167,14 @@ function buyStock(pk, units) {
                 document.getElementById("popup").style.display = "none";
             }, 2500);
             getBalance();
+            get_stock_list(code);
             document.getElementById("number").value = "";
             $('.closeBuyDiv').trigger('click');
         }
     });
 }
 
-function sellStock(pk, units) {
+function sellStock(pk, units, code) {
 
     if (units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
         alert('Enter valid value');
@@ -193,6 +194,7 @@ function sellStock(pk, units) {
                 document.getElementById("popup").style.display = "none";
             }, 2500);
             getBalance();
+            get_stock_list(code);
             document.getElementById("number1").value = "";
             $('.closeSellDiv').trigger('click');
         }
