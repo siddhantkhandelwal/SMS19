@@ -1,9 +1,9 @@
 function sendAnswer_Review() {
     var data = $.ajax({
         type: 'POST',
-        url: '/buy_stock/13/',
+        url: '/buy_stock/3/',
         data: {
-            "units": 2
+            "units": 1
         },
         success: function (data) {
             console.log(data);
@@ -12,4 +12,4 @@ function sendAnswer_Review() {
     });
 }
 
-sendAnswer_Review();
+setInterval(sendAnswer_Review(), 1);
