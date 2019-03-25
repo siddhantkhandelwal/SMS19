@@ -20,10 +20,11 @@ function get_stock_list(code) {
             stock_list = data.stocks_list;
             // balance = data.balance;
             getBalance();
-
+            var list_of_stocks = [];
             document.getElementsByClassName("stock_list")[0].innerHTML = "";
             for (var i = 0; i < stock_list.length; i++) {
                 s_list = stock_list[i];
+                list_of_stocks.push(s_list);
                 var accordion = document.createElement("div");
                 accordion.setAttribute("class", "accordion row");
                 accordion.setAttribute("data-pk", s_list[0]);
@@ -69,7 +70,7 @@ function get_stock_list(code) {
                 acc[i].addEventListener("click", function () {
                     this.classList.toggle("active");
                     var panel = this.nextElementSibling;
-                    console.log(panel);
+                    // console.log(panel);
                     // panel.style.maxHeight = panel.scrollHeight + "px";
                     if (panel.style.height) {
                         panel.style.height = null;
@@ -90,12 +91,15 @@ function get_stock_list(code) {
 
             //FOR BUY BUTTONS
             while (j < buy.length) {
-                buy[j].addEventListener("click", function () {
+                buy[j].addEventListener("click", function (e) {
                     // console.log("abcd");
-                    console.log(j);
+                    // console.log(j);
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("buyDiv").style.display = "block";
-                    document.getElementById("buyInfo").innerHTML = "Stock: " + s_list[1] + " Price:     " + s_list[0];
+                    // console.log(list_of_stocks, j);
+                    let btnId = e.target.id.toString();
+                    btnId = btnId.substring(btnId.length - 1);
+                    document.getElementById("buyInfo").innerHTML = "Stock: " + list_of_stocks[btnId][1] + ", Price:     " + list_of_stocks[btnId][0];
                 });
                 j++;
             }
@@ -141,7 +145,7 @@ function buyStock(pk, units, code) {
             "units": units
         },
         success: function (data) {
-            console.log(data);
+            // console.log(data);
             document.getElementById("popup").style.display = "block";
             document.getElementById("popup").innerHTML = data.message;
             setTimeout(function () {
@@ -158,7 +162,7 @@ function buyStock(pk, units, code) {
 
 function sellStock(pk, units) {
 
-    console.log(units);
+    // console.log(units);
 
     if (units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
         alert('Enter valid value');
@@ -183,7 +187,7 @@ function getBalance() {
         url: `/get_balance`,
         data: {},
         success: function (data) {
-            console.log(data);
+            // console.log(data);
             balance = data.balance;
             document.getElementById("balance").innerHTML = "Balance: " + balance.toString();
         }
@@ -197,7 +201,7 @@ function hideBuyDiv() {
 
 function addTabs() {
     if (window.innerWidth > 500) {
-        console.log(document.getElementById("heading"));
+        // console.log(document.getElementById("heading"));
         document.getElementById("heading").innerHTML = "&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;MARKET";
     }
 }
