@@ -121,7 +121,7 @@ function get_stock_list(code) {
                 // console.log(alpha);
                 // console.log(inputNumber);
                 // console.log("buy");
-                buyStock(parseInt(alpha), parseFloat(inputNumber));
+                buyStock(parseInt(alpha), parseFloat(inputNumber),code);
             });
         }
     });
@@ -132,7 +132,7 @@ document.getElementById("indian1").addEventListener("click", function () { get_s
 document.getElementById("international1").addEventListener("click", function () { get_stock_list("NYM"); });
 document.getElementById("international2").addEventListener("click", function () { get_stock_list("JPN"); });
 
-function buyStock(pk, units) {
+function buyStock(pk, units, code) {
 
     if (units < 0 || ((units - Math.floor(units)) != 0) || units > 10000) {
         alert('Enter valid value');
@@ -154,6 +154,7 @@ function buyStock(pk, units) {
 
             }, 2500);
             getBalance();
+            get_stock_list(code);
             document.getElementById("number").value = "";
             $('.closeBuySellDiv').trigger('click');
         }
