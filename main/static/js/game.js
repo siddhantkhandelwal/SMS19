@@ -56,7 +56,7 @@ function get_stock_list(code) {
                 buyButton.style.padding = "5px";
 
                 var sellButton = document.createElement("button");
-                sellButton.setAttribute("id", "sell-btn" + s_list[0].toString());
+                sellButton.setAttribute("id", "sell-btn" + i.toString());
                 sellButton.setAttribute("class", "sell col s2 offset-s2");
                 sellButton.setAttribute("data-pk", s_list[0]);
                 sellButton.innerHTML = "SELL";
@@ -103,20 +103,25 @@ function get_stock_list(code) {
 
             //FOR BUY BUTTONS
             while (j < buy.length) {
-                buy[j].addEventListener("click", function () {
+                buy[j].addEventListener("click", function (e) {
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("buyDiv").style.display = "block";
-                    document.getElementById("buyInfo").innerHTML = "Stock: " + s_list[1] + " Price:     " + s_list[0];
+                    let btnId = e.target.id.toString();
+                    btnId = btnId.substring(btnId.length - 1);
+                    document.getElementById("buyInfo").innerHTML = "Stock: " + stock_list[btnId][1] + ", Price:     " + stock_list[btnId][2];
                 });
                 j++;
             }
             //FOR SELL BUTTONS
             while (x < sell.length) {
                 // console.log("abcd");
-                sell[x].addEventListener("click", function () {
+                sell[x].addEventListener("click", function (e) {
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("sellDiv").style.display = "block";
-                    document.getElementById("sellInfo").innerHTML = "Stock: " + s_list[1] + " Price:     " + s_list[0];
+                    let btnId = e.target.id.toString();
+                    btnId = btnId.substring(btnId.length - 1);
+                    console.log(stock_list[btnId]);
+                    document.getElementById("sellInfo").innerHTML = "Stock: " + stock_list[btnId][1] + ", Price:     " + stock_list[btnId][2];
                 });
                 x++;
             }

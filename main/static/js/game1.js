@@ -20,11 +20,10 @@ function get_stock_list(code) {
             stock_list = data.stocks_list;
             // balance = data.balance;
             getBalance();
-            var list_of_stocks = [];
+            
             document.getElementsByClassName("stock_list")[0].innerHTML = "";
             for (var i = 0; i < stock_list.length; i++) {
                 s_list = stock_list[i];
-                list_of_stocks.push(s_list);
                 var accordion = document.createElement("div");
                 accordion.setAttribute("class", "accordion row");
                 accordion.setAttribute("data-pk", s_list[0]);
@@ -104,7 +103,7 @@ function get_stock_list(code) {
                     // console.log(list_of_stocks, j);
                     let btnId = e.target.id.toString();
                     btnId = btnId.substring(btnId.length - 1);
-                    document.getElementById("buyInfo").innerHTML = "Stock: " + list_of_stocks[btnId][1] + ", Price:     " + list_of_stocks[btnId][0];
+                    document.getElementById("buyInfo").innerHTML = "Stock: " + stock_list[btnId][1] + ", Price:     " + stock_list[btnId][2];
                 });
                 j++;
             }
