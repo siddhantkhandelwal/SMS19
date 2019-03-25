@@ -125,6 +125,7 @@ function get_stock_list(code) {
 get_stock_list("BSE");
 document.getElementById("indian1").addEventListener("click", function () { get_stock_list("BSE"); });
 document.getElementById("international1").addEventListener("click", function () { get_stock_list("NYM"); });
+document.getElementById("international2").addEventListener("click", function () { get_stock_list("JPN"); });
 
 function buyStock(pk, units) {
 

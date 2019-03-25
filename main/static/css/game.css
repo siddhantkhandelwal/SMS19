@@ -58,6 +58,10 @@
     background-color: #8e24aa;
 }
 
+#japanese:hover {
+    background-color: #8e24aa;
+}
+
 .accordion {
     color: white;
     padding: 10px;
@@ -203,8 +207,7 @@ i.icon-blue {
     left: 15vw
 }
 
-#transactions
-{
+#transactions {
     position: absolute;
     bottom: 10vh;
 }
