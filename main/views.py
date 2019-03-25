@@ -274,8 +274,8 @@ def sell_stock(request, pk):
 							 'message': 'User Does not Exist'}
 			return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-	try:
-		pk = int(pk)
+		try:
+			pk = int(pk)
 			stock = Stock.objects.get(pk=pk)
 		except:
 			response_data = {'status': 'error',
