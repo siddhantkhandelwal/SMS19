@@ -43,7 +43,15 @@ function get_stock_list(code) {
 
                 var price = document.createElement("div");
                 price.setAttribute("class", "col s4 center-align ");
-                price.innerHTML = s_list[2];
+                price.innerHTML = s_list[2] + " ";
+
+                var trendSpanUp = document.createElement("span");
+                trendSpanUp.setAttribute("class", "valign");
+                trendSpanUp.innerHTML = "<i class='fa fa-angle-up' style='color: green;'></i>";
+                
+                var trendSpanDown = document.createElement("span");
+                trendSpanDown.setAttribute("class", "valign");
+                trendSpanDown.innerHTML = "<i class='fa fa-angle-down' style='color: red;'></i>";
 
                 var unitDiv = document.createElement("div");
                 unitDiv.setAttribute("class", "col s4 center-align");
@@ -66,6 +74,14 @@ function get_stock_list(code) {
                 unitDiv.appendChild(span2);               
                 innerDiv.appendChild(span);
                 accordion.appendChild(innerDiv);
+                
+                //Fifth element of StockTrend required here. Demo functioning with number of stocks available.
+                console.log(s_list);
+                if (s_list[4]>50){
+                    price.appendChild(trendSpanUp);}
+                else if (s_list[4]<50){
+                    price.appendChild(trendSpanDown);}
+
                 accordion.appendChild(price);
                 accordion.appendChild(unitDiv);
                 panel.appendChild(buyButton);
