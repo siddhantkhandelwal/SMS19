@@ -15,6 +15,12 @@ function get_stock_list(code) {
         type: 'GET',
         url: `/get_stocks_data/${code}`, //Do not edit these special commas. Everything will go to shit.
         data: {},
+        beforeSend: function(){
+            $('.loader').show();
+        },
+        complete: function(){
+            $('.loader').hide();
+        },
         success: function (data) {
             console.log(data);
             stock_list = data.stocks_list;
@@ -96,8 +102,7 @@ function get_stock_list(code) {
             //FOR BUY BUTTONS
             while (j < buy.length) {
                 buy[j].addEventListener("click", function (e) {
-                    // console.log("abcd");
-                    // console.log(j);
+                    document.getElementById("blur").style.display = "block";
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("buyDiv").style.display = "block";
                     // console.log(list_of_stocks, j);
@@ -154,7 +159,6 @@ function buyStock(pk, units, code) {
             document.getElementById("popup").innerHTML = data.message;
             setTimeout(function () {
                 document.getElementById("popup").style.display = "none";
-
             }, 5000);
             getBalance();
             get_stock_list(code);
@@ -203,14 +207,21 @@ function hideBuyDiv() {
     document.getElementById("buyDiv").style.display = "none";
 }
 
-function addTabs() {
-    if (window.innerWidth > 500) {
-        // console.log(document.getElementById("heading"));
-        document.getElementById("heading").innerHTML = "&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;MARKET";
-    }
+function hideBlurDiv() {
+    document.getElementById("blur").style.display = "none";
 }
 
-addTabs();
+var btnContainer = document.getElementById("myDiv");
+
+var btns = btnContainer.getElementsByClassName("butn");
+
+for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function() {
+        var current = document.getElementsByClassName("activeLink");
+        current[0].className = current[0].className.replace(" activeLink", "");
+        this.className += " activeLink";
+    });
+}
    // buyButton.addEventListener('click', function() {
                 //     document.getElementById("buyDiv").style.display = "block";
                 //     document.getElementById("submit_buy").setAttribute("data-button-type", s_list[0]);

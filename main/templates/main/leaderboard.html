@@ -25,11 +25,13 @@
         <div class="loader"></div>
 
         <div class="container-fluid">
-            <div class="row valign-wrapper black" id="topHeader">
-                <div class="col s1" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
-                <div class="col s3" style="color: white;cursor:pointer;">username</div>
-                <div class="col s5 white-text flow-text" id="heading">LEADERBOARD</div>
-                <div class="col s3 white-text flow-text" id="balance">balance</div>
+            <div class="row black" id="topHeader">
+                <div class="col s1 white-text flow-text" onclick="openNav()" style="cursor:pointer;">&#9776;</div>
+                <div class="col s2"></div>
+                <div class="col s6 flow-text center-align white-text" id="heading">LEADERBOARD</div>
+                <div class="col s3 white-text center-align flow-text" style="cursor:pointer;">{{request.user.username}}</div><br>
+
+                <div class="col s12 #ab47bc purple lighten-1 white-text center-align flow-text" id="balance"></div><br><br>
             </div>
         </div>
         <div class="container">
@@ -41,11 +43,11 @@
         </div>
 
         <div class="container">
-            <div class="row #000 white-text change2"></div>
+            <div class="row #000 white-text change2 black"></div>
         </div>
 
         <div id="mySidenav" class="sidenavbar">
-            <a class="links" href="#" style="font-size: 40px;">SMS</a>
+            <a class="links" href="/" style="font-size: 40px;">SMS</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a class="links" href='/portfolio/'>Portfolio</a>
             <hr>

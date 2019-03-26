@@ -43,11 +43,3 @@ function getBalance() {
 }
 
 getBalance();
-
-function addTabs() {
-    if (window.innerWidth > 500) {
-        document.getElementById("heading").innerHTML = "&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;LEADERBOARD";
-    }
-}
-
-addTabs();

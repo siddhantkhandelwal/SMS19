@@ -35,19 +35,21 @@
         <div class="loader"></div>
 
         <div class="container-fluid">
-            <div class="#000000 black row" style="padding: 20px">
-                <div class="col s1 white-text" onclick="openNav()" style="cursor:pointer;">&#9776;</div>
-                <div class="col s3 white-text" style="cursor:pointer;">{{request.user.username}}</div>
-                <div class="col s5 flow-text" id="heading">PORTFOLIO</div>
-                <div class="col s3 center-align flow-text" id="balance"></div><br><br>
+            <div class="#000000 black row" id="myDiv" style="padding: 20px">
+                <div class="col s1 white-text flow-text" onclick="openNav()" style="cursor:pointer;">&#9776;</div>
+                <div class="col s2" onclick=""></div>
+                <div class="col s6 flow-text center-align" id="heading">PORTFOLIO</div>
+                <div class="col s3 white-text center-align flow-text" style="cursor:pointer;">{{request.user.username}}</div><br><br>
 
-                <a href="#" id="indian" class="col s4 center-align" style="padding: 5px;border-radius:10px;">
+                <div class="col s12 #ab47bc purple lighten-1 center-align flow-text" id="balance"></div><br><br>
+
+                <a href="#" id="indian" class="col s4 center-align butn activeLink" style="padding: 5px;border-radius:10px;">
                     <div class="#8e24aa purple darken-1 white-text" id="indian1" style="border-radius: 10px;">BSE &nbsp; &#8377;</div>
                 </a>
-                <a href="#" id="international" class="col s4 center-align" style="padding: 5px;border-radius:10px;">
+                <a href="#" id="international" class="col s4 center-align butn" style="padding: 5px;border-radius:10px;">
                     <div class="#8e24aa purple darken-1 white-text" id="international1" style="border-radius: 10px;">NYM &nbsp; &#36;</div>
                 </a>
-                <a href="#" id="japanese" class="col s4 center-align white-text"
+                <a href="#" id="japanese" class="col s4 center-align white-text butn"
                     style="padding: 5px;border-radius:10px;">
                     <div class="#8e24aa purple darken-1 white-text" id="international2" style="border-radius: 10px;">JPN &nbsp; &#165;</div>
                 </a>
@@ -89,24 +91,26 @@
             </div>
         </footer> -->
 
+        <div id="blur"></div>
+
         <div id="buyDiv" class="#00000 black">
-            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeBuyDiv()">&times;</a>
+            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeBuyDiv();hideBlurDiv()">&times;</a>
             <p class="flow-text" style="color:white;transform: translateY(-5px)">Buy</p>
             <p id="buyInfo" class="white-text"></p>
             <input type="number" id="number" name="number" placeholder="Units to Buy" style="color: white">
-            <input type="submit" class="editable" id="submit_buy">
+            <input type="submit" class="editable" id="submit_buy" onclick="hideBlurDiv();">
         </div>
 
         <div id="sellDiv" class="#00000 black">
-            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeSellDiv()">&times;</a>
+            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeSellDiv();hideBlurDiv()">&times;</a>
             <p class="flow-text" style="color:white;transform: translateY(-5px)">Sell</p>
             <p id="sellInfo" class="white-text"></p>
             <input type="number" id="number1" name="number" placeholder="Units to Sell" style="color: white">
-            <input type="submit" class="editable" id="submit_sell">
+            <input type="submit" class="editable" id="submit_sell" onclick="hideBlurDiv()">
         </div>
 
         <div id="mySidenav" class="sidenavbar">
-            <a class="links" href="#" style="font-size: 40px;">SMS</a>
+            <a class="links" href="/" style="font-size: 40px;">SMS</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a class="links" href='/portfolio/'>Portfolio</a>
             <hr>

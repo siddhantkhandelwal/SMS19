@@ -6,7 +6,8 @@
 
 #balance {
     color: white;
-    transform: scale(0.7);
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 #popup {
@@ -93,6 +94,23 @@
     transition: all 0.5s ease-in;
 }
 
+#blur
+{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0, 0.7);
+    z-index: 100;
+    display: none;
+}
+
+.activeLink
+{
+    background-color: #8e24aa;
+}
+
 .buy, .sell {
     margin-bottom: 5px;
     background: black;
@@ -112,6 +130,7 @@
     padding: 10px;
     border-radius: 10px;
     display: none;
+    z-index: 200;
 }
 
 #sellDiv {
@@ -124,6 +143,7 @@
     padding: 10px;
     border-radius: 10px;
     display: none;
+    z-index: 200;
 }
 
 #rightNav {
@@ -230,7 +250,11 @@ i.icon-blue {
         left: 50vw;
     }
     #heading {
-        font-size: 4vw;
+        font-size: 5vw;
+    }
+    #balance {
+        margin-top: 0px;
+        margin-bottom: 0;
     }
 }
 
@@ -244,5 +268,9 @@ i.icon-blue {
     }
     #heading {
         font-size: 4vw;
+    }
+    #balance {
+        margin-top: 0px;
+        margin-bottom: 0;
     }
 }

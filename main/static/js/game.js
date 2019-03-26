@@ -15,66 +15,79 @@ function get_stock_list(code) {
         type: 'GET',
         url: `/get_stock_purchased/${code}`, //Do not edit these special commas. Everything will go to shit.
         data: {},
+        beforeSend: function(){
+            $('.loader').show();
+        },
+        complete: function(){
+            $('.loader').hide();
+        },
         success: function (data) {
             stock_list = data.stocks_purchased;
-            getBalance();
+            if (stock_list.length == 0){
+                $(".stock_list")[0].innerHTML = "<div class='row'><div class='col s12 black white-text center-align flow-text' style='font-family: 'Ubuntu', sans-serif;'>"+
+                "No stocks owned for the current market.</div></div>"
+                getBalance();
+            }
+            
+            else {
+                getBalance();
+                document.getElementsByClassName("stock_list")[0].innerHTML = "";
+                for (var i = 0; i < stock_list.length; i++) {
+                    s_list = stock_list[i];
+                    var accordion = document.createElement("div");
+                    accordion.setAttribute("class", "accordion row");
+                    accordion.setAttribute("data-pk", s_list[0]);
 
-            document.getElementsByClassName("stock_list")[0].innerHTML = "";
-            for (var i = 0; i < stock_list.length; i++) {
-                s_list = stock_list[i];
-                var accordion = document.createElement("div");
-                accordion.setAttribute("class", "accordion row");
-                accordion.setAttribute("data-pk", s_list[0]);
+                    var innerDiv = document.createElement("div");
+                    innerDiv.setAttribute("class", "col s4 center-align ");
 
-                var innerDiv = document.createElement("div");
-                innerDiv.setAttribute("class", "col s4 center-align ");
+                    var span = document.createElement("span");
+                    span.setAttribute("class", "valign nameOfStock");
+                    span.innerHTML = s_list[1];
 
-                var span = document.createElement("span");
-                span.setAttribute("class", "valign nameOfStock");
-                span.innerHTML = s_list[1];
+                    var price = document.createElement("div");
+                    price.setAttribute("class", "col s4 center-align ");
+                    price.innerHTML = s_list[2];
 
-                var price = document.createElement("div");
-                price.setAttribute("class", "col s4 center-align ");
-                price.innerHTML = s_list[2];
+                    var units = document.createElement("div");
+                    units.setAttribute("class", "col s4 center-align ");
 
-                var units = document.createElement("div");
-                units.setAttribute("class", "col s4 center-align ");
+                    var span2 = document.createElement("span");
+                    span2.setAttribute("class", "valign");
+                    span2.innerHTML = s_list[3];
 
-                var span2 = document.createElement("span");
-                span2.setAttribute("class", "valign");
-                span2.innerHTML = s_list[3];
+                    var panel = document.createElement("div");
+                    panel.setAttribute("class", "panel row #e1bee7 purple lighten-4");
+                    panel.style.transition = "height 0.1s linear";
 
-                var panel = document.createElement("div");
-                panel.setAttribute("class", "panel row #e1bee7 purple lighten-4");
-                panel.style.transition = "height 0.1s linear";
+                    var buyButton = document.createElement("button");
+                    buyButton.setAttribute("id", "buy-btn" + i.toString());
+                    buyButton.setAttribute("data-pk", s_list[0]);
+                    buyButton.setAttribute("class", "buy col s2 offset-s3");
+                    buyButton.innerHTML = "BUY";
+                    buyButton.style.padding = "5px";
 
-                var buyButton = document.createElement("button");
-                buyButton.setAttribute("id", "buy-btn" + i.toString());
-                buyButton.setAttribute("data-pk", s_list[0]);
-                buyButton.setAttribute("class", "buy col s2 offset-s3");
-                buyButton.innerHTML = "BUY";
-                buyButton.style.padding = "5px";
+                    var sellButton = document.createElement("button");
+                    sellButton.setAttribute("id", "sell-btn" + i.toString());
+                    sellButton.setAttribute("class", "sell col s2 offset-s2");
+                    sellButton.setAttribute("data-pk", s_list[0]);
+                    sellButton.innerHTML = "SELL";
+                    sellButton.style.padding = "5px";
+                    // buyButton.style.display = "none";
+                    // buyButton.innerHTML = s_list;
 
-                var sellButton = document.createElement("button");
-                sellButton.setAttribute("id", "sell-btn" + i.toString());
-                sellButton.setAttribute("class", "sell col s2 offset-s2");
-                sellButton.setAttribute("data-pk", s_list[0]);
-                sellButton.innerHTML = "SELL";
-                sellButton.style.padding = "5px";
-                // buyButton.style.display = "none";
-                // buyButton.innerHTML = s_list;
-
-                var userBalance = document.getElementById("balance");
-                userBalance.innerHTML = `User Balance: ${balance}`;
-                panel.appendChild(buyButton);
-                innerDiv.appendChild(span);
-                accordion.appendChild(innerDiv);
-                accordion.appendChild(price);
-                accordion.appendChild(units);
-                units.appendChild(span2);
-                panel.appendChild(buyButton); panel.appendChild(sellButton);
-                document.getElementsByClassName("stock_list")[0].appendChild(accordion.cloneNode(true));
-                document.getElementsByClassName("stock_list")[0].appendChild(panel);
+                    var userBalance = document.getElementById("balance");
+                    userBalance.innerHTML = `Balance: ${balance}`;
+                    panel.appendChild(buyButton);
+                    innerDiv.appendChild(span);
+                    accordion.appendChild(innerDiv);
+                    accordion.appendChild(price);
+                    accordion.appendChild(units);
+                    units.appendChild(span2);
+                    panel.appendChild(buyButton); panel.appendChild(sellButton);
+                    document.getElementsByClassName("stock_list")[0].appendChild(accordion.cloneNode(true));
+                    document.getElementsByClassName("stock_list")[0].appendChild(panel);
+                }
             }
             var acc = document.getElementsByClassName("accordion");
             var i = 0;
@@ -104,6 +117,7 @@ function get_stock_list(code) {
             //FOR BUY BUTTONS
             while (j < buy.length) {
                 buy[j].addEventListener("click", function (e) {
+                    document.getElementById("blur").style.display = "block";
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("buyDiv").style.display = "block";
                     let btnId = e.target.id.toString();
@@ -114,13 +128,12 @@ function get_stock_list(code) {
             }
             //FOR SELL BUTTONS
             while (x < sell.length) {
-                // console.log("abcd");
                 sell[x].addEventListener("click", function (e) {
+                    document.getElementById("blur").style.display = "block";
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("sellDiv").style.display = "block";
                     let btnId = e.target.id.toString();
                     btnId = btnId.substring(btnId.length - 1);
-                    console.log(stock_list[btnId]);
                     document.getElementById("sellInfo").innerHTML = "Stock: " + stock_list[btnId][1] + ", Price:     " + stock_list[btnId][2];
                 });
                 x++;
@@ -229,14 +242,21 @@ function hideSellDiv() {
 
 }
 
-function addTabs() {
-    if (window.innerWidth > 500) {
-        document.getElementById("heading").innerHTML = "&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;PORTFOLIO";
-    }
+function hideBlurDiv() {
+    document.getElementById("blur").style.display = "none";
 }
 
-addTabs();
+var btnContainer = document.getElementById("myDiv");
 
+var btns = btnContainer.getElementsByClassName("butn");
+
+for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function() {
+        var current = document.getElementsByClassName("activeLink");
+        current[0].className = current[0].className.replace(" activeLink", "");
+        this.className += " activeLink";
+    });
+}
    // buyButton.addEventListener('click', function() {
                 //     document.getElementById("buyDiv").style.display = "block";
                 //     document.getElementById("submit_buy").setAttribute("data-button-type", s_list[0]);
