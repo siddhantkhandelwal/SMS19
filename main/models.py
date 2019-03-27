@@ -13,7 +13,7 @@ class UserProfile(models.Model):
 
 
 class Market(models.Model):
-    market_name = models.CharField(max_length=10, unique=True)
+    market_name = models.CharField(max_length=10, unique=True, null=True)
     exchange_rate = models.FloatField(default=1)
     price_rate_change_factor = models.FloatField(default=1)
 
@@ -22,7 +22,7 @@ class Market(models.Model):
 
 
 class Stock(models.Model):
-    market = models.ForeignKey(Market, on_delete=models.CASCADE)
+    market = models.ForeignKey(Market, on_delete=models.CASCADE, null=True)
     stock_name = models.CharField(max_length=100, unique=True)
     stock_price = models.PositiveIntegerField(default=0)
     initial_price = models.IntegerField(default=0)
@@ -57,7 +57,8 @@ class StockPurchased(models.Model):
 
 
 class NewsPost(models.Model):
-    headline = models.CharField(null=False, max_length=1000)
+    headline = models.CharField(
+        null=False, max_length=1000, default="Insert Headline Here")
     body = models.TextField(null=False)
     date_added = models.DateTimeField(auto_now=True)
 
