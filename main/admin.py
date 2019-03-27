@@ -1,5 +1,5 @@
 from django.contrib import admin
-from main.models import Stock, Transaction, UserProfile, NewsPost, StockPurchased
+from main.models import Stock, Transaction, UserProfile, NewsPost, StockPurchased, Market
 
 
 class TransactionAdmin(admin.ModelAdmin):
@@ -12,16 +12,24 @@ class StockPurchasedAdmin(admin.ModelAdmin):
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'name', 'balance',)
+    list_display = ('id', 'user', 'name', 'balance', 'net_worth')
 
 
 class StockAdmin(admin.ModelAdmin):
-    list_display = ('id', 'stock_name', 'stock_price', 'market_type',
-                    'initial_price', 'available_no_units', 'date_added')
+    list_display = ('id', 'market', 'stock_name', 'stock_price', 'initial_price',
+                    'stock_trend', 'price_rate_change_factor', 'available_no_units', 'date_added', 'is_active',)
+
+    def price_rate_change_factor(self, obj):
+        return obj.market.price_rate_change_factor
 
 
 class NewsPostAdmin(admin.ModelAdmin):
     list_display = ('id', 'headline', 'body', 'date_added')
+
+
+class MarketAdmin(admin.ModelAdmin):
+    list_display = ('id', 'market_name', 'exchange_rate',
+                    'price_rate_change_factor')
 
 
 admin.site.register(UserProfile, UserProfileAdmin)
@@ -29,3 +37,4 @@ admin.site.register(Stock, StockAdmin)
 admin.site.register(NewsPost, NewsPostAdmin)
 admin.site.register(Transaction, TransactionAdmin)
 admin.site.register(StockPurchased, StockPurchasedAdmin)
+admin.site.register(Market, MarketAdmin)

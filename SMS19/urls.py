@@ -33,7 +33,6 @@ urlpatterns = [
     path('sell_stock/<pk>/', views.sell_stock, name='sell_stock'),
     path('accounts/register/', views.register, name='register'),
     path('accounts/login/', views.user_login, name='user_login'),
-    path('accounts/', include('allauth.urls')),
     path('test/', views.test, name="test"),
     path('get_stock_purchased/<str:code>', views.get_stock_purchased,
          name="get_stock_purchased"),

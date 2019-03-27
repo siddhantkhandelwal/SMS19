@@ -15,20 +15,20 @@ function get_stock_list(code) {
         type: 'GET',
         url: `/get_stock_purchased/${code}`, //Do not edit these special commas. Everything will go to shit.
         data: {},
-        beforeSend: function(){
+        beforeSend: function () {
             $('.loader').show();
         },
-        complete: function(){
+        complete: function () {
             $('.loader').hide();
         },
         success: function (data) {
             stock_list = data.stocks_purchased;
-            if (stock_list.length == 0){
-                $(".stock_list")[0].innerHTML = "<div class='row'><div class='col s12 black white-text center-align flow-text' style='font-family: 'Ubuntu', sans-serif;'>"+
-                "No stocks owned for the current market.</div></div>"
+            if (stock_list.length == 0) {
+                $(".stock_list")[0].innerHTML = "<div class='row'><div class='col s12 black white-text center-align flow-text' style='font-family: 'Ubuntu', sans-serif;'>" +
+                    "No stocks owned for the current market.</div></div>"
                 getBalance();
             }
-            
+
             else {
                 getBalance();
                 document.getElementsByClassName("stock_list")[0].innerHTML = "";
@@ -37,44 +37,44 @@ function get_stock_list(code) {
                     var accordion = document.createElement("div");
                     accordion.setAttribute("class", "accordion row");
                     accordion.setAttribute("data-pk", s_list[0]);
-                    
+
                     var innerDiv = document.createElement("div");
                     innerDiv.setAttribute("class", "col s4 center-align ");
-                    
+
                     var span = document.createElement("span");
                     span.setAttribute("class", "valign nameOfStock");
                     span.innerHTML = s_list[1];
-                    
+
                     var price = document.createElement("div");
                     price.setAttribute("class", "col s4 center-align ");
-                    price.innerHTML = s_list[2]+" ";
-                    
+                    price.innerHTML = s_list[2] + " ";
+
                     var trendSpanUp = document.createElement("span");
                     trendSpanUp.setAttribute("class", "valign");
                     trendSpanUp.innerHTML = "<i class='fa fa-angle-up' style='color: green;'></i>";
-                    
+
                     var trendSpanDown = document.createElement("span");
                     trendSpanDown.setAttribute("class", "valign");
                     trendSpanDown.innerHTML = "<i class='fa fa-angle-down' style='color: red;'></i>";
-            
+
                     var units = document.createElement("div");
                     units.setAttribute("class", "col s4 center-align ");
-                    
+
                     var span2 = document.createElement("span");
                     span2.setAttribute("class", "valign");
                     span2.innerHTML = s_list[3];
-                    
+
                     var panel = document.createElement("div");
                     panel.setAttribute("class", "panel row #e1bee7 purple lighten-4");
                     panel.style.transition = "height 0.1s linear";
-                    
+
                     var buyButton = document.createElement("button");
                     buyButton.setAttribute("id", "buy-btn" + i.toString());
                     buyButton.setAttribute("data-pk", s_list[0]);
                     buyButton.setAttribute("class", "buy col s2 offset-s3");
                     buyButton.innerHTML = "BUY";
                     buyButton.style.padding = "5px";
-                    
+
                     var sellButton = document.createElement("button");
                     sellButton.setAttribute("id", "sell-btn" + i.toString());
                     sellButton.setAttribute("class", "sell col s2 offset-s2");
@@ -83,18 +83,20 @@ function get_stock_list(code) {
                     sellButton.style.padding = "5px";
                     // buyButton.style.display = "none";
                     // buyButton.innerHTML = s_list;
-                    
+
                     var userBalance = document.getElementById("balance");
                     userBalance.innerHTML = `Balance: ${balance}`;
                     panel.appendChild(buyButton);
                     innerDiv.appendChild(span);
                     accordion.appendChild(innerDiv);
-                     
+
                     //Fifth element of StockTrend required here. Demo functioning with number of stocks purchased.
-                    if (s_list[3]>2){
-                        price.appendChild(trendSpanUp);}
-                    else if (s_list[3]<2){
-                        price.appendChild(trendSpanDown);}
+                    if (s_list[4] > 0) {
+                        price.appendChild(trendSpanUp);
+                    }
+                    else {
+                        price.appendChild(trendSpanDown);
+                    }
 
                     accordion.appendChild(price);
                     accordion.appendChild(units);
@@ -266,7 +268,7 @@ var btnContainer = document.getElementById("myDiv");
 var btns = btnContainer.getElementsByClassName("butn");
 
 for (var i = 0; i < btns.length; i++) {
-    btns[i].addEventListener("click", function() {
+    btns[i].addEventListener("click", function () {
         var current = document.getElementsByClassName("activeLink");
         current[0].className = current[0].className.replace(" activeLink", "");
         this.className += " activeLink";

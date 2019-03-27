@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from django.core.mail import send_mail
-from main.models import UserProfile, Stock, Transaction, NewsPost, StockPurchased
+from main.models import UserProfile, Stock, Transaction, NewsPost, StockPurchased, Market
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -15,19 +15,24 @@ import operator
 from datetime import datetime
 
 special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
-CONST_RATE_CHANGE = 0.01
 
 
 @csrf_exempt
 def get_stock_purchased(request, code):
+    code = code.lower()
     user_profile = UserProfile.objects.get(user=request.user)
-    stocks_purchased = StockPurchased.objects.filter(owner=user_profile).order_by('-pk')
+    stocks_purchased = StockPurchased.objects.filter(
+        owner=user_profile).order_by('-pk')
     list_stocks_purchased = []
     for stock_purchased in stocks_purchased:
-        if stock_purchased.stock.market_type == code:
+        if stock_purchased.stock.market.market_name == code:
             units = stock_purchased.units
+            if stock_purchased.stock.stock_price >= stock_purchased.stock.initial_price:
+                stock_purchased.stock.stock_trend = 1
+            else:
+                stock_purchased.stock.stock_trend = -1
             stock_data = [stock_purchased.stock.pk, stock_purchased.stock.stock_name,
-                          stock_purchased.stock.stock_price, units]
+                          stock_purchased.stock.stock_price, units, stock_purchased.stock.stock_trend]
             list_stocks_purchased.append(stock_data)
     response = {'stocks_purchased': list_stocks_purchased}
     return JsonResponse(response)
@@ -68,8 +73,8 @@ def register(request):
         name = request.POST.get('name')
 
         if None in [username, password, email, name]:
-            reponse_data = {'status': 'error',
-                            'message': 'One/more of fields missing'}
+            response_data = {'status': 'error',
+                             'message': 'One/more of fields missing'}
             return render(request, 'main/register.html', response_data)
 
         if special_character_regex.search(name) or special_character_regex.search(username):
@@ -105,8 +110,8 @@ def user_login(request):
         password = request.POST.get('password')
 
         if None in [username, password]:
-            reponse_data = {'status': 'error',
-                            'message': 'One/more of fields missing'}
+            response_data = {'status': 'error',
+                             'message': 'One/more of fields missing'}
             return render(request, 'main/login.html', response_data)
 
         user = authenticate(username=username, password=password)
@@ -167,11 +172,17 @@ def game(request):
 @login_required
 def get_stocks_data(request, code):
     try:
-        stocks = Stock.objects.filter(market_type=code).order_by('-pk')
+        code = code.lower()
+        market = Market.objects.get(market_name=code)
+        stocks = Stock.objects.filter(market=market).order_by('-pk')
         stocks_list = []
         for stock in stocks:
+            if stock.stock_price >= stock.initial_price:
+                stock.stock_trend = 1
+            else:
+                stock.stock_trend = -1
             stock_data = [stock.pk, stock.stock_name, stock.stock_price,
-                          stock.initial_price, stock.available_no_units, ]
+                          stock.initial_price, stock.available_no_units, stock.stock_trend]
             stocks_list.append(stock_data)
         data = {'stocks_list': stocks_list}
         return JsonResponse(data)
@@ -209,14 +220,20 @@ def buy_stock(request, pk):
                              'message': 'Invalid Units'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-        cost = stock_to_buy.stock_price * units * stock_to_buy.conversion_rate
+        cost = stock_to_buy.stock_price * units * stock_to_buy.market.exchange_rate
 
         try:
-            assert(user_profile.balance >= cost and units <=
-                   stock_to_buy.available_no_units)
+            assert(user_profile.balance >= cost)
         except:
             response_data = {'status': 'error',
-                             'message': 'Insufficient Balance for Transaction or Insufficient No. of Stocks to Buy'}
+                             'message': 'Insufficient Balance'}
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+        try:
+            assert(units <= stock_to_buy.available_no_units)
+        except:
+            response_data = {'status': 'error',
+                             'message': 'Insufficient No. of Stocks to Buy'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
         # if (user_profile.balance < cost or units > stock_to_buy.available_no_units):
@@ -228,17 +245,19 @@ def buy_stock(request, pk):
             user_profile.balance = F('balance') - cost
             user_profile.save()
             user_profile.refresh_from_db()
+
             stock_to_buy.available_no_units = F('available_no_units') - units
             stock_to_buy.save()
             stock_to_buy.refresh_from_db()
-            transaction_uid = random.randint(1, 10000)
+
             transaction = Transaction.objects.create(
-                uid=transaction_uid, owner=user_profile, stock=stock_to_buy)
+                owner=user_profile, stock=stock_to_buy)
             transaction.units = units
             transaction.cost = cost
             transaction.type = 'B'
             transaction.save()
             transaction.refresh_from_db()
+
             try:
                 stock_purchased = StockPurchased.objects.get(
                     owner=user_profile, stock=stock_to_buy)
@@ -250,8 +269,8 @@ def buy_stock(request, pk):
                     owner=user_profile, stock=stock_to_buy, units=units)
                 stock_purchased.refresh_from_db()
 
-            stock_to_buy.stock_price += CONST_RATE_CHANGE * \
-                F('stock_price')*units
+            stock_to_buy.stock_price += F('stock_price') * \
+                units * stock_to_buy.market.price_rate_change_factor
             stock_to_buy.save()
             stock_to_buy.refresh_from_db()
 
@@ -299,7 +318,7 @@ def sell_stock(request, pk):
                              'message': 'Invalid Units'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-        cost = stock.stock_price * units * stock.conversion_rate
+        cost = stock.stock_price * units * stock.market.exchange_rate
         try:
             assert(units <= stock_to_sell.units)
         except:
@@ -311,27 +330,39 @@ def sell_stock(request, pk):
             user_profile.balance = F('balance') + cost
             user_profile.save()
             user_profile.refresh_from_db()
+
             stock.available_no_units = F('available_no_units') + units
             stock.save()
             stock.refresh_from_db()
-            if(stock_to_sell.units == units):
+
+            try:
+                assert(stock_to_sell.units == units)
                 stock_to_sell.delete()
-            else:
+            except:
                 stock_to_sell.units = F('units') - units
                 stock_to_sell.save()
                 stock_to_sell.refresh_from_db()
-            transaction_uid = random.randint(1, 1000000000)
+
+            # if(stock_to_sell.units == units):
+            #     stock_to_sell.delete()
+            # else:
+            #     stock_to_sell.units = F('units') - units
+            #     stock_to_sell.save()
+            #     stock_to_sell.refresh_from_db()
+
             transaction = Transaction.objects.create(
-                uid=transaction_uid, owner=user_profile, stock=stock)
+                owner=user_profile, stock=stock)
             transaction.units = units
             transaction.cost = cost
             transaction.type = 'S'
             transaction.save()
             transaction.refresh_from_db()
-            stock.stock_price -= CONST_RATE_CHANGE * \
+
+            stock.stock_price -= stock.market.price_rate_change_factor * \
                 F('stock_price')*units
             stock.save()
             stock.refresh_from_db()
+
             response_data = {'status': 'success',
                              'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully sold {units} units of {stock.stock_name}'}
         except:

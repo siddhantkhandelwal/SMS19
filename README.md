@@ -59,7 +59,7 @@ python manage.py runserver 0.0.0.0:8000
 
 ### Setting Up Social media login
 
-- first create a django superuser using following command 
+- first create a django superuser using following command
 
 ```bash
 python manage.py createsuperuser
@@ -87,7 +87,7 @@ python manage.py createsuperuser
 - Feel free to make necessary changes.
 - Please migrate before running the server.
 
-## References for allauth :
+## References for allauth
 
 - Settings : <https://django-allauth.readthedocs.io/en/latest/configuration.html>
 - adapters.py <https://stackoverflow.com/questions/27759407/django-allauth-redirect-after-social-signup>

@@ -15,10 +15,10 @@ function get_stock_list(code) {
         type: 'GET',
         url: `/get_stocks_data/${code}`, //Do not edit these special commas. Everything will go to shit.
         data: {},
-        beforeSend: function(){
+        beforeSend: function () {
             $('.loader').show();
         },
-        complete: function(){
+        complete: function () {
             $('.loader').hide();
         },
         success: function (data) {
@@ -26,7 +26,7 @@ function get_stock_list(code) {
             stock_list = data.stocks_list;
             // balance = data.balance;
             getBalance();
-            
+
             document.getElementsByClassName("stock_list")[0].innerHTML = "";
             for (var i = 0; i < stock_list.length; i++) {
                 s_list = stock_list[i];
@@ -48,7 +48,7 @@ function get_stock_list(code) {
                 var trendSpanUp = document.createElement("span");
                 trendSpanUp.setAttribute("class", "valign");
                 trendSpanUp.innerHTML = "<i class='fa fa-angle-up' style='color: green;'></i>";
-                
+
                 var trendSpanDown = document.createElement("span");
                 trendSpanDown.setAttribute("class", "valign");
                 trendSpanDown.innerHTML = "<i class='fa fa-angle-down' style='color: red;'></i>";
@@ -71,16 +71,18 @@ function get_stock_list(code) {
                 buyButton.style.padding = "5px";
                 buyButton.innerHTML = "BUY";
 
-                unitDiv.appendChild(span2);               
+                unitDiv.appendChild(span2);
                 innerDiv.appendChild(span);
                 accordion.appendChild(innerDiv);
-                
+
                 //Fifth element of StockTrend required here. Demo functioning with number of stocks available.
                 console.log(s_list);
-                if (s_list[4]>50){
-                    price.appendChild(trendSpanUp);}
-                else if (s_list[4]<50){
-                    price.appendChild(trendSpanDown);}
+                if (s_list[5] > 0) {
+                    price.appendChild(trendSpanUp);
+                }
+                else {
+                    price.appendChild(trendSpanDown);
+                }
 
                 accordion.appendChild(price);
                 accordion.appendChild(unitDiv);
@@ -145,7 +147,7 @@ function get_stock_list(code) {
                 // console.log(alpha);
                 // console.log(inputNumber);
                 // console.log("buy");
-                buyStock(parseInt(alpha), parseFloat(inputNumber),code);
+                buyStock(parseInt(alpha), parseFloat(inputNumber), code);
             });
         }
     });
@@ -232,7 +234,7 @@ var btnContainer = document.getElementById("myDiv");
 var btns = btnContainer.getElementsByClassName("butn");
 
 for (var i = 0; i < btns.length; i++) {
-    btns[i].addEventListener("click", function() {
+    btns[i].addEventListener("click", function () {
         var current = document.getElementsByClassName("activeLink");
         current[0].className = current[0].className.replace(" activeLink", "");
         this.className += " activeLink";
