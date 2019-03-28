@@ -22,13 +22,12 @@ function get_stock_list(code) {
             $('.loader').hide();
         },
         success: function (data) {
-
-            let marketStatus  = true;
-            if(!marketStatus) {
+            
+            if( !data.marketStatus) {
                 alert('This market has been temporarily closed by EFA');
+                return;
             }
 
-            console.log(data);
             stock_list = data.stocks_list;
             // balance = data.balance;
             getBalance();
@@ -106,7 +105,7 @@ function get_stock_list(code) {
                     var panel = this.nextElementSibling;
                     // console.log(panel);
                     // panel.style.maxHeight = panel.scrollHeight + "px";
-                    let stockStatus = true;
+                    let stockStatus = data.stock_list[i][6];
                     if( !stockStatus) {
                         alert('This stock has been closed by EFA.');
                         return;
