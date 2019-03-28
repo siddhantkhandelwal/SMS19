@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    balance = models.FloatField(default=100000)
-    net_worth = models.FloatField(default=100000)
+    balance = models.FloatField(default=200000)
+    net_worth = models.FloatField(default=200000)
 
     def __str__(self):
         return f'{self.name} - {self.user.username}'
