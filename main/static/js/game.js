@@ -123,7 +123,9 @@ function get_stock_list(code) {
                     var panel = this.nextElementSibling;
                     // console.log('s_list');
                     panel.style.maxHeight = panel.scrollHeight + "px";
-                    let stockStatus = s_list[6];
+                    let stockStatus = s_list[5];
+                    // console.log(stockStatus);
+                    // console.log(s_list);
                     if( !marketStatus) {
                         alert('Market has been closed by EFA.');
                         return;
