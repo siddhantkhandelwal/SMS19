@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
 
 
 class UserProfile(models.Model):
@@ -25,8 +26,8 @@ class Market(models.Model):
 class Stock(models.Model):
     market = models.ForeignKey(Market, on_delete=models.CASCADE, null=True)
     stock_name = models.CharField(max_length=100, unique=True)
-    stock_price = models.PositiveIntegerField(default=0)
-    initial_price = models.IntegerField(default=0)
+    stock_price = models.FloatField(default=0, validators=[MinValueValidator(0)])
+    initial_price = models.FloatField(default=0, validators=[MinValueValidator(0)])
     stock_trend = models.IntegerField(
         default=0, choices=((1, 1), (-1, -1), (0, 0)))
     available_no_units = models.PositiveIntegerField(default=0)
