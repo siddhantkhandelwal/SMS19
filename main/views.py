@@ -477,6 +477,7 @@ def leaderboard_data(request):
     response_data = {'list_rank': list_rank,
                      'list_user_name': list_user_name,
                      'list_net_worth': list_net_worth,
+                     'current_username': user_profile.user.username
                      }
     return JsonResponse(response_data)
 

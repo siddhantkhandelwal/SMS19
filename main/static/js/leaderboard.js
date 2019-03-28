@@ -13,13 +13,20 @@ function get_leaderboard() {
         url: `/leaderboard`,
         data: {},
         success: function (data) {
-            console.log(data);
+            // console.log(data);
             var list_rank = data.list_rank;
             var list_net_worth = data.list_net_worth;
             var list_user_name = data.list_user_name;
-
-            for (var i = 0; i < list_rank.length; i++) {
-                document.getElementsByClassName("change2")[0].innerHTML += '<div class="col s4 center-align">' + list_rank[i].toString() + '</div> <div class="col s4 center-align">' + list_user_name[i] + '</div> <div class="col s4 center-align">' + list_net_worth[i].toString() + '</div>';
+            let user = data.current_username;
+            let i;
+            for (i = 0; i < list_rank.length; i++) {
+                
+                if( (user == list_user_name[i]) && (i>=10)) {
+                    document.getElementsByClassName("change2")[0].innerHTML += '<div class="col s4 center-align">' + list_rank[i].toString() + '</div> <div class="col s4 center-align">' + list_user_name[i] + '</div> <div class="col s4 center-align">' + list_net_worth[i].toString() + '</div>';
+                    break;
+                }
+                if( i < 10)
+                    document.getElementsByClassName("change2")[0].innerHTML += '<div class="col s4 center-align">' + list_rank[i].toString() + '</div> <div class="col s4 center-align">' + list_user_name[i] + '</div> <div class="col s4 center-align">' + list_net_worth[i].toString() + '</div>';
             }
 
             var userBalance = document.getElementById("balance");
