@@ -171,9 +171,9 @@ function get_stock_list(code) {
 }
 
 get_stock_list("BSE");
-document.getElementById("indian1").addEventListener("click", function () { get_stock_list("BSE"); });
-document.getElementById("international1").addEventListener("click", function () { get_stock_list("NYM"); });
-document.getElementById("international2").addEventListener("click", function () { get_stock_list("JPN"); });
+document.getElementById("indian1").addEventListener("click", function () { get_stock_list("BSE");document.getElementById("conversion").innerHTML = "1 &#8377; = 1 &#8377;"; });
+document.getElementById("international1").addEventListener("click", function () { get_stock_list("NYM");document.getElementById("conversion").innerHTML = "69.16 &#8377; = 1 &#36;"; });
+document.getElementById("international2").addEventListener("click", function () { get_stock_list("JPN");document.getElementById("conversion").innerHTML = "0.63 &#8377; = 1 &#165;"; });
 
 function buyStock(pk, units, code) {
 
