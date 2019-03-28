@@ -4,10 +4,10 @@ function get_news() {
         url: '/get_news_post',
         data: {},
         success: function (data) {
-            console.log(data);
-            console.log(document.getElementById("card_holder"));
-            console.log(data.news_list);
-            console.log(data.news_list[0][0]);
+            // console.log(data);
+            // console.log(document.getElementById("card_holder"));
+            // console.log(data.news_list);
+            // console.log(data.news_list[0][0]);
             for (let i = 0; i < data.news_list.length; i++) {
                 document.getElementById("card_holder").innerHTML +=
                     "<div class='card'>" +
