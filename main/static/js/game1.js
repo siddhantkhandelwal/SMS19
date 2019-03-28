@@ -83,7 +83,7 @@ function get_stock_list(code) {
                 accordion.appendChild(innerDiv);
 
                 //Fifth element of StockTrend required here. Demo functioning with number of stocks available.
-                console.log(s_list);
+                //console.log(s_list);
                 if (s_list[5] > 0) {
                     price.appendChild(trendSpanUp);
                 }
@@ -218,7 +218,7 @@ function sellStock(pk, units) {
             "units": units
         },
         success: function (data) {
-            console.log(data);
+            //console.log(data);
         }
     });
 }
