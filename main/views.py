@@ -68,6 +68,10 @@ def news(request):
     return render(request, 'main/news.html')
 
 
+def instructions(request):
+    return render(request, 'main/instructions.html')
+
+
 def register(request):
     if request.user.is_authenticated:
         return redirect('game')

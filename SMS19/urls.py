@@ -31,6 +31,7 @@ else:
             name='user_forgot_password'),
         path('admin/', admin.site.urls),
         path('', views.game, name='game'),
+        path('instructions/', views.instructions, name='instructions'),
         path('portfolio/', views.portfolio, name='portfolio'),
         path('efa/<code>/<pk>', views.api_efa, name='api_efa'),
         path('efa/<code>', views.api_efa, name='api_efa'),
