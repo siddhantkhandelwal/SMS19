@@ -98,7 +98,7 @@
 {
     width: 100vw;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     background: rgba(0,0,0, 0.7);
@@ -121,7 +121,7 @@
 }
 
 #buyDiv {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -134,7 +134,7 @@
 }
 
 #sellDiv {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
