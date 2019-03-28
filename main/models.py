@@ -12,21 +12,32 @@ class UserProfile(models.Model):
         return f'{self.name} - {self.user.username}'
 
 
-class Stock(models.Model):
-    stock_name = models.CharField(max_length=100, unique=True)
-    stock_price = models.PositiveIntegerField(default=0)
-    market_type = models.CharField(max_length=10, null=False, choices=(
-        ('BSE', 'BSE'), ('NYM', 'NYM')), default='BSE')
-    initial_price = models.IntegerField(default=0)
-    available_no_units = models.PositiveIntegerField(default=0)
-    date_added = models.DateTimeField(auto_now=True)
+class Market(models.Model):
+    market_name = models.CharField(max_length=10, unique=True, null=True)
+    exchange_rate = models.FloatField(default=1)
+    price_rate_change_factor = models.FloatField(default=1)
 
     def __str__(self):
-        return f'{self.stock_name} - {self.market_type}'
+        return f'{self.market_name} - {self.exchange_rate}'
+
+
+class Stock(models.Model):
+    market = models.ForeignKey(Market, on_delete=models.CASCADE, null=True)
+    stock_name = models.CharField(max_length=100, unique=True)
+    stock_price = models.PositiveIntegerField(default=0)
+    initial_price = models.IntegerField(default=0)
+    stock_trend = models.IntegerField(
+        default=0, choices=((1, 1), (-1, -1), (0, 0)))
+    available_no_units = models.PositiveIntegerField(default=0)
+    date_added = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'{self.stock_name} - {self.market.market_name}'
 
 
 class Transaction(models.Model):
-    uid = models.IntegerField(default=0, unique=True)
+    uid = models.AutoField(primary_key=True)
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     units = models.IntegerField(default=0)
@@ -46,7 +57,8 @@ class StockPurchased(models.Model):
 
 
 class NewsPost(models.Model):
-    headline = models.CharField(null=False, max_length=1000)
+    headline = models.CharField(
+        null=False, max_length=1000, default="Insert Headline Here")
     body = models.TextField(null=False)
     date_added = models.DateTimeField(auto_now=True)
 

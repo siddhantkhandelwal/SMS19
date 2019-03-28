@@ -2,114 +2,147 @@
     {% load static %}
 
     <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121963281-2"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
 
+            gtag('config', 'UA-121963281-2');
+        </script>
+
+        <title>SMS 2019</title>
         <meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{% block title %}{% endblock %}- SMS 2019</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" type="text/css" href="{% static 'css/template.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'css/game.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/loader.css' %}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
         <meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
         <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-        <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Baloo+Chettan" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Sniglet" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Roboto:900" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+        <script language="javascript" type="text/javascript">
+            function hideLoader() {
+                $('.loader').hide();
+            }
+        </script>
+
     </head>
 
-    <body>
+    <body onload="hideLoader()">
+
+        <div class="loader"></div>
 
         <div class="container-fluid">
-            <div class="#000000 black row" style="padding: 20px">
-                <div class="col s3" onclick="openNav()" style="color: white;cursor:pointer;">&#9776;</div>
-                <div class="col s6 center-align" id="heading">Portfolio</div>
-                <div class="col s3 center-align" id="balance" style="color: white;font-family: 'Lato', sans-serif;"></div><br><br>
-                <a href="#" id="indian" class="col s4 offset-s1 center-align" style="padding: 5px;border-radius:10px;">
-                    <div class="#8e24aa purple darken-1" id="indian1"
-                        style="color:white;font-family: 'Raleway', sans-serif;border-radius: 10px;">Indian</div>
+            <div class="#000000 black row" id="myDiv" style="padding: 20px">
+                <div class="col s1 white-text flow-text" onclick="openNav()" style="cursor:pointer;">&#9776;</div>
+                <div class="col s2" onclick=""></div>
+                <div class="col s6 flow-text center-align" id="heading">PORTFOLIO</div>
+                <div class="col s3 white-text center-align flow-text" style="cursor:pointer;">{{request.user.username}}
+                </div><br><br>
+
+                <div class="col s12 #ab47bc purple lighten-1 center-align flow-text" id="balance"></div><br><br>
+
+                <a href="#" id="indian" class="col s4 center-align butn activeLink"
+                    style="padding: 5px;border-radius:10px;">
+                    <div class="#8e24aa purple darken-1 white-text" id="indian1" style="border-radius: 10px;">BSE &nbsp;
+                        &#8377;</div>
                 </a>
-                <a href="#" id="international" class="col s4 offset-s2 center-align"
-                    style="color: white;padding: 5px;border-radius:10px;">
-                    <div class="#8e24aa purple darken-1" id="international1"
-                        style="font-family: 'Raleway', sans-serif;border-radius: 10px;">International</div>
+                <a href="#" id="international" class="col s4 center-align butn"
+                    style="padding: 5px;border-radius:10px;">
+                    <div class="#8e24aa purple darken-1 white-text" id="international1" style="border-radius: 10px;">NYM
+                        &nbsp; &#36;</div>
+                </a>
+                <a href="#" id="japanese" class="col s4 center-align white-text butn"
+                    style="padding: 5px;border-radius:10px;">
+                    <div class="#8e24aa purple darken-1 white-text" id="international2" style="border-radius: 10px;">JPN
+                        &nbsp; &#165;</div>
                 </a>
             </div>
 
             <div class="container">
                 <div class="row #ab47bc purple lighten-1 hoverable z-depth-2">
-                    <div class="col s4 center-align flow-text white-text"
-                        style="font-family: 'Raleway', sans-serif;">STOCK NAME</div>
+                    <div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">
+                        STOCK NAME</div>
                     <div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">
                         STOCK PRICE</div>
                     <div class="col s4 center-align flow-text white-text" style="font-family: 'Raleway', sans-serif;">
-                        UNITS</div>
+                        UNITS OWNED</div>
                 </div>
 
-                <div class="stock_list">
-                    <div class="accordion row #e1bee7 purple lighten-4">
-                        <div class="col s4 center-align offset-s2">
-                            <span class="valign nameOfStock">Apple</span>
-                            <!-- <i class="small material-icons upColor" style="transform: scale(0.5) translateY(5px);"><b><b>arrow_upward</b></b>
-                            </i> -->
-                            <i class="small material-icons downColor"
-                                style="transform: scale(0.5) translateY(5px);"><b><b>arrow_downward</b></b>
-                            </i>
-                        </div>
-                        <div class="col s4 center-align">10</div>
-                    </div>
-                    <div class="panel row #e1bee7 purple lighten-4">
-                        <button class="buy col s2 offset-s3" onclick="openBuyDiv()" style="padding: 7px">BUY</button>
-                        <button class="sell col s2 offset-s2" onclick="openSellDiv()" style="padding: 7px">SELL</button>
-                    </div>
-
-
-                </div>
+                <div class="stock_list"></div>
             </div>
-
         </div>
 
+        <!-- <footer id="footer" class="page-footer #ce93d8 purple lighten-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12" style="border: 2px solid black">
+                        Transaction 1
+                    </div>
+                    <div class="col s12">
+                        Transaction 2
+                    </div>
+                    <div class="col s12">
+                        Transaction 3
+                    </div>
+                    <div class="col s12">
+                        Transaction 4
+                    </div>
+                    <div class="col s12">
+                        Transaction 5
+                    </div>
+                </div>
+            </div>
+        </footer> -->
+
+        <div id="blur"></div>
+
         <div id="buyDiv" class="#00000 black">
-            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeBuyDiv()">&times;</a>
+            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeBuyDiv();hideBlurDiv()">&times;</a>
             <p class="flow-text" style="color:white;transform: translateY(-5px)">Buy</p>
+            <p id="buyInfo" class="white-text"></p>
             <input type="number" id="number" name="number" placeholder="Units to Buy" style="color: white">
-            <input type="submit" class="editable" id="submit_buy">
+            <input type="submit" class="editable" id="submit_buy" onclick="hideBlurDiv();">
         </div>
 
         <div id="sellDiv" class="#00000 black">
-            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeSellDiv()">&times;</a>
+            <a href="javascript:void(0)" class="closeBuySellDiv" onclick="closeSellDiv();hideBlurDiv()">&times;</a>
             <p class="flow-text" style="color:white;transform: translateY(-5px)">Sell</p>
-            <input type="number" ID="number1" name="number" placeholder="Units to Sell" style="color: white">
-            <input type="submit" class="editable" id="submit_sell">
+            <p id="sellInfo" class="white-text"></p>
+            <input type="number" id="number1" name="number" placeholder="Units to Sell" style="color: white">
+            <input type="submit" class="editable" id="submit_sell" onclick="hideBlurDiv()">
         </div>
 
         <div id="mySidenav" class="sidenavbar">
-            <a class="links" href="#" style="font-size: 40px;">SMS</a>
+            <a class="links" href="/" style="font-size: 40px;">SMS</a>
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a class="links" href='/portfolio/'>Portfolio</a>
             <hr>
             <a class="links" href='/'>Market</a>
             <hr>
-            <a class="links" href=''>Leaderboard</a>
+            <a class="links" href='/display_leaderboard'>Leaderboard</a>
             <hr>
-            <a class="links" href=''>News </a>
+            <a class="links" href='/news'>News </a>
             <hr>
             <a class="links" href='/accounts/logout/'>Logout</a>
             <hr>
         </div>
         </div>
-        <div class="csrf_token" id="csrf" name={%csrf_token%}></div>
+        <div id="popup"></div>
         <script src="https://code.jquery.com/jquery-3.3.1.js"
             integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
         <script type="text/javascript" src="{% static 'js/game.js' %}"></script>

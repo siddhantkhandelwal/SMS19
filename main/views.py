@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from django.core.mail import send_mail
-from main.models import UserProfile, Stock, Transaction, NewsPost, StockPurchased
+from main.models import UserProfile, Stock, Transaction, NewsPost, StockPurchased, Market
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -12,29 +12,37 @@ import re
 from django.db.models import F
 import random
 import operator
+from datetime import datetime
 
 special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
-CONST_RATE_INCREASE = 0.01
 
 
 @csrf_exempt
-def get_stock_purchased(request):
+def get_stock_purchased(request, code):
+    code = code.lower()
     user_profile = UserProfile.objects.get(user=request.user)
-    stocks_purchased = StockPurchased.objects.filter(owner=user_profile)
+    stocks_purchased = StockPurchased.objects.filter(
+        owner=user_profile).order_by('-pk')
     list_stocks_purchased = []
     for stock_purchased in stocks_purchased:
-        units = stock_purchased.units
-        price = stock_purchased.stock.stock_price
-        total = int(units) * int(price)
-        stock_data = [stock_purchased.stock.stock_name, units, price, total]
-        list_stocks_purchased.append(stock_data)
+        if stock_purchased.stock.market.market_name == code:
+            units = stock_purchased.units
+            if stock_purchased.stock.stock_price >= stock_purchased.stock.initial_price:
+                stock_purchased.stock.stock_trend = 1
+            else:
+                stock_purchased.stock.stock_trend = -1
+            stock_data = [stock_purchased.stock.pk, stock_purchased.stock.stock_name,
+                          stock_purchased.stock.stock_price, units, stock_purchased.stock.stock_trend]
+            list_stocks_purchased.append(stock_data)
     response = {'stocks_purchased': list_stocks_purchased}
     return JsonResponse(response)
+
 
 def get_balance(request):
     userprofile = UserProfile.objects.get(user=request.user)
     balance = userprofile.balance
-    return JsonResponse({'balance':balance})
+    return JsonResponse({'balance': balance})
+
 
 @csrf_exempt
 def get_news_post(request):
@@ -65,19 +73,19 @@ def register(request):
         name = request.POST.get('name')
 
         if None in [username, password, email, name]:
-            reponse_data = {'status': 'error',
-                            'message': 'One/more of fields missing'}
-            return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+            response_data = {'status': 'error',
+                             'message': 'One/more of fields missing'}
+            return render(request, 'main/register.html', response_data)
 
         if special_character_regex.search(name) or special_character_regex.search(username):
             reponse_data = {'status': 'error',
                             'message': 'Special characters not allowed'}
-            return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+            return render(request, 'main/register.html', reponse_data)
 
         if username in [user.username for user in User.objects.all()]:
             reponse_data = {'status': 'error',
                             'message': 'User with the same username already exists'}
-            return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+            return render(request, 'main/register.html', reponse_data)
 
         user = User.objects.create(username=username)
         user.set_password(password)
@@ -102,9 +110,9 @@ def user_login(request):
         password = request.POST.get('password')
 
         if None in [username, password]:
-            reponse_data = {'status': 'error',
-                            'message': 'One/more of fields missing'}
-            return HttpResponse(json.dumps(reponse_data), content_type="application/json")
+            response_data = {'status': 'error',
+                             'message': 'One/more of fields missing'}
+            return render(request, 'main/login.html', response_data)
 
         user = authenticate(username=username, password=password)
 
@@ -114,7 +122,7 @@ def user_login(request):
         else:
             response_data = {'status': 'error',
                              'message': 'Invalid Username/Password'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
+            return render(request, 'main/login.html', response_data)
     else:
         return render(request, 'main/login.html', {})
 
@@ -164,11 +172,17 @@ def game(request):
 @login_required
 def get_stocks_data(request, code):
     try:
-        stocks = Stock.objects.filter(market_type=code)
+        code = code.lower()
+        market = Market.objects.get(market_name=code)
+        stocks = Stock.objects.filter(market=market).order_by('-pk')
         stocks_list = []
         for stock in stocks:
+            if stock.stock_price >= stock.initial_price:
+                stock.stock_trend = 1
+            else:
+                stock.stock_trend = -1
             stock_data = [stock.pk, stock.stock_name, stock.stock_price,
-                          stock.initial_price, stock.available_no_units, ]
+                          stock.initial_price, stock.available_no_units, stock.stock_trend]
             stocks_list.append(stock_data)
         data = {'stocks_list': stocks_list}
         return JsonResponse(data)
@@ -196,32 +210,54 @@ def buy_stock(request, pk):
             stock_to_buy = Stock.objects.get(pk=pk)
         except:
             response_data = {'status': 'error',
-                             'message': 'Invalid Stock PK'}
+                             'message': 'Error in Fetching Stock'}
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+        try:
+            units = int(request.POST['units'])
+            assert(units > 0)
+        except:
+            response_data = {'status': 'error',
+                             'message': 'Invalid Units'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-        units = int(request.POST['units'])
-        cost = stock_to_buy.stock_price * units
-        print(cost)
-        if (user_profile.balance < cost or units > stock_to_buy.available_no_units):
+        cost = stock_to_buy.stock_price * units * stock_to_buy.market.exchange_rate
+
+        try:
+            assert(user_profile.balance >= cost)
+        except:
             response_data = {'status': 'error',
-                             'message': 'Insufficient Balance for Transaction or Insufficient No. of Stocks to Buy'}
+                             'message': 'Insufficient Balance'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+        try:
+            assert(units <= stock_to_buy.available_no_units)
+        except:
+            response_data = {'status': 'error',
+                             'message': 'Insufficient No. of Stocks to Buy'}
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+        # if (user_profile.balance < cost or units > stock_to_buy.available_no_units):
+        #     response_data = {'status': 'error',
+        #                      'message': 'Insufficient Balance for Transaction or Insufficient No. of Stocks to Buy'}
+        #     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
         try:
             user_profile.balance = F('balance') - cost
             user_profile.save()
             user_profile.refresh_from_db()
+
             stock_to_buy.available_no_units = F('available_no_units') - units
             stock_to_buy.save()
             stock_to_buy.refresh_from_db()
-            transaction_uid = random.randint(1, 10000)
+
             transaction = Transaction.objects.create(
-                uid=transaction_uid, owner=user_profile, stock=stock_to_buy)
+                owner=user_profile, stock=stock_to_buy)
             transaction.units = units
             transaction.cost = cost
             transaction.type = 'B'
             transaction.save()
             transaction.refresh_from_db()
+
             try:
                 stock_purchased = StockPurchased.objects.get(
                     owner=user_profile, stock=stock_to_buy)
@@ -233,11 +269,13 @@ def buy_stock(request, pk):
                     owner=user_profile, stock=stock_to_buy, units=units)
                 stock_purchased.refresh_from_db()
 
-            stock_to_buy.stock_price += CONST_RATE_INCREASE * \
-                F('stock_price')*units
+            stock_to_buy.stock_price += F('stock_price') * \
+                units * stock_to_buy.market.price_rate_change_factor
+            stock_to_buy.save()
+            stock_to_buy.refresh_from_db()
 
             response_data = {'status': 'success',
-                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name} on {transaction.date_time}'}
+                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name}'}
 
         except:
             response_data = {'status': 'error',
@@ -255,20 +293,35 @@ def sell_stock(request, pk):
             response_data = {'status': 'error',
                              'message': 'User Does not Exist'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
+
         try:
             pk = int(pk)
             stock = Stock.objects.get(pk=pk)
+        except:
+            response_data = {'status': 'error',
+                             'message': 'Invalid Stock PK'}
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+        try:
             stock_to_sell = StockPurchased.objects.get(
                 stock=stock, owner=user_profile)
         except:
             response_data = {'status': 'error',
-                             'message': 'Invalid Stock PK/User does not own any units of given Stock'}
+                             'message': 'Multiple Enteries for Same Stock/User does not own any units of given Stock'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-        units = int(request.POST['units'])
-        cost = stock.stock_price * units
+        try:
+            units = int(request.POST['units'])
+            assert(units > 0)
+        except:
+            response_data = {'status': 'error',
+                             'message': 'Invalid Units'}
+            return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-        if (units > stock_to_sell.units):
+        cost = stock.stock_price * units * stock.market.exchange_rate
+        try:
+            assert(units <= stock_to_sell.units)
+        except:
             response_data = {'status': 'error',
                              'message': 'Insufficient No. of Stocks to Sell'}
             return HttpResponse(json.dumps(response_data), content_type="application/json")
@@ -277,27 +330,41 @@ def sell_stock(request, pk):
             user_profile.balance = F('balance') + cost
             user_profile.save()
             user_profile.refresh_from_db()
-            stock.available_no_stocks = F('available_no_stocks') + units
+
+            stock.available_no_units = F('available_no_units') + units
             stock.save()
             stock.refresh_from_db()
-            if(stock_to_sell.units == units):
+
+            try:
+                assert(stock_to_sell.units == units)
                 stock_to_sell.delete()
-            else:
+            except:
                 stock_to_sell.units = F('units') - units
                 stock_to_sell.save()
                 stock_to_sell.refresh_from_db()
-            transaction_uid = random.randint(1, 10000)
+
+            # if(stock_to_sell.units == units):
+            #     stock_to_sell.delete()
+            # else:
+            #     stock_to_sell.units = F('units') - units
+            #     stock_to_sell.save()
+            #     stock_to_sell.refresh_from_db()
+
             transaction = Transaction.objects.create(
-                uid=transaction_uid, owner=user_profile, stock=stock)
+                owner=user_profile, stock=stock)
             transaction.units = units
             transaction.cost = cost
             transaction.type = 'S'
             transaction.save()
             transaction.refresh_from_db()
-            stock_to_buy.stock_price -= CONST_RATE_INCREASE * \
+
+            stock.stock_price -= stock.market.price_rate_change_factor * \
                 F('stock_price')*units
+            stock.save()
+            stock.refresh_from_db()
+
             response_data = {'status': 'success',
-                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully sold {units} units of {stock.stock_name} on {transaction.date_time}'}
+                             'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully sold {units} units of {stock.stock_name}'}
         except:
             response_data = {'status': 'error',
                              'message': 'Error in Transaction'}
@@ -306,33 +373,34 @@ def sell_stock(request, pk):
 
 @login_required
 def add_stock(request):
-    if request.method == 'POST':
-        stock_name = request.POST.get('stock_name')
-        initial_price = request.POST.get('initial_price')
-        market_type = request.POST.get('market_type')
-        available_no_units = request.POST.get('available_no_units')
+    stock_name = request.POST.get('stock_name')
+    initial_price = request.POST.get('initial_price')
+    market_type = request.POST.get('market_type')
+    available_no_units = request.POST.get('available_no_units')
+    if market_type == 'NYM':
+        conversion_rate = 1
+    elif market_type == 'JPN':
+        conversion_rate = 1
+    else:
+        conversion_rate = 1
+    try:
+        stock = Stock.objects.create(stock_name=stock_name)
+        stock.initial_price = initial_price
+        stock.stock_price = initial_price
+        stock.market_type = market_type
+        stock.available_no_units = available_no_units
+        stock.conversion_rate = conversion_rate
+        stock.save()
+    except:
         try:
-            stock = Stock.objects.create(stock_name=stock_name)
-            stock.initial_price = initial_price
-            stock.stock_price = initial_price
-            stock.market_type = market_type
-            stock.available_no_units = available_no_units
-            stock.save()
-            response_data = {'status': 'success',
-                             'message': f'Added {stock.stock_name}, {stock.initial_price}, {stock.available_no_units}'}
+            stock.delete()
         except:
-            try:
-                stock.delete()
-            except:
-                pass
             response_data = {'status': 'error',
                              'message': 'Error in adding Stock'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
-    try:
-        last_five_added = Stock.objects.all().order_by('-date_added')[:5]
-    except:
-        last_five_added = ''
-    return render(request, 'main/add_stock.html', {'last_five_added': last_five_added})
+            return JsonResponse(response_data)
+    response_data = {'status': 'success',
+                     'message': 'Added Stock'}
+    return response_data
 
 
 @login_required
@@ -342,41 +410,31 @@ def delete_stock(request, pk):
         stock.delete()
         response_data = {'status': 'success',
                          'message': 'Deleted'}
-        try:
-            last_five_added = Stock.objects.all().order_by('-date_added')[:5]
-        except:
-            last_five_added = ''
-        return render(request, 'main/add_stock.html', {'last_five_added': last_five_added})
     except:
         response_data = {'status': 'error',
                          'message': 'Error in Deleting Stock'}
-        return HttpResponse(json.dumps(response_data), content_type="application/json")
+        return JsonResponse(response_data)
+    return response_data
 
 
 @login_required
 def add_newspost(request):
-    if request.method == 'POST':
-        headline = request.POST.get('headline')
-        body = request.POST.get('body')
+    headline = request.POST.get('headline')
+    body = request.POST.get('body')
+    try:
+        newspost = NewsPost.objects.create(headline=headline)
+        newspost.body = body
+        newspost.save()
+        response_data = {'status': 'success',
+                         'message': f'Added {newspost.headline}'}
+    except:
         try:
-            newspost = NewsPost.objects.create(headline=headline)
-            newspost.body = body
-            newspost.save()
-            response_data = {'status': 'success',
-                             'message': f'Added {newspost.headline}'}
+            newspost.delete()
         except:
-            try:
-                newspost.delete()
-            except:
-                pass
             response_data = {'status': 'error',
                              'message': 'Error in adding NewsPost'}
-            return HttpResponse(json.dumps(response_data), content_type="application/json")
-    try:
-        last_five_added = NewsPost.objects.all().order_by('-date_added')[:5]
-    except:
-        last_five_added = ''
-    return render(request, 'main/add_newspost.html', {'last_five_added': last_five_added})
+            return JsonResponse(response_data)
+    return response_data
 
 
 @login_required
@@ -386,16 +444,11 @@ def delete_newspost(request, pk):
         newspost.delete()
         response_data = {'status': 'success',
                          'message': 'Deleted'}
-        try:
-            last_five_added = NewsPost.objects.all().order_by(
-                '-date_added')[:5]
-        except:
-            last_five_added = ''
-        return render(request, 'main/add_newspost.html', {'last_five_added': last_five_added})
     except:
         response_data = {'status': 'error',
                          'message': 'Error in Deleting NewsPost'}
-        return HttpResponse(json.dumps(response_data), content_type="application/json")
+        return JsonResponse(response_data)
+    return response_data
 
 
 @login_required
@@ -420,7 +473,7 @@ def leaderboard_data(request):
     list_user_name = [x[0] for x in sorted_lb_data][:10]
     list_net_worth = [x[1] for x in sorted_lb_data][:10]
     count = len(list_net_worth)
-    list_rank = [i for i in range(1,count+1)]
+    list_rank = [i for i in range(1, count+1)]
     response_data = {'list_rank': list_rank,
                      'list_user_name': list_user_name,
                      'list_net_worth': list_net_worth,
@@ -431,3 +484,32 @@ def leaderboard_data(request):
 @login_required
 def display_leaderboard(request):
     return render(request, 'main/leaderboard.html')
+
+
+@login_required
+def api_efa(request, code='GET', pk=0):
+    if request.user.username != 'efa':
+        response_data = {'status': 'error',
+                         'message': 'Not allowed to access this page.'}
+        return JsonResponse(response_data)
+
+    if code == 'AS':
+        add_stock(request)
+    elif code == 'DS':
+        delete_stock(request, pk)
+    elif code == 'AN':
+        add_newspost(request)
+    elif code == 'DN':
+        delete_newspost(request, pk)
+    try:
+        last_five_added_stocks = Stock.objects.all().order_by(
+            '-date_added')[:5]
+    except:
+        last_five_added_stocks = ''
+    try:
+        last_five_added_newsposts = NewsPost.objects.all(
+        ).order_by('-date_added')[:5]
+    except:
+        last_five_added_newsposts = ''
+    return render(request, 'main/efa.html', {'last_five_added_stocks': last_five_added_stocks,
+                                             'last_five_added_newsposts': last_five_added_newsposts})
