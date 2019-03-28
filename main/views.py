@@ -79,7 +79,7 @@ def register(request):
 
         if special_character_regex.search(name) or special_character_regex.search(username):
             reponse_data = {'status': 'error',
-                            'message': 'Special characters not allowed'}
+                            'message': 'Special characters not allowed in username'}
             return render(request, 'main/register.html', reponse_data)
 
         if username in [user.username for user in User.objects.all()]:
