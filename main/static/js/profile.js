@@ -41,6 +41,19 @@ function closeNav() {
 	document.getElementById("mySidenav").style.width = "0";
 }
 
+$('body').click(function(event) {
+	let a = $(event.target);
+	let sidebar = $('#mySidenav');
+	if( a.is("#navbtn")) {
+		openNav();
+	}
+	else if(a.is('#mySidenav')) {
+		openNav();
+	}
+	else if( document.getElementById("mySidenav").style.width == "250px") {
+		closeNav();
+	}
+})
 
 // function get_stock_purchased() {
 // 	var data = $.ajax({
@@ -54,3 +67,4 @@ function closeNav() {
 // }
 
 // get_stock_purchased();
+
