@@ -22,6 +22,12 @@ function get_stock_list(code) {
             $('.loader').hide();
         },
         success: function (data) {
+
+            if( !data.marketStatus) {
+                alert('This market has been temporarily closed by EFA');
+                return;
+            }
+
             stock_list = data.stocks_purchased;
             if (stock_list.length == 0) {
                 $(".stock_list")[0].innerHTML = "<div class='row'><div class='col s12 black white-text center-align flow-text' style='font-family: 'Ubuntu', sans-serif;'>" +
@@ -114,6 +120,11 @@ function get_stock_list(code) {
                     this.classList.toggle("active");
                     var panel = this.nextElementSibling;
                     // panel.style.maxHeight = panel.scrollHeight + "px";
+                    let stockStatus = data.stock_list[i][6];
+                    if( !stockStatus) {
+                        alert('This stock has been closed by EFA.');
+                        return;
+                    }
                     if (panel.style.height) {
                         panel.style.height = null;
                     } else {

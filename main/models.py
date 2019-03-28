@@ -16,6 +16,7 @@ class Market(models.Model):
     market_name = models.CharField(max_length=10, unique=True, null=True)
     exchange_rate = models.FloatField(default=1)
     price_rate_change_factor = models.FloatField(default=1)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return f'{self.market_name} - {self.exchange_rate}'

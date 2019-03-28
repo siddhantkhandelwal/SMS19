@@ -23,18 +23,24 @@ def get_stock_purchased(request, code):
     user_profile = UserProfile.objects.get(user=request.user)
     stocks_purchased = StockPurchased.objects.filter(
         owner=user_profile).order_by('-pk')
+    market = Market.objects.get(market_name=code)
     list_stocks_purchased = []
     for stock_purchased in stocks_purchased:
         if stock_purchased.stock.market.market_name == code:
             units = stock_purchased.units
+
             if stock_purchased.stock.stock_price >= stock_purchased.stock.initial_price:
                 stock_purchased.stock.stock_trend = 1
             else:
                 stock_purchased.stock.stock_trend = -1
+
             stock_data = [stock_purchased.stock.pk, stock_purchased.stock.stock_name,
-                          stock_purchased.stock.stock_price, units, stock_purchased.stock.stock_trend]
+                          stock_purchased.stock.stock_price, units, stock_purchased.stock.stock_trend, stock_purchased.stock.is_active]
             list_stocks_purchased.append(stock_data)
-    response = {'stocks_purchased': list_stocks_purchased}
+    response = {
+        'stocks_purchased': list_stocks_purchased,
+        'marketStatus' : market.is_active
+    }
     return JsonResponse(response)
 
 
@@ -182,9 +188,12 @@ def get_stocks_data(request, code):
             else:
                 stock.stock_trend = -1
             stock_data = [stock.pk, stock.stock_name, stock.stock_price,
-                          stock.initial_price, stock.available_no_units, stock.stock_trend]
+                          stock.initial_price, stock.available_no_units, stock.stock_trend, stock.is_active]
             stocks_list.append(stock_data)
-        data = {'stocks_list': stocks_list}
+        data = {
+            'stocks_list': stocks_list,
+            'marketStatus': market.is_active
+        }
         return JsonResponse(data)
     except:
         return JsonResponse({'message': 'Error in Retrieving Stocks'})
@@ -208,6 +217,7 @@ def buy_stock(request, pk):
         try:
             pk = int(pk)
             stock_to_buy = Stock.objects.get(pk=pk)
+            assert(stock_to_buy.market.is_active)
         except:
             response_data = {'status': 'error',
                              'message': 'Error in Fetching Stock'}
@@ -297,6 +307,7 @@ def sell_stock(request, pk):
         try:
             pk = int(pk)
             stock = Stock.objects.get(pk=pk)
+            assert(stock.market.is_active)
         except:
             response_data = {'status': 'error',
                              'message': 'Invalid Stock PK'}
@@ -477,6 +488,7 @@ def leaderboard_data(request):
     response_data = {'list_rank': list_rank,
                      'list_user_name': list_user_name,
                      'list_net_worth': list_net_worth,
+                     'current_username': user_profile.user.username
                      }
     return JsonResponse(response_data)
 
@@ -513,3 +525,6 @@ def api_efa(request, code='GET', pk=0):
         last_five_added_newsposts = ''
     return render(request, 'main/efa.html', {'last_five_added_stocks': last_five_added_stocks,
                                              'last_five_added_newsposts': last_five_added_newsposts})
+
+def killswitch(request):
+    return HttpResponse("SMS IS UNDER MAINTAINANCE. PLEASE TRY AGAIN LATER.")
