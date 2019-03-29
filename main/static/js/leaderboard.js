@@ -20,17 +20,16 @@ function get_leaderboard() {
             let user = data.current_username;
             let i;
             for (i = 0; i < list_rank.length; i++) {
-                
                 if( (user == list_user_name[i]) && (i>=10)) {
-                    document.getElementsByClassName("change2")[0].innerHTML += '<div class="col s4 center-align">' + list_rank[i].toString() + '</div> <div class="col s4 center-align">' + list_user_name[i] + '</div> <div class="col s4 center-align">' + list_net_worth[i].toString() + '</div>';
+                    document.getElementsByClassName("change2")[0].innerHTML += '<div class="current-user"><div class="col s4 center-align">' + list_rank[i].toString() + '</div> <div class="col s4 center-align">' + list_user_name[i] + '</div> <div class="col s4 center-align">' + parseFloat(list_net_worth[i]).toFixed(2) + '</div></div>';
                     break;
                 }
                 if( i < 10)
-                    document.getElementsByClassName("change2")[0].innerHTML += '<div class="col s4 center-align">' + list_rank[i].toString() + '</div> <div class="col s4 center-align">' + list_user_name[i] + '</div> <div class="col s4 center-align">' + list_net_worth[i].toString() + '</div>';
+                    document.getElementsByClassName("change2")[0].innerHTML += '<div><div class="col s4 center-align">' + list_rank[i].toString() + '</div> <div class="col s4 center-align">' + list_user_name[i] + '</div> <div class="col s4 center-align">' + parseFloat(list_net_worth[i]).toFixed(2) + '</div></div>';
             }
 
             var userBalance = document.getElementById("balance");
-            userBalance.innerHTML = `Balance: ${balance}`;
+            // userBalance.innerHTML = `Balance: ${balance}`;
         }
     });
 }
@@ -44,7 +43,7 @@ function getBalance() {
         data: {},
         success: function (data) {
             balance = data.balance;
-            document.getElementById("balance").innerHTML = "Balance: " + balance.toString();
+            document.getElementById("balance").innerHTML = "Balance: " + parseFloat(balance).toFixed(2);
         }
     });
 }

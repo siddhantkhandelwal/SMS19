@@ -272,7 +272,7 @@ function getBalance() {
         data: {},
         success: function (data) {
             balance = data.balance;
-            document.getElementById("balance").innerHTML = "Balance: " + balance.toString();
+            document.getElementById("balance").innerHTML = "Balance: " + parseFloat(balance).toFixed(2);
         }
     });
 }

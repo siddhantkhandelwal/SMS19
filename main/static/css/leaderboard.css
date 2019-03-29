@@ -73,6 +73,9 @@ body {
   overflow-x: hidden;
   margin-bottom: 8px;
 }
+.current-user {
+  background: #616161;
+}
 
 @media screen and (max-width: 500px) {
   #topHeader {

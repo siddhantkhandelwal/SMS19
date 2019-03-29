@@ -471,13 +471,12 @@ def leaderboard_data(request):
     lb_data = {}
     for user_profile in UserProfile.objects.all():
         try:
-            net_worth = 0
+            user_profile.net_worth = 0
             user_stocks_purchased = StockPurchased.objects.filter(
                 owner=user_profile)
             for stock_purchased in user_stocks_purchased:
-                net_worth += stock_purchased.stock.stock_price
-            net_worth += user_profile.balance
-            user_profile.net_worth = net_worth
+                user_profile.net_worth += (stock_purchased.stock.stock_price)*(stock_purchased.units)
+            user_profile.net_worth += user_profile.balance
             user_profile.save()
         except:
             response_data = {'status': 'error',
@@ -493,7 +492,7 @@ def leaderboard_data(request):
     response_data = {'list_rank': list_rank,
                      'list_user_name': list_user_name,
                      'list_net_worth': list_net_worth,
-                     'current_username': user_profile.user.username
+                     'current_username': request.user.username
                      }
     return JsonResponse(response_data)
 
