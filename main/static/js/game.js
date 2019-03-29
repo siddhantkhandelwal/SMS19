@@ -157,9 +157,12 @@ function get_stock_list(code) {
                     document.getElementById("blur").style.display = "block";
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("buyDiv").style.display = "block";
-                    let btnId = e.target.id.toString();
-                    btnId = btnId.substring(btnId.length - 1);
-                    document.getElementById("buyInfo").innerHTML = "Stock: " + stock_list[btnId][1] + ", Price:     " + stock_list[btnId][2];
+                    let i;
+                    for( i=0; i<stock_list.length; i++) {
+                        if( stock_list[i][0] == alpha)
+                            break;
+                    }
+                    document.getElementById("buyInfo").innerHTML = "Stock: " + stock_list[i][1] + ", Price:     " + stock_list[i][2];
                 });
                 j++;
             }
