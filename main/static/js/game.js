@@ -272,7 +272,8 @@ function getBalance() {
         data: {},
         success: function (data) {
             balance = data.balance;
-            document.getElementById("balance").innerHTML = "Balance: " + parseFloat(balance).toFixed(2);
+            networth = data.net_worth;
+            document.getElementById("balance").innerHTML = "Bal: " + parseFloat(balance).toFixed(2) + "&nbsp; | &nbsp;Net: " + parseFloat(networth).toFixed(2);
         }
     });
 }

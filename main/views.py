@@ -13,6 +13,7 @@ from django.db.models import F
 import random
 import operator
 from datetime import datetime
+from django.db import transaction as trn
 
 special_character_regex = re.compile(r'[@_!#$%^&*()<>?/\|}{~:]')
 
@@ -47,7 +48,8 @@ def get_stock_purchased(request, code):
 def get_balance(request):
     userprofile = UserProfile.objects.get(user=request.user)
     balance = userprofile.balance
-    return JsonResponse({'balance': balance})
+    net_worth = userprofile.net_worth
+    return JsonResponse({'balance': balance, 'net_worth':net_worth})
 
 
 @csrf_exempt
@@ -256,37 +258,59 @@ def buy_stock(request, pk):
         #     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
         try:
-            user_profile.balance = F('balance') - cost
-            user_profile.save()
-            user_profile.refresh_from_db()
-
-            stock_to_buy.available_no_units = F('available_no_units') - units
-            stock_to_buy.save()
-            stock_to_buy.refresh_from_db()
-
-            transaction = Transaction.objects.create(
-                owner=user_profile, stock=stock_to_buy)
-            transaction.units = units
-            transaction.cost = cost
-            transaction.type = 'B'
-            transaction.save()
-            transaction.refresh_from_db()
-
             try:
-                stock_purchased = StockPurchased.objects.get(
-                    owner=user_profile, stock=stock_to_buy)
-                stock_purchased.units = F('units') + units
-                stock_purchased.save()
-                stock_purchased.refresh_from_db()
-            except:
-                stock_purchased = StockPurchased.objects.create(
-                    owner=user_profile, stock=stock_to_buy, units=units)
-                stock_purchased.refresh_from_db()
+                with trn.atomic():
+                    user_profile.balance = F('balance') - cost
+                    user_profile.save()
+                    user_profile.refresh_from_db()
 
-            stock_to_buy.stock_price += F('stock_price') * \
-                units * stock_to_buy.market.price_rate_change_factor
-            stock_to_buy.save()
-            stock_to_buy.refresh_from_db()
+                    stock_to_buy.available_no_units = F('available_no_units') - units
+                    stock_to_buy.save()
+                    stock_to_buy.refresh_from_db()
+
+                    transaction = Transaction.objects.create(
+                        owner=user_profile, stock=stock_to_buy)
+                    transaction.units = units
+                    transaction.cost = cost
+                    transaction.type = 'B'
+                    transaction.save()
+                    transaction.refresh_from_db()
+                    stock_purchased = StockPurchased.objects.get(
+                        owner=user_profile, stock=stock_to_buy)
+                    stock_purchased.units = F('units') + units
+                    stock_purchased.save()
+                    stock_purchased.refresh_from_db()
+
+                    stock_to_buy.stock_price += F('stock_price') * \
+                        units * stock_to_buy.market.price_rate_change_factor
+                    stock_to_buy.save()
+                    stock_to_buy.refresh_from_db()
+                    
+            except:
+                with trn.atomic():
+                    user_profile.balance = F('balance') - cost
+                    user_profile.save()
+                    user_profile.refresh_from_db()
+
+                    stock_to_buy.available_no_units = F('available_no_units') - units
+                    stock_to_buy.save()
+                    stock_to_buy.refresh_from_db()
+
+                    transaction = Transaction.objects.create(
+                        owner=user_profile, stock=stock_to_buy)
+                    transaction.units = units
+                    transaction.cost = cost
+                    transaction.type = 'B'
+                    transaction.save()
+                    transaction.refresh_from_db()
+                    stock_purchased = StockPurchased.objects.create(
+                        owner=user_profile, stock=stock_to_buy, units=units)
+                    stock_purchased.refresh_from_db()
+
+                    stock_to_buy.stock_price += F('stock_price') * \
+                        units * stock_to_buy.market.price_rate_change_factor
+                    stock_to_buy.save()
+                    stock_to_buy.refresh_from_db()
 
             response_data = {'status': 'success',
                              'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully purchased {units} units of {stock_to_buy.stock_name}'}
@@ -342,21 +366,55 @@ def sell_stock(request, pk):
             return HttpResponse(json.dumps(response_data), content_type="application/json")
 
         try:
-            user_profile.balance = F('balance') + cost
-            user_profile.save()
-            user_profile.refresh_from_db()
-
-            stock.available_no_units = F('available_no_units') + units
-            stock.save()
-            stock.refresh_from_db()
-
             try:
-                assert(stock_to_sell.units == units)
-                stock_to_sell.delete()
+                with trn.atomic():
+                    user_profile.balance = F('balance') + cost
+                    user_profile.save()
+                    user_profile.refresh_from_db()
+
+                    stock.available_no_units = F('available_no_units') + units
+                    stock.save()
+                    stock.refresh_from_db()
+                    assert(stock_to_sell.units == units)
+                    stock_to_sell.delete()
+
+                    transaction = Transaction.objects.create(
+                        owner=user_profile, stock=stock)
+                    transaction.units = units
+                    transaction.cost = cost
+                    transaction.type = 'S'
+                    transaction.save()
+                    transaction.refresh_from_db()
+
+                    stock.stock_price -= stock.market.price_rate_change_factor * \
+                        F('stock_price')*units
+                    stock.save()
+                    stock.refresh_from_db()
             except:
-                stock_to_sell.units = F('units') - units
-                stock_to_sell.save()
-                stock_to_sell.refresh_from_db()
+                with trn.atomic():
+                    user_profile.balance = F('balance') + cost
+                    user_profile.save()
+                    user_profile.refresh_from_db()
+
+                    stock.available_no_units = F('available_no_units') + units
+                    stock.save()
+                    stock.refresh_from_db()
+                    stock_to_sell.units = F('units') - units
+                    stock_to_sell.save()
+                    stock_to_sell.refresh_from_db()
+
+                    transaction = Transaction.objects.create(
+                        owner=user_profile, stock=stock)
+                    transaction.units = units
+                    transaction.cost = cost
+                    transaction.type = 'S'
+                    transaction.save()
+                    transaction.refresh_from_db()
+
+                    stock.stock_price -= stock.market.price_rate_change_factor * \
+                        F('stock_price')*units
+                    stock.save()
+                    stock.refresh_from_db()
 
             # if(stock_to_sell.units == units):
             #     stock_to_sell.delete()
@@ -364,19 +422,6 @@ def sell_stock(request, pk):
             #     stock_to_sell.units = F('units') - units
             #     stock_to_sell.save()
             #     stock_to_sell.refresh_from_db()
-
-            transaction = Transaction.objects.create(
-                owner=user_profile, stock=stock)
-            transaction.units = units
-            transaction.cost = cost
-            transaction.type = 'S'
-            transaction.save()
-            transaction.refresh_from_db()
-
-            stock.stock_price -= stock.market.price_rate_change_factor * \
-                F('stock_price')*units
-            stock.save()
-            stock.refresh_from_db()
 
             response_data = {'status': 'success',
                              'message': f'Transaction#{transaction.uid}: {user_profile.user.username} has successfully sold {units} units of {stock.stock_name}'}

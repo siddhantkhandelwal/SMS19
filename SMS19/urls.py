@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from main import views
 
-killswitch_activate = True
+killswitch_activate = False
 
 if killswitch_activate:
     urlpatterns = [
