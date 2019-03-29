@@ -478,6 +478,7 @@ def leaderboard_data(request):
                 net_worth += stock_purchased.stock.stock_price
             net_worth += user_profile.balance
             user_profile.net_worth = net_worth
+            user_profile.save()
         except:
             response_data = {'status': 'error',
                              'message': 'Error in Calculating Net Worth'}
