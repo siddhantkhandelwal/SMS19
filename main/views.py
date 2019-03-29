@@ -224,6 +224,7 @@ def buy_stock(request, pk):
             pk = int(pk)
             stock_to_buy = Stock.objects.get(pk=pk)
             assert(stock_to_buy.market.is_active)
+            assert(stock_to_buy.is_active)
         except:
             response_data = {'status': 'error',
                              'message': 'Error in Fetching Stock'}
@@ -336,6 +337,7 @@ def sell_stock(request, pk):
             pk = int(pk)
             stock = Stock.objects.get(pk=pk)
             assert(stock.market.is_active)
+            assert(stock.is_active)
         except:
             response_data = {'status': 'error',
                              'message': 'Invalid Stock PK'}

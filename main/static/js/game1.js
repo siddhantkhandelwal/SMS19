@@ -98,17 +98,20 @@ function get_stock_list(code) {
                 document.getElementsByClassName("stock_list")[0].appendChild(panel);
             }
             var acc = document.getElementsByClassName("accordion");
-            var i = 0;
-
-            while (i < acc.length) {
-                // console.log("acd");
+            
+            for (let i=0; i < acc.length; i++) {
+                // console.log(acc[i])
                 acc[i].addEventListener("click", function () {
                     this.classList.toggle("active");
                     var panel = this.nextElementSibling;
                     // console.log(panel);
-                    panel.style.maxHeight = panel.scrollHeight + "px";
+                    // panel.style.maxHeight = panel.scrollHeight + "px";
                     // console.log(s_list);
-                    let stockStatus = s_list[6];
+                    let j = i;
+                    // console.log(acc.length, j, stock_list)
+                    let stock = stock_list[j];
+                    let stockStatus = stock[6];
+                    // console.log(stockStatus);
                     if( !marketStatus) {
                         alert('Market has been closed by EFA.');
                         return;
@@ -123,7 +126,6 @@ function get_stock_list(code) {
                         panel.style.height = "60px";
                     }
                 });
-                i++;
             }
 
             var buy = document.getElementsByClassName("buy");
@@ -135,7 +137,7 @@ function get_stock_list(code) {
             //pk for cell  ---- I don't know why I'm using different variables for buy and sell.
 
             //FOR BUY BUTTONS
-            console.log(stock_list);
+            // console.log(stock_list);
             while (j < buy.length) {
                 buy[j].addEventListener("click", function (e) {
                     document.getElementById("blur").style.display = "block";

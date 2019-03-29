@@ -116,16 +116,19 @@ function get_stock_list(code) {
             }
             var acc = document.getElementsByClassName("accordion");
             var i = 0;
-
-            while (i < acc.length) {
+            for (let i=0; i < acc.length; i++) {
+                // console.log(acc[i])
                 acc[i].addEventListener("click", function () {
                     this.classList.toggle("active");
                     var panel = this.nextElementSibling;
-                    // console.log('s_list');
-                    panel.style.maxHeight = panel.scrollHeight + "px";
-                    let stockStatus = s_list[5];
-                    // console.log(stockStatus);
+                    // console.log(panel);
+                    // panel.style.maxHeight = panel.scrollHeight + "px";
                     // console.log(s_list);
+                    let j = i;
+                    // console.log(acc.length, j, stock_list)
+                    let stock = stock_list[j];
+                    let stockStatus = stock[5];
+                    // console.log(stockStatus);
                     if( !marketStatus) {
                         alert('Market has been closed by EFA.');
                         return;
@@ -137,10 +140,9 @@ function get_stock_list(code) {
                     if (panel.style.height) {
                         panel.style.height = null;
                     } else {
-                        panel.style.height = "50px";
+                        panel.style.height = "60px";
                     }
                 });
-                i++;
             }
 
             var buy = document.getElementsByClassName("buy");
