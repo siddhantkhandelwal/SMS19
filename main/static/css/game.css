@@ -14,7 +14,7 @@
     width: 70vw;
     background: black;
     color: white;
-    position: absolute;
+    position: fixed;
     top: 80vh;
     left: 15vw;
     text-align: center;
