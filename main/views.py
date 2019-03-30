@@ -568,7 +568,7 @@ def leaderboard_data(request):
         lb_data.items(), key=operator.itemgetter(1), reverse=True)
     list_user_name = [x[0] for x in sorted_lb_data]
     try:
-        current_user_rank = list_user_name.index(user_profile.user.username)
+        current_user_rank = list_user_name.index(request.user.username)
     except:
         response_data = {'status': 'error',
                          'message': 'Error in Retrieving Rank for Current User'}
