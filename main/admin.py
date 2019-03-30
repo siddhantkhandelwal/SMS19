@@ -15,7 +15,7 @@ class StockPurchasedAdmin(admin.ModelAdmin):
 
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'name', 'balance', 'net_worth')
-    search_fields = ('user__username', 'name', )
+    search_fields = ('user__username', 'name', 'balance', )
 
 
 class StockAdmin(admin.ModelAdmin):
