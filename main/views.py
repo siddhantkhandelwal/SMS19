@@ -552,6 +552,10 @@ def display_leaderboard(request):
     return render(request, 'main/leaderboard.html')
 
 
+def final_leaderboard(request):
+    return render(request, 'main/liveleader.html')
+
+
 @login_required
 def api_efa(request, code='GET', pk=0):
     if request.user.username != 'efa':

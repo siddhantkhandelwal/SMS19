@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from main import views
 
-killswitch_activate = True
+killswitch_activate = False
 
 if killswitch_activate:
     urlpatterns = [
@@ -48,6 +48,8 @@ else:
         path('leaderboard', views.leaderboard_data, name="leaderboard"),
         path('display_leaderboard', views.display_leaderboard,
             name='display_leaderboard'),
+        path('final_leaderboard', views.final_leaderboard,
+             name='final_leaderboard'),
         path('get_stocks_data/<str:code>',
             views.get_stocks_data, name="get_stocks_data"),
         path('get_balance', views.get_balance, name="get_balance")
