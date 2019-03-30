@@ -582,4 +582,4 @@ def api_efa(request, code='GET', pk=0):
 
 
 def killswitch(request):
-    return HttpResponse("SMS IS UNDER MAINTAINANCE. PLEASE TRY AGAIN LATER.")
+    return HttpResponse("SMS IS UNDER MAINTAINANCE. Final Round will Start at 21:00 IST (Read BST)")
