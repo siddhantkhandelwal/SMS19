@@ -8,7 +8,7 @@ function get_news() {
             // console.log(document.getElementById("card_holder"));
             // console.log(data.news_list);
             // console.log(data.news_list[0][0]);
-            for (let i = data.news_list.length-1; i >=0 ; i--) {
+            for (let i = data.news_list.length - 1; i >= 0; i--) {
                 document.getElementById("card_holder").innerHTML +=
                     "<div class='card'>" +
                     "<div class='card-action purple darken-1 white-text'><h5>" + data.news_list[i][0] +

@@ -1,48 +1,50 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Instructions</title>
-	<meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>{% block title %}{% endblock %}- SMS 2019</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="{% static 'css/game.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/template.css' %}">
-</head>
-<body class="white">
 
-	<div class="container-fluid">
-		<div class="#000000 black row" id="myDiv" style="padding: 20px">
-			<div class="col s1 white-text flow-text" id="navbtn" onclick="openNav()" style="cursor:pointer;">&#9776;</div>
-			<div class="col s2"></div>
-			<div class="col s6 flow-text center-align white-text" id="heading">INSTRUCTIONS</div>
-			<div class="col s3 white-text center-align flow-text" style="cursor:pointer;"></div>
+	<head>
+		<title>Instructions</title>
+		<meta charset="utf-8" name="viewport" content=" width = device-width, initial-scale = 1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{% block title %}{% endblock %}- SMS 2019</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="{% static 'css/game.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/template.css' %}">
+	</head>
+
+	<body class="white">
+
+		<div class="container-fluid">
+			<div class="#000000 black row" id="myDiv" style="padding: 20px">
+				<div class="col s1 white-text flow-text" id="navbtn" onclick="openNav()" style="cursor:pointer;">&#9776;</div>
+				<div class="col s2"></div>
+				<div class="col s6 flow-text center-align white-text" id="heading">INSTRUCTIONS</div>
+				<div class="col s3 white-text center-align flow-text" style="cursor:pointer;"></div>
+			</div>
 		</div>
-	</div>
 
-	<div id="mySidenav" class="sidenavbar">
-		<a class="links" href="/" style="font-size: 40px;">SMS</a>
-		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-		<a class="links" href='/instructions/'>Instructions</a>
-            <hr>
-            <a class="links" href='/'>Market</a>
-            <hr>
-            <a class="links" href='/portfolio/'>Portfolio</a>
-            <hr>
-            <a class="links" href='/display_leaderboard'>Leaderboard</a>
-            <hr>
-            <a class="links" href='/news'>News </a>
-            <hr>
-            <a class="links" href='/accounts/logout/'>Logout</a>
-            <hr>
-	</div>
+		<div id="mySidenav" class="sidenavbar">
+			<a class="links" href="/" style="font-size: 40px;">SMS</a>
+			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+			<a class="links" href='/instructions/'>Instructions</a>
+			<hr>
+			<a class="links" href='/'>Market</a>
+			<hr>
+			<a class="links" href='/portfolio/'>Portfolio</a>
+			<hr>
+			<a class="links" href='/display_leaderboard'>Leaderboard</a>
+			<hr>
+			<a class="links" href='/news'>News </a>
+			<hr>
+			<a class="links" href='/accounts/logout/'>Logout</a>
+			<hr>
+		</div>
 
-<!-- 	<div class=" container card black-text flow-text" id="Instructions" style="left:50%;transform: translateX(-50%);">
+		<!-- 	<div class=" container card black-text flow-text" id="Instructions" style="left:50%;transform: translateX(-50%);">
         <div class="card-content #eeeeee grey lighten-3 black-text">
         	<ul class="unorderedList" style="list-style-type: square;">
 				<li>Click on the hamburger button on the top left corner of the screen to navigate to the different sections (Portfolio, Market, Leaderboard and News).</li><br>
@@ -56,20 +58,26 @@
         </div>
     </div> -->
 
-    <div class="container">
-		<ul class="collection" style="text-align: justify">
-			<li class="collection-item">Click on the menu button on the top left corner of the screen to navigate to the different sections (Market, Portfolio, Leaderboard and News).</li>
-			<li class="collection-item">Your current balance in Indian rupees is displayed at the top of the screen. </li>
-			<li class="collection-item">You can purchase desired number of units of a particular stock at the Market by selecting the stock and then clicking buy.</li>
-			<li class="collection-item">You cannot buy/sell more than <b>10000</b> stocks at a time.</li>	
-			<li class="collection-item">You can purchase stocks from Bombay Stock Exchange (BSE), New York Market (NYM) and Japan Stock Exchange (JPN), keeping in mind the respective currencies used.</li>
-			<li class="collection-item">The Portfolio section shows the stocks you have purchased and here is where you can either buy more units of the stock(s) you have or sell them.</li>
-			<li class="collection-item">You can view your rank in the Leaderboard section.</li>
-			<li class="collection-item">Check the News section periodically for updates and maximise profits. 10 news articles will be added every 3 hours.</li>
-		</ul>
-	</div>
+		<div class="container">
+			<ul class="collection" style="text-align: justify">
+				<li class="collection-item">Click on the menu button on the top left corner of the screen to navigate to the
+					different sections (Market, Portfolio, Leaderboard and News).</li>
+				<li class="collection-item">Your current balance in Indian rupees is displayed at the top of the screen. </li>
+				<li class="collection-item">You can purchase desired number of units of a particular stock at the Market by
+					selecting the stock and then clicking buy.</li>
+				<li class="collection-item">You cannot buy/sell more than <b>10000</b> stocks at a time.</li>
+				<li class="collection-item">You can purchase stocks from Bombay Stock Exchange (BSE), New York Market (NYM) and
+					Japan Stock Exchange (JPN), keeping in mind the respective currencies used.</li>
+				<li class="collection-item">The Portfolio section shows the stocks you have purchased and here is where you can
+					either buy more units of the stock(s) you have or sell them.</li>
+				<li class="collection-item">You can view your rank in the Leaderboard section.</li>
+				<li class="collection-item">Check the News section periodically for updates and maximise profits. 10 news
+					articles will be added every 3 hours.</li>
+			</ul>
+		</div>
 
-	<script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/profile.js' %}"></script>
 
-</body>
+	</body>
+
 </html>

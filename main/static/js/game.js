@@ -116,7 +116,7 @@ function get_stock_list(code) {
             }
             var acc = document.getElementsByClassName("accordion");
             var i = 0;
-            for (let i=0; i < acc.length; i++) {
+            for (let i = 0; i < acc.length; i++) {
                 // console.log(acc[i])
                 acc[i].addEventListener("click", function () {
                     this.classList.toggle("active");
@@ -129,11 +129,11 @@ function get_stock_list(code) {
                     let stock = stock_list[j];
                     let stockStatus = stock[5];
                     // console.log(stockStatus);
-                    if( !marketStatus) {
+                    if (!marketStatus) {
                         alert('Market has been closed by EFA.');
                         return;
                     }
-                    if( !stockStatus) {
+                    if (!stockStatus) {
                         alert('This stock has been closed by EFA.');
                         return;
                     }
@@ -160,8 +160,8 @@ function get_stock_list(code) {
                     alpha = this.getAttribute("data-pk");
                     document.getElementById("buyDiv").style.display = "block";
                     let i;
-                    for( i=0; i<stock_list.length; i++) {
-                        if( stock_list[i][0] == alpha)
+                    for (i = 0; i < stock_list.length; i++) {
+                        if (stock_list[i][0] == alpha)
                             break;
                     }
                     document.getElementById("buyInfo").innerHTML = "Stock: " + stock_list[i][1] + ", Price:     " + stock_list[i][2];
@@ -203,7 +203,7 @@ function get_stock_list(code) {
 }
 
 get_stock_list("BSE");
-document.getElementById("indian1").addEventListener("click", function () { 
+document.getElementById("indian1").addEventListener("click", function () {
     get_stock_list("BSE");
     document.getElementById("conversion").innerHTML = "1 &#8377; = 1 &#8377;";
 });

@@ -540,10 +540,11 @@ def final_leaderboard_data(request):
     list_rank = [i for i in range(1, count+1)]
 
     response_data = {'list_rank': list_rank,
-                    'list_user_name': list_user_name,
-                    'list_net_worth': list_net_worth,
-                    }
+                     'list_user_name': list_user_name,
+                     'list_net_worth': list_net_worth,
+                     }
     return JsonResponse(response_data)
+
 
 @login_required
 def leaderboard_data(request):

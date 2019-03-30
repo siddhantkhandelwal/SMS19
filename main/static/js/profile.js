@@ -41,16 +41,16 @@ function closeNav() {
 	document.getElementById("mySidenav").style.width = "0";
 }
 
-$('body').click(function(event) {
+$('body').click(function (event) {
 	let a = $(event.target);
 	let sidebar = $('#mySidenav');
-	if( a.is("#navbtn")) {
+	if (a.is("#navbtn")) {
 		openNav();
 	}
-	else if(a.is('#mySidenav')) {
+	else if (a.is('#mySidenav')) {
 		openNav();
 	}
-	else if( document.getElementById("mySidenav").style.width == "250px") {
+	else if (document.getElementById("mySidenav").style.width == "250px") {
 		closeNav();
 	}
 })
@@ -67,4 +67,3 @@ $('body').click(function(event) {
 // }
 
 // get_stock_purchased();
-

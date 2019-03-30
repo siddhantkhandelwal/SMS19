@@ -5,12 +5,14 @@ from main.models import Stock, Transaction, UserProfile, NewsPost, StockPurchase
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ('uid', 'owner', 'stock', 'units',
                     'cost', 'type', 'date_time',)
-    search_fields = ('owner__user__username', 'owner__name', 'stock__stock_name',)
+    search_fields = ('owner__user__username',
+                     'owner__name', 'stock__stock_name',)
 
 
 class StockPurchasedAdmin(admin.ModelAdmin):
     list_display = ('id', 'owner', 'stock', 'units',)
-    search_fields = ('owner__user__username', 'owner__name', 'stock__stock_name')
+    search_fields = ('owner__user__username',
+                     'owner__name', 'stock__stock_name')
 
 
 class UserProfileAdmin(admin.ModelAdmin):

@@ -12,7 +12,7 @@ function get_leaderboard() {
             for (i = 0; i < list_rank.length; i++) {
                 document.getElementsByClassName("change2")[0].innerHTML += '<div><div class="col l2 s4 center-align">' + list_rank[i].toString() + '</div> <div class="col l6 s4 center-align">' + list_user_name[i] + '</div> <div class="col l4 s4 center-align">' + parseFloat(list_net_worth[i]).toFixed(2) + '</div></div>';
             }
-                    // var userBalance = document.getElementById("balance");
+            // var userBalance = document.getElementById("balance");
             // userBalance.innerHTML = `Balance: ${balance}`;
         }
     });
