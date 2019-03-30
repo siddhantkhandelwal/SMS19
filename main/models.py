@@ -6,8 +6,10 @@ from django.core.validators import MinValueValidator
 class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    balance = models.FloatField(default=200000)
-    net_worth = models.FloatField(default=200000)
+    balance = models.FloatField(
+        default=200000, validators=[MinValueValidator(0)])
+    net_worth = models.FloatField(
+        default=200000, validators=[MinValueValidator(0)])
 
     def __str__(self):
         return f'{self.name} - {self.user.username}'
@@ -45,7 +47,8 @@ class Transaction(models.Model):
     stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     units = models.IntegerField(default=0)
-    cost = models.PositiveIntegerField(default=0)
+    cost = models.PositiveIntegerField(
+        default=0, validators=[MinValueValidator(0)])
     type = models.CharField(
         max_length=4, choices=(('B', 'Buy'), ('S', 'Sell')), default='B')
     date_time = models.DateTimeField(auto_now=True)
