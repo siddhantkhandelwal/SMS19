@@ -40,7 +40,7 @@ def get_stock_purchased(request, code):
             list_stocks_purchased.append(stock_data)
     response = {
         'stocks_purchased': list_stocks_purchased,
-        'marketStatus' : market.is_active
+        'marketStatus': market.is_active
     }
     return JsonResponse(response)
 
@@ -49,7 +49,7 @@ def get_balance(request):
     userprofile = UserProfile.objects.get(user=request.user)
     balance = userprofile.balance
     net_worth = userprofile.net_worth
-    return JsonResponse({'balance': balance, 'net_worth':net_worth})
+    return JsonResponse({'balance': balance, 'net_worth': net_worth})
 
 
 @csrf_exempt
@@ -265,7 +265,8 @@ def buy_stock(request, pk):
                     user_profile.save()
                     user_profile.refresh_from_db()
 
-                    stock_to_buy.available_no_units = F('available_no_units') - units
+                    stock_to_buy.available_no_units = F(
+                        'available_no_units') - units
                     stock_to_buy.save()
                     stock_to_buy.refresh_from_db()
 
@@ -286,14 +287,15 @@ def buy_stock(request, pk):
                         units * stock_to_buy.market.price_rate_change_factor
                     stock_to_buy.save()
                     stock_to_buy.refresh_from_db()
-                    
+
             except:
                 with trn.atomic():
                     user_profile.balance = F('balance') - cost
                     user_profile.save()
                     user_profile.refresh_from_db()
 
-                    stock_to_buy.available_no_units = F('available_no_units') - units
+                    stock_to_buy.available_no_units = F(
+                        'available_no_units') - units
                     stock_to_buy.save()
                     stock_to_buy.refresh_from_db()
 
@@ -522,7 +524,8 @@ def leaderboard_data(request):
             user_stocks_purchased = StockPurchased.objects.filter(
                 owner=user_profile)
             for stock_purchased in user_stocks_purchased:
-                user_profile.net_worth += (stock_purchased.stock.stock_price)*(stock_purchased.units)
+                user_profile.net_worth += (stock_purchased.stock.stock_price) * \
+                    (stock_purchased.units)
             user_profile.net_worth += user_profile.balance
             user_profile.save()
         except:
@@ -576,6 +579,7 @@ def api_efa(request, code='GET', pk=0):
         last_five_added_newsposts = ''
     return render(request, 'main/efa.html', {'last_five_added_stocks': last_five_added_stocks,
                                              'last_five_added_newsposts': last_five_added_newsposts})
+
 
 def killswitch(request):
     return HttpResponse("SMS IS UNDER MAINTAINANCE. PLEASE TRY AGAIN LATER.")
