@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from main import views
 
-killswitch_activate = False
+killswitch_activate = True
 
 if killswitch_activate:
     urlpatterns = [
+        path('admin/', admin.site.urls),
         re_path('^.*$', views.killswitch, name="killswitch"),
     ]
 else:
