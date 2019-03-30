@@ -5,12 +5,12 @@ from main.models import Stock, Transaction, UserProfile, NewsPost, StockPurchase
 class TransactionAdmin(admin.ModelAdmin):
     list_display = ('uid', 'owner', 'stock', 'units',
                     'cost', 'type', 'date_time',)
-    search_fields = ('owner__user__username', 'owner__name', )
+    search_fields = ('owner__user__username', 'owner__name', 'stock__stock_name',)
 
 
 class StockPurchasedAdmin(admin.ModelAdmin):
     list_display = ('id', 'owner', 'stock', 'units',)
-    search_fields = ('owner__user__username', 'owner__name', )
+    search_fields = ('owner__user__username', 'owner__name', 'stock__stock_name')
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -21,7 +21,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 class StockAdmin(admin.ModelAdmin):
     list_display = ('id', 'market', 'stock_name', 'stock_price', 'initial_price',
                     'stock_trend', 'price_rate_change_factor', 'available_no_units', 'date_added', 'is_active',)
-    search_fields = ('stock_name', )
+    search_fields = ('stock_name', 'market__market_name')
 
     def price_rate_change_factor(self, obj):
         return obj.market.price_rate_change_factor
