@@ -1,7 +1,7 @@
 function get_leaderboard() {
     var data = $.ajax({
         type: 'GET',
-        url: `/leaderboard`,
+        url: `/final_leaderboard_data`,
         data: {},
         success: function (data) {
             var list_rank = data.list_rank;

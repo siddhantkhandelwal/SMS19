@@ -515,6 +515,36 @@ def delete_newspost(request, pk):
     return response_data
 
 
+def final_leaderboard_data(request):
+    lb_data = {}
+    for user_profile in UserProfile.objects.all():
+        try:
+            user_profile.net_worth = 0
+            user_stocks_purchased = StockPurchased.objects.filter(
+                owner=user_profile)
+            for stock_purchased in user_stocks_purchased:
+                user_profile.net_worth += (stock_purchased.stock.stock_price) * \
+                    (stock_purchased.units)
+            user_profile.net_worth += user_profile.balance
+            user_profile.save()
+        except:
+            response_data = {'status': 'error',
+                             'message': 'Error in Calculating Net Worth'}
+            return JsonResponse(response_data)
+        lb_data[user_profile.user.username] = user_profile.net_worth
+        sorted_lb_data = sorted(
+            lb_data.items(), key=operator.itemgetter(1), reverse=True)
+    list_user_name = [x[0] for x in sorted_lb_data]
+    list_net_worth = [x[1] for x in sorted_lb_data]
+    count = len(list_net_worth)
+    list_rank = [i for i in range(1, count+1)]
+
+    response_data = {'list_rank': list_rank,
+                    'list_user_name': list_user_name,
+                    'list_net_worth': list_net_worth,
+                    }
+    return JsonResponse(response_data)
+
 @login_required
 def leaderboard_data(request):
     lb_data = {}
@@ -539,10 +569,36 @@ def leaderboard_data(request):
     list_net_worth = [x[1] for x in sorted_lb_data][:10]
     count = len(list_net_worth)
     list_rank = [i for i in range(1, count+1)]
+
+    user_profile = UserProfile.objects.get(user=request.user)
+
+    try:
+        current_user_rank = list_user_name.index(user_profile.user.username)
+    except:
+        response_data = {'status': 'error',
+                         'message': 'Error in Retrieving Rank for Current User'}
+        return JsonResponse(response_data)
+
+    try:
+        user_profile.net_worth = 0
+        user_stocks_purchased = StockPurchased.objects.filter(
+            owner=user_profile)
+        for stock_purchased in user_stocks_purchased:
+            user_profile.net_worth += (stock_purchased.stock.stock_price) * \
+                (stock_purchased.units)
+        user_profile.net_worth += user_profile.balance
+        user_profile.save()
+    except:
+        response_data = {'status': 'error',
+                         'message': 'Error in Calculating Net Worth'}
+        return JsonResponse(response_data)
+
     response_data = {'list_rank': list_rank,
                      'list_user_name': list_user_name,
                      'list_net_worth': list_net_worth,
-                     'current_username': request.user.username
+                     'current_username': user_profile.user.username,
+                     'current_user_rank': current_user_rank+1,
+                     'current_user_net_worth': user_profile.net_worth,
                      }
     return JsonResponse(response_data)
 
