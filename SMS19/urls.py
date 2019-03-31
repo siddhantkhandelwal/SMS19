@@ -22,6 +22,8 @@ killswitch_activate = False
 if killswitch_activate:
     urlpatterns = [
         path('admin/', admin.site.urls),
+        path('final_leaderboard_data', views.final_leaderboard_data,
+             name="final_leaderboard"),
         re_path('^.*$', views.killswitch, name="killswitch"),
     ]
 else:
